@@ -19,8 +19,8 @@ export default class CalendarView extends React.Component {
                     {
                         id: 1,
                         title: 'All-day event',
-                        start: 2020-10-9,
-                        end: '2020-10-8'
+                        start: 2020-10-8,
+                        end: '2020-10-9'
                     }
                 ]}
             />
