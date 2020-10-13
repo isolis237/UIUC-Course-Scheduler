@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import EventCalendar2 from './component/EventCalendar2.js';
+import EventCalendar from './component/EventCalendar.js';
+import './component/EventCalendar.js';
+import { Calendar } from '@fullcalendar/core';
+import FullCalendar from '@fullcalendar/react';
 
 const Auto = () => {
   const [display, setDisplay] = useState(false);
@@ -24,7 +27,7 @@ const Auto = () => {
     setOptions(classes);
   }, []);
 
-/*useEffect(() => {
+useEffect(() => {
   document.addEventListener("mousedown", handleClickOutside)
   return () => {
     document.removeEventListener("mousedown", handleClickOutside);
@@ -32,13 +35,16 @@ const Auto = () => {
 }, []);
 
 
+
 const handleClickOutside = event => {
   const {current: wrap} = wrapperRef;
     if (wrap && !wrap.contains(event.target)) {
-      setDisplay(false);
+      /*setDisplay(false);    calendar.updateSize()    */
+      
+      
      }
 }
-*/
+
   const setClassList = clas => {
     setSearch(clas);
     setDisplay(false);
@@ -83,7 +89,7 @@ const handleClickOutside = event => {
 
 
 function App() {
-  return (<h><div id="calendar" class="calendar"></div>
+  return (<body>
     <div class="leftside">
       <div class="search">
       <p>Search Classes</p>
@@ -91,7 +97,8 @@ function App() {
       </div>
       <div class="roster"><p>Class Roster</p></div>
     </div>
-    </h>
+    <div id="calendar" class="calendar"></div>
+    </body>
   )
 }
 
