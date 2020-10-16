@@ -1,14 +1,14 @@
-import React,{Component} from 'react';
+import React from 'react';
 import '../App.css'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Calendar } from '@fullcalendar/core'
-
+import * as data from "./dummyData.json"
 
 document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
+  let calendarEl = document.getElementById('calendar');
 
-  var calendar = new Calendar(calendarEl, {
+  let calendar = new Calendar(calendarEl, {
     plugins: [ timeGridPlugin ],
     initialView: 'timeGridWeek',
     slotMinTime: "08:00:00",
@@ -21,40 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
       end: 'today prev,next'
     },
 
-    eventSources: [
-      //events must have starts in sequence of yyyy-mm-ddT00:00:00 to show!
-      {
-        events: [
-          {
-            title  : 'event1',
-            start  : '2020-10-12T12:30:00'
-          },
-          {
-            title  : 'event2',
-            start  : '2020-10-15T12:30:00',
-            end    : '2020-10-15T14:30:00'
-          },
-          {
-            title  : 'event3',
-            start  : '2020-10-14T10:30:00',
-          }
-        ],
-        color: 'blue',
-        textColor: 'white'
-      }
-
-    ],
-
 
     dayHeaderFormat: { weekday: 'long' },
     expandRows: true
     });
 
+  calendar.addEventSource(data.courses)
   calendar.render();
 });
 
-/*
-function addClass(class1) {
-calendar.addEvent( event [ class1, source ] )
-}
-*/
+
