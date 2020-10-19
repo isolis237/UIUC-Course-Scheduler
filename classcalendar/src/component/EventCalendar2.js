@@ -20,8 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
       center: '',
       end: 'today prev,next'
     },
-
-
+    eventClick: function(info) {
+      info.jsEvent.preventDefault(); // don't let the browser navigate
+      removeClass(this, info)
+    },
     dayHeaderFormat: { weekday: 'long' },
     expandRows: true
     });
@@ -31,3 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+function removeClass(calendar, info) {
+  if (info.event.id) {
+    alert("Are you sure you want to remove "+info.event.title+"?")
+    var event = calendar.getEventById(info.event.id);
+    event.remove();
+  }
+}
