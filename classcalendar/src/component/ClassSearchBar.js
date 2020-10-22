@@ -1,20 +1,26 @@
 import React from 'react'
-import ReactSearchBox from 'react-search-box'
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import * as data from "./dummyData.json"
+import TextField from "@material-ui/core/TextField";
 
 export default class ClassSearchBar extends React.Component {
     render() {
         return(
-                <ReactSearchBox
-
-                    placeholder="Search Courses"
-                    data={data.courses}
-                    onSelect={record => console.log(record)}
-                    //onChange={value => console.log(value)}
-                    fuseConfigs={{
-                        threshold: 0.05,
-                    }}
-                />
+            <div>
+                <h> Search Classes </h>
+                    <Autocomplete class="class_search_bar"
+                        options={data.courses}
+                        autoComplete={true}
+                        onUpdateInput={this.handleUpdateInput.bind(this)}
+                        getOptionLabel={(option) => option.title}
+                        renderInput={(params) => <TextField {...params} variant="outlined" />}
+                    />
+            </div>
             )
     }
+
+    handleUpdateInput = (searchText) => {
+        console.log(searchText)
+    }
+
 }

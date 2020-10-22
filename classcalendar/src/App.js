@@ -21,37 +21,6 @@ function App() {
 
       </div>
 
-      /**
-       <body>
-       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridGap: 20}}>
-       <div>
-       <aside className="search">
-       <h>Search Classes</h>
-       <ClassSearchBar/>
-       <div className="roster"><p>Class Roster</p></div>
-       </aside>
-       </div>
-       <div>
-       <main id="calendar" className="calendar"></main>
-       </div>
-       </div>
-       </body>
-       */
-
-
-      /**
-      <h>
-        <div id="calendar" class="calendar"></div>
-        <div class="leftside">
-          <div class="search">
-            <p>Search Classes</p>
-            <div
-              <ClassSearchBar/>
-            </div>
-          <div class="roster"><p>Class Roster</p></div>
-        </div>
-    </h>
-       */
   )
 }
 
