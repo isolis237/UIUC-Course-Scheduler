@@ -1,95 +1,66 @@
-.calendar {
-  height: 100%;
-  font-size: 20px;
-  padding: 2px;
+.container {
+  max-width: 100%;
+}
+.left_column {
+  padding: 1%;
+  width: 70%;
   position: relative;
-  margin: 0px;
-  margin-right: 2px;
-  padding-top: 4px;
-}
-.searchbar {
-  width: 95%;
-  height: 22px;
-  border: 1px solid lightgray;
-  background-color: white;
-  border-radius: 2px;
-  font-family: Arial;
-  margin-left: 7px;
-  margin-right: 10px;
-  margin-bottom: 4px;
-  margin-top: 0px;
-  vertical-align: top;
-  padding: 1px;
-  position: static;
-}
-.results {
-  resize: vertical;
-  background-color: white;
-  overflow-y: auto;
-  font-family: Arial;
-  vertical-align: top;
-  margin-top: 0px;
-  padding: 0px;
-  float: none;
-  position: sticky;
-  top: 0px;
-  vertical-align: middle;
-  min-height: 150px;
-}
-.result {
-  height: 20px;
-  padding: 1px;
-  margin: 1px;
-  font-family: Arial;
-  font-size: 15px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-}
-.search {
-  resize: vertical;
-  overflow: hidden;
-  padding: 3px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  background-color: white;
-  min-height: 204px;
-}
-.leftside {
-  min-width: 200px;
-  max-width: 700px;
-  width: 20.81%;
-  height: 925px;
-  margin: .2%;
-  overflow: hidden;
   float: left;
-  padding-left: 4px;
-  resize: horizontal;
-  background-color: white;
 }
-.roster {
-  height: 76%;
-  background-color: white;
-  overflow: hidden;
-  position: sticky;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  min-height: 200px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  background-color: white;
-}
-.right {
+.right_column {
+  background: whitesmoke;
+  padding: 1.5%;
+  width: 25%;
+  position: relative;
   float: right;
-  vertical-align: middle;
 }
+
+.calendar {
+  width: 100%;
+}
+
+.class_search_bar {
+  padding: 1%;
+  position: relative;
+}
+
+.roster {
+  padding: 1%;
+  position: relative;
+}
+
+
+
+.searchbar {
+}
+
+.results {
+
+}
+
+.result {
+}
+
+.search {
+
+}
+
+.leftside {
+}
+
+.right {
+}
+
 .fit {
   vertical-align: top;
   margin: 0px;
   padding: 0px;
 }
+
 ::-webkit-scrollbar {
   width: 0px;
 }
+
 body {
   height: 100%;
   width: 100%;

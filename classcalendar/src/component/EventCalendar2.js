@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   let calendar = new Calendar(calendarEl, {
     plugins: [ timeGridPlugin ],
+    stickyHeaderDates: true,
+    stickyFooterScrollbar: true,
+    height: 650,
     initialView: 'timeGridWeek',
     slotMinTime: "08:00:00",
     slotMaxTime: "22:00:00",
