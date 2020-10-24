@@ -3,6 +3,13 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import * as data from "./dummyData.json"
 import TextField from "@material-ui/core/TextField";
 
+function getInput(input) {
+    return input;
+}
+
+var input;
+
+
 export default class ClassSearchBar extends React.Component {
     render() {
         return(
@@ -11,7 +18,9 @@ export default class ClassSearchBar extends React.Component {
                     <Autocomplete class="class_search_bar"
                         options={data.courses}
                         autoComplete={true}
-                        onUpdateInput={this.handleUpdateInput.bind(this)}
+                        onInputChange={(event, value) => {
+                            input = getInput(value)
+                            console.log(value)}}
                         getOptionLabel={(option) => option.title}
                         renderInput={(params) => <TextField {...params} variant="outlined" />}
                     />
@@ -19,8 +28,5 @@ export default class ClassSearchBar extends React.Component {
             )
     }
 
-    handleUpdateInput = (searchText) => {
-        console.log(searchText)
-    }
 
 }

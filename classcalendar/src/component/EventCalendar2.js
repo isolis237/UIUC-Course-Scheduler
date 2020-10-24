@@ -8,7 +8,7 @@ import * as data from "./dummyData.json"
 document.addEventListener('DOMContentLoaded', function() {
   let calendarEl = document.getElementById('calendar');
 
-  let calendar = new Calendar(calendarEl, {
+  var calendar = new Calendar(calendarEl, {
     plugins: [ timeGridPlugin ],
     stickyHeaderDates: true,
     stickyFooterScrollbar: true,
