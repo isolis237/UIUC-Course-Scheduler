@@ -8,17 +8,21 @@ import * as data from "./dummyData.json"
 document.addEventListener('DOMContentLoaded', function() {
   let calendarEl = document.getElementById('calendar');
 
-  var calendar = new Calendar(calendarEl, {
+  let calendar = new Calendar(calendarEl, {
     plugins: [ timeGridPlugin ],
     stickyHeaderDates: true,
     stickyFooterScrollbar: true,
-    height: 'auto',
+    height: 650,
     initialView: 'timeGridWeek',
     slotMinTime: "08:00:00",
     slotMaxTime: "22:00:00",
     hiddenDays: [ 0, 6 ],
-    headerToolbar: false,
     allDaySlot: false,
+    headerToolbar: {
+      start: 'title',
+      center: '',
+      end: 'today prev,next'
+    },
     eventClick: function(info) {
       info.jsEvent.preventDefault(); // don't let the browser navigate
       removeClass(this, info)
@@ -34,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function removeClass(calendar, info) {
   if (info.event.id) {
-    alert("Are you sure you want to remove "+info.event.title+"?"+" id: "+info.event.id)
+    alert("Are you sure you want to remove "+info.event.title+"?")
     var event = calendar.getEventById(info.event.id);
     event.remove();
   }
