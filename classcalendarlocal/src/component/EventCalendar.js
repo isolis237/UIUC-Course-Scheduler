@@ -4,15 +4,22 @@ import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Calendar } from '@fullcalendar/core'
 import * as data from "./dummyData.json"
+import interactionPlugin from '@fullcalendar/interaction'
+import * as rosterdata from "./roster.json"
+
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
   let calendarEl = document.getElementById('calendar');
 
   var calendar = new Calendar(calendarEl, {
-    plugins: [ timeGridPlugin ],
     stickyHeaderDates: true,
     stickyFooterScrollbar: true,
     height: 'auto',
+    contentHeight: 925,
+    plugins: [ timeGridPlugin, interactionPlugin ],
+    editable: true,
     initialView: 'timeGridWeek',
     slotMinTime: "08:00:00",
     slotMaxTime: "22:00:00",
@@ -24,11 +31,17 @@ document.addEventListener('DOMContentLoaded', function() {
       removeClass(this, info)
     },
     dayHeaderFormat: { weekday: 'long' },
-    expandRows: true
+    expandRows: true,
+    handleWindowResize: true,
+    eventDurationEditable: false,
+    eventDragMinDistance: 0
     });
 
   calendar.addEventSource(data.courses)
   calendar.render();
+  calendar.updateSize();
+  calendar.addEventSource(rosterdata.courses);
+  calendar.refetchEvents();
 });
 
 
@@ -39,3 +52,6 @@ function removeClass(calendar, info) {
     event.remove();
   }
 }
+
+
+
