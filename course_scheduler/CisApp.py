@@ -2,7 +2,8 @@ import requests
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
 from urllib.request import Request, urlopen
-import ssl 
+import ssl
+import json
 
 class CisappParser:
     def __init__(self, setYear = None, setSeason = None, setDepartment = None, setCourse = None, setProfessor = None, setSection = None):
@@ -77,6 +78,7 @@ class CisappParser:
         for section in root.iter('subject'):
             sections.append(section.text)
         return sections
+
     def getCourses(self):
         req = Request('https://courses.illinois.edu/cisapp/explorer/schedule/' + p1.getYear() + '/' + p1.getSeason() + '/' + p1.getDepartment() + '.xml')
         req.add_header('Authorization', 'Basic bGVhcm5pbmc6bGVhcm5pbmc==')
@@ -99,6 +101,30 @@ class CisappParser:
             sections.append(section.get('id') + ": " + section.text)
         return sections
 
+    # added method to give numbers for every course in any department
+
+    def getCourseNumber(self):
+        req = Request('https://courses.illinois.edu/cisapp/explorer/schedule/' + p1.getYear() + '/' + p1.getSeason() + '/' + p1.getDepartment() + '.xml')
+        req.add_header('Authorization', 'Basic bGVhcm5pbmc6bGVhcm5pbmc==')
+
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+
+        r = urlopen(req, context=ctx)
+        rString = r.read().decode("utf-8")
+
+        r.close()
+
+        xmlparse = xml.dom.minidom.parseString(rString)
+        prettyxml = xmlparse.toprettyxml()
+        root = ET.fromstring(prettyxml)
+
+        sections = list()
+        for section in root.iter('course'):
+            sections.append(section.get('id'))
+        return sections
+    
     def getRelevantProfessors(self):
         req = Request('https://courses.illinois.edu/cisapp/explorer/schedule/' + p1.getYear() + '/' + p1.getSeason() + '/' + p1.getDepartment() + '/' + p1.getCourse() + '.xml?mode=detail')
         req.add_header('Authorization', 'Basic bGVhcm5pbmc6bGVhcm5pbmc==')
@@ -126,6 +152,28 @@ class CisappParser:
                                 sections.append(instructor.find('instructor').text + ': ' + section.find('sectionNumber').text)
         return sections
 
-p1 = CisappParser('2020','fall', 'CS', '125')
+p1 = CisappParser('2020','fall', 'STAT')
 #print('https://courses.illinois.edu/cisapp/explorer/schedule/' + p1.getYear() + '/' + p1.getSeason() + '/' + p1.getDepartment() + '/' + p1.getCourse() + '.xml?mode=detail')
-p1.getRelevantProfessors()
+#print(p1.getRelevantProfessors())
+
+#function that writes a json file with all courses and every 'relevant professor' in the format 'course': 'relevant professor'
+
+def writeToJSONFile(path, fileName, data):
+    filePathNameWExt = './' + path + '/' + fileName + '.json'
+    with open(filePathNameWExt, 'w') as fp:
+        json.dump(data, fp)
+
+courses = p1.getCourses()
+numbers = p1.getCourseNumber()
+
+data = {}
+data ['Courses'] = []
+for i in range(len(p1.getCourses())):
+    p1 = CisappParser(p1.getYear(), p1.getSeason(), p1.getDepartment(), numbers[i])
+    for j in p1.getRelevantProfessors():
+        data ['Courses'].append({
+            courses[i]: j
+        })
+
+
+writeToJSONFile('./','file-name',data)
