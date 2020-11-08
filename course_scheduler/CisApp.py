@@ -152,7 +152,15 @@ class CisappParser:
                                 sections.append(instructor.find('instructor').text + ': ' + section.find('sectionNumber').text)
         return sections
 
-p1 = CisappParser('2020','fall', 'STAT')
+# User input
+
+year = input("Enter year:")
+season = input("Enter season:")
+dept = input("Enter department:")
+number = input("Enter course number:")
+dept = dept.upper()
+
+p1 = CisappParser(year,season, dept, number)
 #print('https://courses.illinois.edu/cisapp/explorer/schedule/' + p1.getYear() + '/' + p1.getSeason() + '/' + p1.getDepartment() + '/' + p1.getCourse() + '.xml?mode=detail')
 #print(p1.getRelevantProfessors())
 
