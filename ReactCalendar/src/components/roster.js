@@ -4,8 +4,14 @@ import {Button, Dropdown, DropdownButton} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as rosterdata from "./roster.json"
 import Table from 'react-bootstrap/Table';
+<<<<<<< HEAD
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
+=======
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
+
+>>>>>>> 911e8183e4b8940e3a65b43650809d966fa9f708
 
 export default class Roster extends React.Component {
     render() {

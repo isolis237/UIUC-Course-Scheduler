@@ -15,6 +15,7 @@
       "slotDuration": "00:50"
     } ,
     {
+<<<<<<< HEAD
       "title": "ECE 210",
       "prof": "Schmidt",
       "rating": "4",
@@ -27,6 +28,8 @@
       "slotDuration": "00:50"
     } ,
     {
+=======
+>>>>>>> 911e8183e4b8940e3a65b43650809d966fa9f708
       "title": "MATH 231",
       "prof": "Guzman",
       "rating": "4",
@@ -82,6 +85,7 @@
       "slotDuration": "00:50"
     },
     {
+<<<<<<< HEAD
       "title": "CS 173",
       "prof": "Professor a",
       "rating": "3",
@@ -93,6 +97,8 @@
       "slotDuration": "00:50"
     },
     {
+=======
+>>>>>>> 911e8183e4b8940e3a65b43650809d966fa9f708
       "title": "ENG 100",
       "prof": "...",
       "rating": "...",

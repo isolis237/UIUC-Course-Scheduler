@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .left_container {
   width: 20%;
   min-height: 650px;
@@ -22,6 +23,8 @@
   vertical-align: center;
   height: 200px;
 }
+=======
+>>>>>>> 911e8183e4b8940e3a65b43650809d966fa9f708
 .calendar {
   height: 100%;
   font-size: 15px;
@@ -46,10 +49,13 @@
   padding: 1px;
   position: static;
 }
+<<<<<<< HEAD
 .filters {
   position: static;
   padding: 1%;
 }
+=======
+>>>>>>> 911e8183e4b8940e3a65b43650809d966fa9f708
 .results {
   resize: vertical;
   background-color: white;
@@ -83,6 +89,7 @@
   min-height: 204px;
 
 }
+<<<<<<< HEAD
 .class_searchbar {
   border: 1px solid lightgray;
   background-color: white;
@@ -99,6 +106,13 @@
 .carousel {
   text-align: center;
   color: black;
+=======
+.carousel {
+  text-align: center;
+  color: black;
+
+
+>>>>>>> 911e8183e4b8940e3a65b43650809d966fa9f708
 }
 .spacer {
   margin-bottom: 150px;
@@ -129,9 +143,12 @@
   border-radius: 5px;
   background-color: white;
 }
+<<<<<<< HEAD
 .roster_details {
   background-color: whitesmoke;
 }
+=======
+>>>>>>> 911e8183e4b8940e3a65b43650809d966fa9f708
 .rostertable {
   font-size: 13px;
   padding: 0px;
