@@ -3,7 +3,6 @@
   min-height: 650px;
   min-width: 200px;
   padding: 1%;
-  background-color: gainsboro;
   float: left;
 }
 .right_container {
@@ -13,7 +12,9 @@
   float: right;
 }
 .search_fields {
+  border: 1px solid lightgray;
   background-color: white;
+  border-radius: 2px;
   position: static;
   min-height: 200px;
 }

@@ -55,8 +55,8 @@ export default class AddClasses extends React.Component {
                 />
 
                 <button onClick={() => {
-                    this.handleAddClick();
                     this.props.addClick.handleClick(this.state.userCourses);
+                    this.handleAddClick();
                 }
                 }> Add Class </button>
 

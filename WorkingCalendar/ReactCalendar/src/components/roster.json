@@ -12,7 +12,8 @@
       "eventContent": "some text",
       "daysOfWeek": [1,3,5],
       "startTime": "08:00",
-      "slotDuration": "00:50"
+      "slotDuration": "00:50",
+      "department" : "ECE"
     } ,
     {
       "title": "ECE 210",
@@ -24,7 +25,8 @@
       "eventContent": "some text",
       "daysOfWeek": [1,4],
       "startTime": "15:00",
-      "slotDuration": "00:50"
+      "slotDuration": "00:50",
+      "department" : "ECE"
     } ,
     {
       "title": "MATH 231",
@@ -35,7 +37,8 @@
       "type": "Lecture",
       "daysOfWeek": [1,3,5],
       "startTime": "09:00",
-      "slotDuration": "00:50"
+      "slotDuration": "00:50",
+      "department" : "Math"
     },
     {
       "title": "RHET 105",
@@ -46,7 +49,8 @@
       "type": "Lecture",
       "daysOfWeek": [1,3,5],
       "startTime": "10:00",
-      "slotDuration": "00:50"
+      "slotDuration": "00:50",
+      "department" : "English"
     },
     {
       "title": "MCB 150",
@@ -57,7 +61,8 @@
       "type": "Lecture",
       "daysOfWeek": [2,4],
       "startTime": "11:00",
-      "slotDuration": "00:50"
+      "slotDuration": "00:50",
+      "department" : "Biology"
     },
     {
       "title": "CS 125",
@@ -68,7 +73,8 @@
       "type": "Lecture",
       "daysOfWeek": [2,4],
       "startTime": "12:00",
-      "slotDuration": "00:50"
+      "slotDuration": "00:50",
+      "department" : "CS"
     },
     {
       "title": "CS 196",
@@ -79,7 +85,8 @@
       "type": "Lecture",
       "daysOfWeek": [2,4],
       "startTime": "13:00",
-      "slotDuration": "00:50"
+      "slotDuration": "00:50",
+      "department" : "CS"
     },
     {
       "title": "CS 173",
@@ -90,7 +97,8 @@
       "type": "Discussion",
       "daysOfWeek": [2,4],
       "startTime": "16:00",
-      "slotDuration": "00:50"
+      "slotDuration": "00:50",
+      "department" : "CS"
     },
     {
       "title": "ENG 100",
@@ -101,7 +109,8 @@
       "type": "Lecture",
       "daysOfWeek": [1],
       "startTime": "14:00",
-      "slotDuration": "00:50"
+      "slotDuration": "00:50",
+      "department" : "English"
     }
   ]
 

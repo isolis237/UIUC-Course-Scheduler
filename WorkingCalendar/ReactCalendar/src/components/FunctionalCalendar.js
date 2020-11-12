@@ -34,7 +34,7 @@ export default class FunctionalCalendar extends React.Component {
 
                     <div className={'search_fields'}>
                         <div>
-                            <Carousel>
+                            <Carousel interval={null}>
                                 <Carousel.Item>
                                     <div className={"addClasses"}>
                                         Add Classes
@@ -116,6 +116,8 @@ function FilterCourses(props) {
                     <div>
                         <input
                             type={'number'}
+                            min={1}
+                            max={4}
                         />
                     </div>
                 </div>
@@ -123,26 +125,26 @@ function FilterCourses(props) {
                 <div>
                     Professor
                     <Autocomplete
-                        class="professor_filter"
+                        className="professor_filter"
                         //create function to get all professor for certain course
                         options={props.options}
                         autoComplete={true}
                         onChange={(event, object) => {
                         }}
-                        getOptionLabel={(option) => option.title}
+                        getOptionLabel={(option) => option.prof}
                         renderInput={(params) => <TextField {...params} variant="outlined"/>}
                     />
                 </div>
                 <div>
                     Department
                     <Autocomplete
-                        class="professor_filter"
+                        className="Department_filter"
                         //create function to get all professor for certain course
                         options={props.options}
                         autoComplete={true}
                         onChange={(event, object) => {
                         }}
-                        getOptionLabel={(option) => option.title}
+                        getOptionLabel={(option) => option.department}
                         renderInput={(params) => <TextField {...params} variant="outlined"/>}
                     />
                 </div>
