@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card';
 export default class ReactRoster extends React.Component {
 
     render() {
-
+        //goes through each course in roster and returns an accordian for it with respective data
         const renObjData = this.props.userCourses.map(function(data, idx) {
             return ([
                 <Accordion>

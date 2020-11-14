@@ -3,13 +3,20 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import React from 'react';
 
-import ClassSearchBar from "./ClassSearchBar";
-import * as rosterdata from './roster.json'
-import userCourses from './AddClasses'
 
+//Turn this into a tooltip in the future
 
+/**
+function handleMouseEnter(info) {
+    alert("Professor: " + info.event.extendedProps.prof + "\n"
+              + "Type: " + info.event.extendedProps.type + "\n"
+            + "Department: " + info.event.extendedProps.department)
+}
+*/
 
+//FullCalendar component with events passed in as props from FuncitonalCalendar.js state
 export default class ReactCalendar extends React.Component {
+
 
    render() {
         return(
@@ -34,6 +41,9 @@ export default class ReactCalendar extends React.Component {
                 dayHeaderFormat={{'weekday':'long'}}
                 eventStartEditable={true}
                 durationEditable={false}
+
+
+                eventMouseEnter={handleMouseEnter}
 
                 events={this.props.events}
             />
