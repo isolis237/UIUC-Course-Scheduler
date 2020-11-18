@@ -29,13 +29,13 @@ export default class AddClasses extends React.Component {
     }
 
     //adds class to roster if not already added
-    handleAddClick() {
+    handleClick() {
         if (containsObject(search_input, this.state.userCourses)) {
             alert("Class already in schedule!")
         } else {
             this.setState({userCourses : this.state.userCourses.concat(search_input)}, () => {
                 //console.log(this.state.userCourses)
-                this.props.addClick.handleClick(this.state.userCourses);
+                this.props.addClick.handleAddClick(this.state.userCourses);
             })
             alert("Adding " +search_input.title + " to schedule")
         }
@@ -57,7 +57,7 @@ export default class AddClasses extends React.Component {
                     renderInput={(params) => <TextField {...params} variant="outlined"/>}
                 />
 
-                <button onClick={() => {this.handleAddClick();}}>
+                <button onClick={() => {this.handleClick();}}>
                     Add Class
                 </button>
 

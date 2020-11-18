@@ -1,14 +1,24 @@
 import React from 'react'
-import Fragment from 'render-fragment';
 
-import Carousel from 'react-bootstrap/Carousel'
 import Table from 'react-bootstrap/Table';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 
+
+
 export default class ReactRoster extends React.Component {
 
+
+    constructor() {
+        super();
+        this.state = {
+            userCourses: []
+        }
+    }
+
+
     render() {
+
         //goes through each course in roster and returns an accordian for it with respective data
         const renObjData = this.props.userCourses.map(function(data, idx) {
             return ([
@@ -24,6 +34,7 @@ export default class ReactRoster extends React.Component {
                                     </b>
                                 </div>
                             </Accordion.Toggle>
+
                         </Card.Header>
                         <Accordion.Collapse eventKey="0">
                             <div className={"roster_details"}>
@@ -36,6 +47,8 @@ export default class ReactRoster extends React.Component {
                 </Accordion>
             ]);
         });
+
+
 
         return(
             <body>
@@ -52,6 +65,7 @@ export default class ReactRoster extends React.Component {
                     {renObjData}
 
                 </Table>
+
             </div>
 
             <div>
@@ -62,4 +76,5 @@ export default class ReactRoster extends React.Component {
 
         )
     }
+
 }

@@ -43,7 +43,6 @@ export default class ReactCalendar extends React.Component {
                 durationEditable={false}
 
 
-                eventMouseEnter={handleMouseEnter}
 
                 events={this.props.events}
             />
