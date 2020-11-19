@@ -25,9 +25,11 @@ export default class FunctionalCalendar extends React.Component {
         this.setState({userCourses : courselist})
     }
 
-    handleRemoveClick() {
-
+    handleRemoveClick(courselist) {
+        this.setState({userCourses: courselist}, () => {
+        })
     }
+
     render() {
         return(
 
@@ -41,7 +43,8 @@ export default class FunctionalCalendar extends React.Component {
                                     <div className={"addClasses"}>
                                         Add Classes
                                         <AddClasses
-                                            addClick={{userCourses: this.state.userCourses, handleAddClick:this.handleAddClick.bind(this)}}
+                                            userCourses={this.state.userCourses}
+                                            addClick={{handleAddClick:this.handleAddClick.bind(this)}}
                                         />
                                     </div>
                                 </Carousel.Item>
@@ -62,7 +65,9 @@ export default class FunctionalCalendar extends React.Component {
                         </div>
 
                     <div className={'roster'}>
-                        <ReactRoster userCourses={this.state.userCourses}/>
+                        <ReactRoster
+                            userCourses={this.state.userCourses}
+                            removeClick={{handleRemoveClick: this.handleRemoveClick.bind(this)} }/>
                     </div>
 
 
@@ -152,22 +157,5 @@ function FilterCourses(props) {
                 </div>
             </label>
         </div>
-    )
-}
-
-//Remove class button
-
-function RemoveButton(props) {
-    return(
-        <div>
-            <button
-                onClick={(e) =>  {
-                    this.handleRemoveClick(e);
-                }}>
-
-                Remove Course
-            </button>
-        </div>
-
     )
 }

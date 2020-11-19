@@ -18,7 +18,6 @@ function containsObject(obj, list) {
     return false;
 }
 
-
 export default class AddClasses extends React.Component {
 
     constructor() {
@@ -27,22 +26,24 @@ export default class AddClasses extends React.Component {
             userCourses: []
         }
     }
+    componentWillReceiveProps(nextProps) {
+        this.setState({userCourses: nextProps.userCourses})
+    }
 
     //adds class to roster if not already added
+    //BUGGED causes incorrect update of events when courses are removed
+    //possibly due to this.state.userCourses not being in sync with FunctionalCalendar.state.userCourses
     handleClick() {
         if (containsObject(search_input, this.state.userCourses)) {
             alert("Class already in schedule!")
         } else {
             this.setState({userCourses : this.state.userCourses.concat(search_input)}, () => {
-                //console.log(this.state.userCourses)
                 this.props.addClick.handleAddClick(this.state.userCourses);
             })
             alert("Adding " +search_input.title + " to schedule")
         }
 
     }
-
-
 
     render() {
         return(
