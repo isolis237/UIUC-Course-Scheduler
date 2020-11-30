@@ -8,6 +8,9 @@ flask = "==1.0.2"
 marshmallow = "==2.16.3"
 pymongo = "==3.7.2"
 flask-sqlalchemy = "*"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
+requests = "*"
 
 [dev-packages]
 

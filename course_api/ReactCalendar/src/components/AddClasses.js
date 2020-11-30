@@ -33,7 +33,7 @@ export default class AddClasses extends React.Component {
             this.setState({userCourses : this.state.userCourses.concat(search_input)}, () => {
                 //console.log(this.state.userCourses)
             })
-            alert("Adding " +search_input.title + " to schedule")
+            alert("Adding " + search_input.title + " to schedule")
         }
 
     }
