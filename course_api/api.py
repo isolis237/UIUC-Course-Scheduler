@@ -34,14 +34,18 @@ class ClassBlock(db.Model):
 
 class Prof(db.Model):
     id  = db.Column(db.Integer, primary_key=True)
+    courseName = db.Column(db.String(10))
     crn = db.Column(db.Integer, unique = True)
     rating = db.Column(db.Float)
     gpa = db.Column(db.Float)
+    selected = db.Column(db.Boolean)
 
-    def __init__(self, crn, rating, gpa):
+    def __init__(self, courseName, crn, rating, gpa, selected):
+        self.courseName = courseName
         self.crn = crn
         self.rating = rating
         self.gpa = gpa
+        self.selected = selected
 
 class ClassSchema(ma.Schema):
     class Meta:
@@ -49,7 +53,7 @@ class ClassSchema(ma.Schema):
     
 class ProfSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'crn', 'rating', 'gpa')
+        fields = ('id', 'courseName', 'crn', 'rating', 'gpa', 'selected')
 
 class_schema = ClassSchema()
 classes_schema = ClassSchema(many=True)
@@ -89,6 +93,8 @@ def add_section():
     db.session.add(class_block)
     db.session.commit()
 
+    # TODO: Create Prof and add it to profs_schema
+
     return class_schema.jsonify(class_block)
 
 @app.route('/roster', methods=['GET'])
@@ -126,6 +132,27 @@ def delete_section(id):
     db.session.delete(section)
     db.session.commit()
     return class_schema.jsonify(section)
+
+
+# TODO : Complete these functions using the class schema as a template
+
+@app.route('/prof/<name>/<courseName>', methods=['GET'])
+def get_info(name):
+    # Uses RateMyProf class to provide rmp rating and average gpa 
+    return
+
+@app.route('/prof', methods=['POST'])
+def add_prof():
+    return
+
+@app.route('/prof/<courseName>', methods=['GET'])
+def get_profs_by_courseName(courseName):
+    return
+
+@app.route('/prof/<crn>', methods=['DELETE'])
+def delete_prof(id):
+    return
+
 
 if __name__ =='__main__':
     app.run(debug=True)
