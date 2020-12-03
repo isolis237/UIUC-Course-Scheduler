@@ -28,11 +28,11 @@ unnecessary
   border-radius: 5px;
   position: static;
   min-height: 293px;
-  height: 350px;
+  height: 340px;
   max-height: 400px;
   font-size: 12px;
   resize: vertical;
-  overflow: scroll;
+  overflow: hidden;
 }
 .addClasses {
   position: static;
@@ -45,11 +45,11 @@ unnecessary
 .calendar {
   height: 100%;
   font-size: 20px;
-  padding: 2px;
+  padding: 0px;
   position: relative;
   margin: 0px;
-  margin-right: 2px;
-  padding-top: 4px;
+  overflow: auto;
+  
 }
 /*.searchbar {
   width: calc(95% - 10px);
@@ -169,8 +169,9 @@ unnecessary
   background-color: white;
 }*/
 .roster {
-  height: 575px;
+  height: 580px;
   overflow: hidden;
+  resize: vertical;
   position: sticky;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -207,7 +208,7 @@ table, th {
   font-variant: normal;
   font-weight: lighter;
   font-style: normal;
-  font-variant-caps: normal;
+  font-variant-caps: normal; 
 }
 td {
   background-color: #353535;

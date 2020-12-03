@@ -12,7 +12,24 @@
       "eventContent": "some text",
       "daysOfWeek": [1,3,5],
       "startTime": "08:00",
-      "slotDuration": "00:50"
+      "slotDuration": "00:50",
+      "groupId": "1",
+      "id": "1",
+      "display": "auto"
+    } ,
+    {
+      "title": "ECE 220",
+      "prof": "Schmidt",
+      "rating": "4.5",
+      "section": "L2",
+      "CRN": "1235",
+      "type": "Lecture",
+      "eventContent": "some text",
+      "daysOfWeek": [1,3,5],
+      "startTime": "09:00",
+      "slotDuration": "00:50",
+      "groupId": "2",
+      "display": "none"
     } ,
     {
       "title": "ECE 210",

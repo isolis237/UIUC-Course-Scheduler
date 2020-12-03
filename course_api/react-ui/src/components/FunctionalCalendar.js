@@ -17,10 +17,20 @@ import { FormGroup, List } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Table from 'react-bootstrap/Table'
 import { blue } from '@material-ui/core/colors'
+import * as rosterdata from './roster.json'
+
 
  let search_input = 1;
  let class_input = 1;
-
+ /*
+ let i;
+    for (i=0; i<rosterdata.courses.length; i++) {
+       this.setState({userCourses : this.state.userCourses.concat(class_input)}, () => {
+           this.state.userCourses[i] = rosterdata.courses[i];
+       })
+    console.log(this.state.userCourses[i])
+    }
+*/
  // helper function for checking class with existing classes
  function containsObject(obj, list) {
     var i;
@@ -37,7 +47,6 @@ import { blue } from '@material-ui/core/colors'
 function rgb(r, g, b){
     return "rgb("+r+","+g+","+b+")";
   }
-
 export default class FunctionalCalendar extends React.Component {
    constructor() {
        super();
@@ -49,14 +58,44 @@ export default class FunctionalCalendar extends React.Component {
            searchCourseRoute : "",
            rosterRoute : "",
            searchStage : 0,
-           userCourses: [],
+           userCourses: rosterdata.courses,
            name: "test",
            mingpa: 0
        }
         this.onChange = this.onChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.getCRNs = this.getCRNs.bind(this);
+        this.setEventColors = this.setEventColors.bind(this);
+        this.eventselect = this.eventselect.bind(this);
+        
    }
+   eventselect(i) {
+    this.state.userCourses[i].display = "auto"
+    this.state.userCourses[i].backgroundColor = "blue"
+   }
+   getCRNs() {
+    let i;
+    let list = [];
+    for (i=0; i<this.state.userCourses.length; i++) {
+    list[i] = this.state.userCourses[i].CRN
+    }
+    alert("CRNs: " + list)
+   }
+   setEventColors() {
+       let i;
+    for (i=0; i < this.state.userCourses.length; i++) {
+        this.state.userCourses[i].backgroundColor = rgb(
+            this.state.userCourses[i].CRN/8, 
+            this.state.userCourses[i].rating*this.state.userCourses[i].rating*7, 
+            this.state.userCourses[i].CRN/10)
+    this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
+    this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
+    }
+
+   }
+   
   handleAddClick() {
+      
     console.log(class_input.id)
  if (class_input==null) {
      alert("Cannot add null class!")
@@ -77,6 +116,7 @@ export default class FunctionalCalendar extends React.Component {
  }
 }
     handleClick() {
+        
     this.setState({
         searchRoute : "search/" + this.state.year + "/" + this.state.season,
         searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
@@ -97,7 +137,9 @@ export default class FunctionalCalendar extends React.Component {
    }
    
     onChange(e) {
+        
         let updateRoutes = () => {
+            
             this.setState({
                 searchRoute : "search/" + this.state.year + "/" + this.state.season,
                 department : search_input.id,
@@ -118,7 +160,7 @@ export default class FunctionalCalendar extends React.Component {
         if (e.target.id === "gpaslider") {
             this.setState({mingpa: e.target.value}, () => {updateRoutes()});
         }
-       
+        //this.setState({userCourses : rosterdata.courses})
        this.setState({
         searchRoute : "search/" + this.state.year + "/" + this.state.season,
         searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
@@ -163,8 +205,10 @@ export default class FunctionalCalendar extends React.Component {
        }
        */
        return(
+           this.setEventColors(),
+           //this.state.userCourses[1].display = "auto",
         <html>
-        <div className={'left_container'}>
+        <div className={'left_container'} style={{height: window.innerHeight}}>
             <div className={'search_fields'}>
                     <Carousel interval={null}>
                         <Carousel.Item>
@@ -324,6 +368,7 @@ export default class FunctionalCalendar extends React.Component {
                                         <Button variant="primary" type="submit" onClick={this.handleAddClick}>
                                             Add Class
                                         </Button>
+                                       
                                         </td>
                                     </tr>
                                     </tbody>
@@ -336,17 +381,27 @@ export default class FunctionalCalendar extends React.Component {
             <div className={'roster'}>
                 <ReactRoster
                     userCourses={this.state.userCourses}
+                    CRNs={{getCRNs: this.getCRNs.bind(this)}}
                     removeClick={{handleRemoveClick: this.handleRemoveClick.bind(this)} }/>
             </div>
         </div>
         
-            <ReactCalendar events={this.state.userCourses}/>
+            <ReactCalendar events={this.state.userCourses} select={{eventselect: this.eventselect.bind(this)}}/>
         
     </html>
        )
    }
 }
-
+/*
+export function rosterCRNs(this) {
+    let i;
+    let list = [];
+    for (i=0; i<this.state.userCourses.length; i++) {
+    list[i] = this.state.userCourses[i].CRN
+    }
+    alert("CRNs: " + list)
+}
+*/
 export function sleep(delay = 0) {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
