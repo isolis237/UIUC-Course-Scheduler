@@ -2,10 +2,8 @@ import React, {useEffect, useState} from 'react'
 import ReactCalendar from './ReactCalendar'
 import AddClasses from './AddClasses'
 import ReactRoster from "./FixedRoster"
- 
 import "../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "../App.css"
- 
 import Carousel from 'react-bootstrap/Carousel';
 import {Button, Dropdown, DropdownButton} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
@@ -54,60 +52,74 @@ export default class FunctionalCalendar extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
    }
+
+   //handles click of add button on addClasses carousel window
   handleAddClick() {
-    console.log(class_input.id)
- if (class_input==null) {
-     alert("Cannot add null class!")
- }
- else if (containsObject(class_input, this.state.userCourses)) {
-     alert("Class already in schedule!");
- } else {
-     this.setState({userCourses : this.state.userCourses.concat(class_input)}, () => {
-         this.props.addClick.handleAddClick(this.state.userCourses);
-         let i;
-         for (i=0; i < this.state.userCourses.length; i++) {
-         this.state.userCourses[i].backgroundColor = rgb(this.state.userCourses[i].CRN/8, this.state.userCourses[i].rating*this.state.userCourses[i].rating*7, this.state.userCourses[i].CRN/10)
-         this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
-         this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
+       //Why is this.state.userCourses undefined?
+       console.log(class_input.id)
+      /**
+     if (class_input==null) {
+         alert("Cannot add null class!")
+     } else if (containsObject(class_input, this.state.userCourses)) {
+         alert("Class already in schedule!");
+     } else {
+         this.setState({userCourses : this.state.userCourses.concat(class_input)}, () => {
+             this.props.addClick.handleAddClick(this.state.userCourses);
+             let i;
+             for (i=0; i < this.state.userCourses.length; i++) {
+             this.state.userCourses[i].backgroundColor = rgb(this.state.userCourses[i].CRN/8, this.state.userCourses[i].rating*this.state.userCourses[i].rating*7, this.state.userCourses[i].CRN/10)
+             this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
+             this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
+         }
+         })
+        // alert("Adding " +search_input.title + " to schedule")
      }
-     })
-    // alert("Adding " +search_input.title + " to schedule")
- }
-}
-    handleClick() {
-    this.setState({
-        searchRoute : "search/" + this.state.year + "/" + this.state.season,
-        searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
-        rosterRoute : "/roster" + class_input.id,
-        searchStage : this.state.searchStage + 1, 
-    });
-    var prop = {
-     type: "Department",
-     route: this.state.searchRoute
- }
- console.log("search route: " + this.state.searchCourseRoute);
- console.log("selected department: " + search_input.id);
- console.log("selected class: " + class_input.id + " " +class_input.name);
- console.log(class_input);
+     */
    }
+
+    handleClick() {
+        this.setState({
+            searchRoute : "search/" + this.state.year + "/" + this.state.season,
+            searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
+            rosterRoute : "/roster" + class_input.id,
+            searchStage : this.state.searchStage + 1,
+        });
+
+      var prop = {
+             type: "Department",
+             route: this.state.searchRoute
+          }
+
+         console.log("search route: " + this.state.searchCourseRoute);
+         console.log("selected department: " + search_input.id);
+         console.log("selected class: " + class_input.id + " " +class_input.name);
+         console.log(class_input);
+    }
    
     onChange(e) {
-       if (e.target.id === "year") {
-           this.setState({ year: e.target.value });
-       } //used to have an else right here
-       if (e.target.id === "season") {
-           this.setState({ season: e.target.value });
+       let updateRoutes = () => {
+           this.setState({
+               searchRoute : "search/" + this.state.year + "/" + this.state.season,
+               searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
+               searchStage : this.state.searchStage + 1,
+           });
        }
-       
-       this.setState({
-        searchRoute : "search/" + this.state.year + "/" + this.state.season,
-        searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
-        searchStage : this.state.searchStage + 1, 
-    });
-    var prop = {
-     type: "Department",
-     route: this.state.searchRoute
- }
+
+       if (e.target.id === "year") {
+           this.setState({ year: e.target.value }, () => {updateRoutes()});
+       }
+       if (e.target.id === "season") {
+           this.setState({ season: e.target.value }, () => {updateRoutes()});
+       }
+       if (e.target.id === "department") {
+           this.setState({department: e.target.value}, () => {updateRoutes()});
+       }
+
+       //Useless code?
+        var prop = {
+            type: "Department",
+            route: this.state.searchRoute
+        }
    }
  
  /*  handleAddClick(courselist) {
@@ -144,19 +156,17 @@ export default class FunctionalCalendar extends React.Component {
             <div className={'search_fields'}>
                     <Carousel interval={null}>
                         <Carousel.Item>
-                            
                             <h4>Choose Semester</h4>
                             <SemesterSelect onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
-                            
-                          
                         </Carousel.Item>
+
                         <Carousel.Item>
                             <h4>Filters</h4>
-                            
-                            
-                            <Departments route= {this.state.searchRoute} type="department" onChange={this.onChange} handleClick={this.handleClick}/>
-                          
+                            <Departments route= {this.state.searchRoute} type="department"
+                                         onChange={this.onChange} handleClick={this.handleClick}
+                            />
                         </Carousel.Item>
+
                         <Carousel.Item>
                             <div className={"addClasses"}>
                                 <h4>Add Classes</h4>
@@ -164,30 +174,31 @@ export default class FunctionalCalendar extends React.Component {
                                 <Button variant="primary" type="submit" onClick={this.handleAddClick}>
                                     Add
                                 </Button>
-                                
                             </div>
                         </Carousel.Item>
                     </Carousel>
                 </div>
+
             <div className={'roster'}>
                 <ReactRoster
                     userCourses={this.state.userCourses}
                     removeClick={{handleRemoveClick: this.handleRemoveClick.bind(this)} }/>
             </div>
+
         </div>
-        
             <ReactCalendar events={this.state.userCourses}/>
-        
     </html>
        )
    }
 }
 
+//Used for loading... function
 export function sleep(delay = 0) {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
   });
 }
+
 function Departments(props) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
@@ -199,8 +210,10 @@ function Departments(props) {
     if (!loading) {
       return undefined;
     }
+
     var type = props.type;
     const response = "loading";
+
     (async () => {
        
       const response = await fetch(props.route).then(response => response.json().then(data => {
@@ -208,12 +221,12 @@ function Departments(props) {
     })
     );
       await sleep(1e3); // For demo purposes.
-      const countries = "loading";
+      const courses = "loading";
      /* if (response != null) {
       countries = await response.json();
     }*/
       if (active) {
-        setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
+        setOptions(Object.keys(courses).map((key) => courses[key].item[0]));
       }
     })();
 
@@ -230,56 +243,50 @@ function Departments(props) {
 
   return (
     <div className={'filters'}>
-    <Autocomplete
-      id="departments"
-      size="small"
-      //multiple
-      //limitTags={2}
-      style={{ width: 300 }}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      getOptionSelected={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.id + ": " + option.name}
-      options={options}
-      loading={loading}
-      onChange={(event, object) => {
-          if (props.type == "department") {
-        search_input = object;
-          }
-          else if (props.type == "classes") {
-        class_input = object;
-          }
-    }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          id="department"
-          label={props.type}
-          variant="outlined"
-          value={props.department}
-          onChange={props.onChange}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
+        <Autocomplete
+          id={props.type}
+          size="small"
+          //multiple
+          //limitTags={2}
+          style={{ width: 300 }}
+          open={open}
+          onOpen={() => {setOpen(true);}}
+          onClose={() => {setOpen(false);}}
+          getOptionSelected={(option, value) => option.name === value.name}
+          getOptionLabel={(option) => option.id + ": " + option.name }
+          options={options}
+          loading={loading}
+          onChange={(event, object) => {
+              if (props.type == "department") {
+                search_input = object;
+              } else if (props.type == "classes") {
+                class_input = object;
+              }
           }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              id={props.type}
+              label={props.type}
+              variant="outlined"
+              value={props.type}
+              onChange={props.onChange}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <React.Fragment>
+                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                    {params.InputProps.endAdornment}
+                  </React.Fragment>
+                ),
+              }}
+            />
+            )}
         />
-        
-        )}
-    />
     
-    <Button variant="primary" type="submit" onClick={props.handleClick}>
-        update
-    </Button>
+        <Button variant="primary" type="submit" onClick={props.handleClick}>
+            Update
+        </Button>
     </div>
   );
 }
@@ -302,10 +309,7 @@ function SemesterSelect(props) {
                    <option>Summer</option>
                </Form.Control>
            </Form.Group>
- 
-           <Button variant="primary" type="button" onClick={props.handleClick}>
-               update
-           </Button>
+
        </Form>
        </div>
  
