@@ -79,7 +79,7 @@ export default class FunctionalCalendar extends React.Component {
      }
      })
     // alert("Adding " +search_input.title + " to schedule")
- }
+ } */
 }
     handleClick() {
     this.setState({
