@@ -5,6 +5,7 @@ import Carousel from 'react-bootstrap/Carousel'
 import Table from 'react-bootstrap/Table';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
+import { Button } from '@material-ui/core';
 
 export default class ReactRoster extends React.Component {
 
@@ -21,6 +22,7 @@ export default class ReactRoster extends React.Component {
                                     <td key={idx}>{data.title}</td>
                                     <td key={idx}>{data.prof}</td>
                                     <td key={idx}>{data.rating}</td>
+                                    
                                     </b>
                                 </div>
                             </Accordion.Toggle>
@@ -52,6 +54,29 @@ export default class ReactRoster extends React.Component {
                     {renObjData}
 
                 </Table>
+                <div className={'rosterbottombar'}>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Credit Hours:
+                                </th>
+                                <th>
+                                    Billing Credits:                               
+                                </th>
+                                <th>
+                        <Button 
+                            variant="success" 
+                            type="submit" 
+                            //onClick={this.handleAddClick}
+                        >
+                            Retreive CRNs
+                        </Button>
+                        </th>
+                            </tr>
+                        </thead>
+                    </Table>
+                </div>
             </div>
 
             <div>

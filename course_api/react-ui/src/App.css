@@ -1,7 +1,7 @@
 .left_container {
   
   /*min-height: 650px;*/
-  min-width: 300px;
+  min-width: 400px;
   max-width: 600px;
   width: 400px;
   padding: 6px;
@@ -27,15 +27,17 @@ unnecessary
   border: 1px solid #353535;
   border-radius: 5px;
   position: static;
-  min-height: 300px;
-  height: 300px;
+  min-height: 293px;
+  height: 350px;
   max-height: 400px;
   font-size: 12px;
   resize: vertical;
-  overflow: auto;
+  overflow: scroll;
 }
 .addClasses {
   position: static;
+  margin-left: 5px;
+  margin-right: 5px;
   min-height: 300px;
   padding-top: 5px;
   vertical-align: center;
@@ -70,6 +72,7 @@ unnecessary
   float: left;
   margin-left: 20px;
   padding:5px;
+  overflow: scroll;
 }
 .results {
   resize: vertical;
@@ -126,6 +129,7 @@ unnecessary
   vertical-align: bottom;
   bottom: 0;
   position: relative;
+  margin-top: 100px;
 }
 .carousel-control-next:focus, .carousel-control-next:hover, .carousel-control-prev:focus, .carousel-control-prev:hover, .carousel-control-next, .carousel-control-prev {
 
@@ -134,14 +138,24 @@ unnecessary
 .carousel-inner {
   position: relative;
   width: 100%;
-  height: 320px;
+  height: 350px;
   overflow: hidden;
 }
 .spacer {
   margin-top: 20px;
   margin-left: 70px;
   margin-right: 70px;
+  vertical-align: middle;
+  overflow: auto;
 }
+.semesterform {
+  
+  width: 20px;
+  float: left;
+  position: static;
+  
+}
+
 /*.leftside {
   min-width: 200px;
   max-width: 700px;
@@ -155,7 +169,7 @@ unnecessary
   background-color: white;
 }*/
 .roster {
-  height: 620px;
+  height: 575px;
   overflow: hidden;
   position: sticky;
   margin-top: 5px;
@@ -164,6 +178,13 @@ unnecessary
   border: 1px solid #353535;
   border-radius: 5px;
   background-color: #353535;
+}
+.rosterbottombar {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
 }
 .roster_details {
   background-color: #5e5e5e;
@@ -182,7 +203,11 @@ unnecessary
 table, th {
   background-color: #5e5e5e;
   color: white;
-  
+  font-size: 13px;
+  font-variant: normal;
+  font-weight: lighter;
+  font-style: normal;
+  font-variant-caps: normal;
 }
 td {
   background-color: #353535;
