@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react'
 import ReactCalendar from './ReactCalendar'
 import AddClasses from './AddClasses'
 import ReactRoster from "./FixedRoster"
+
 import "../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "../App.css"
+
 import Carousel from 'react-bootstrap/Carousel';
 import {Button, Dropdown, DropdownButton} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
@@ -16,11 +18,13 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Table from 'react-bootstrap/Table'
 import { blue } from '@material-ui/core/colors'
 
- let search_input = 1;
- let class_input = 1;
+import SemesterSelector from "./SemesterSelector";
 
- // helper function for checking class with existing classes
- function containsObject(obj, list) {
+let search_input = 1;
+let class_input = 1;
+
+// helper function for checking class with existing classes
+function containsObject(obj, list) {
     var i;
     for (i = 0; i < list.length; i++) {
         if (list[i] === obj) {
@@ -34,92 +38,69 @@ import { blue } from '@material-ui/core/colors'
 // helper function for input of rgb
 function rgb(r, g, b){
     return "rgb("+r+","+g+","+b+")";
-  }
-
+}
 
 export default class FunctionalCalendar extends React.Component {
-   constructor() {
-       super();
-       this.state = {
-           year: "",
-           season: "Fall",
-           department: "",
-           searchRoute : "",
-           searchCourseRoute : "",
-           rosterRoute : "",
-           searchStage : 0,
-           userCourses: [],
-           name: "test",
-           mingpa: 0
-       }
+    constructor() {
+        super();
+        this.state = {
+            year: "",
+            season: "Fall",
+            department: "",
+            searchRoute : "",
+            searchCourseRoute : "",
+            rosterRoute : "",
+            searchStage : 0,
+            userCourses: [],
+            name: "test",
+            mingpa: 0
+        }
         this.onChange = this.onChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
-   }
+        this.handleSeasonChange = this.handleSeasonChange.bind(this)
+        this.handleYearChange = this.handleYearChange.bind(this)
+    }
 
-   //handles click of add button on addClasses carousel window
-  handleAddClick() {
-       //Why is this.state.userCourses undefined?
-       console.log(class_input.id)
-      /**
-     if (class_input==null) {
-         alert("Cannot add null class!")
-     } else if (containsObject(class_input, this.state.userCourses)) {
-         alert("Class already in schedule!");
-     } else {
-         this.setState({userCourses : this.state.userCourses.concat(class_input)}, () => {
-             this.props.addClick.handleAddClick(this.state.userCourses);
-             let i;
-             for (i=0; i < this.state.userCourses.length; i++) {
-             this.state.userCourses[i].backgroundColor = rgb(this.state.userCourses[i].CRN/8, this.state.userCourses[i].rating*this.state.userCourses[i].rating*7, this.state.userCourses[i].CRN/10)
-             this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
-             this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
-         }
-         })
-        // alert("Adding " +search_input.title + " to schedule")
-     }
-     })
-    // alert("Adding " +search_input.title + " to schedule")
- } */
-}
-    handleClick() {
-    this.setState({
-        searchRoute : "search/" + this.state.year + "/" + this.state.season,
-        searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
-        department : search_input.id,
-        rosterRoute : "/roster" + class_input.id,
-        searchStage : this.state.searchStage + 1, 
-        mingpa: this.state.mingpa,
-    });
-    var prop = {
-     type: "Department",
-     route: this.state.searchRoute
- }
- console.log("search route: " + this.state.searchCourseRoute);
- console.log("seearch_input: " + search_input.id);
- console.log("this.state.department: " + this.state.department);
- console.log("selected class: " + class_input.id + " " +class_input.name);
- console.log(class_input);
-   }
-
+    handleAddClick() {
+        console.log(class_input.id)
+        if (class_input==null) {
+            alert("Cannot add null class!")
+        }
+        else if (containsObject(class_input, this.state.userCourses)) {
+            alert("Class already in schedule!");
+        } else {
+            this.setState({userCourses : this.state.userCourses.concat(class_input)}, () => {
+                this.props.addClick.handleAddClick(this.state.userCourses);
+                let i;
+                for (i=0; i < this.state.userCourses.length; i++) {
+                    this.state.userCourses[i].backgroundColor = rgb(this.state.userCourses[i].CRN/8, this.state.userCourses[i].rating*this.state.userCourses[i].rating*7, this.state.userCourses[i].CRN/10)
+                    this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
+                    this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
+                }
+            })
+            // alert("Adding " +search_input.title + " to schedule")
+        }
+    }
     handleClick() {
         this.setState({
             searchRoute : "search/" + this.state.year + "/" + this.state.season,
             searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
+            department : search_input.id,
             rosterRoute : "/roster" + class_input.id,
             searchStage : this.state.searchStage + 1,
+            mingpa: this.state.mingpa,
         });
-
-      var prop = {
-             type: "Department",
-             route: this.state.searchRoute
-          }
-
-         console.log("search route: " + this.state.searchCourseRoute);
-         console.log("selected department: " + search_input.id);
-         console.log("selected class: " + class_input.id + " " +class_input.name);
-         console.log(class_input);
+        var prop = {
+            type: "Department",
+            route: this.state.searchRoute
+        }
+        console.log("search route: " + this.state.searchCourseRoute);
+        console.log("seearch_input: " + search_input.id);
+        console.log("this.state.department: " + this.state.department);
+        console.log("selected class: " + class_input.id + " " +class_input.name);
+        console.log(class_input);
     }
-   
+
     onChange(e) {
         let updateRoutes = () => {
             this.setState({
@@ -130,6 +111,7 @@ export default class FunctionalCalendar extends React.Component {
                 mingpa : this.state.mingpa
             });
         }
+
         if (e.target.id === "year") {
             this.setState({ year: e.target.value }, () => {updateRoutes()});
         }
@@ -142,216 +124,207 @@ export default class FunctionalCalendar extends React.Component {
         if (e.target.id === "gpaslider") {
             this.setState({mingpa: e.target.value}, () => {updateRoutes()});
         }
-       
-       this.setState({
-        searchRoute : "search/" + this.state.year + "/" + this.state.season,
-        searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
-        searchStage : this.state.searchStage + 1, 
-    });
-    var prop = {
-     type: "Department",
-     route: this.state.searchRoute
- }
- console.log("search route: " + this.state.searchCourseRoute);
- console.log("seearch_input: " + search_input.id);
- console.log("this.state.department: " + this.state.department);
- console.log("selected class: " + class_input.id + " " +class_input.name);
- console.log(class_input);
-   }
- 
- /*  handleAddClick(courselist) {
-       this.setState({userCourses : courselist})
-   }*/
- 
-   handleRemoveClick(courselist) {
-       this.setState({userCourses: courselist}, () => {
-       })
-   }
- 
-   render() {
 
-        /* 
-        let select;
-       switch (this.state.searchStage) {
-           case (0):
-               select = <SemesterSelect onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
-               break;
-           case (1):
-               select = <OptionSelect type="Department" route= {this.state.searchRoute}onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
-               break;
-           case (2):
-                select = <OptionSelect type="Class" route= {this.state.searchRoute}onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
-                break;
-           case (3):
-                select = <OptionSelect type="Section" route= {this.state.searchRoute}onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
-                break;
-       }
-       */
-       return(
-        <html>
-        <div className={'left_container'}>
-            <div className={'search_fields'}>
+        /**
+        this.setState({
+            searchRoute : "search/" + this.state.year + "/" + this.state.season,
+            searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
+            searchStage : this.state.searchStage + 1,
+        });*/
+        var prop = {
+            type: "Department",
+            route: this.state.searchRoute
+        }
+        console.log("search route: " + this.state.searchCourseRoute);
+        console.log("seearch_input: " + search_input.id);
+        console.log("this.state.department: " + this.state.department);
+        console.log("selected class: " + class_input.id + " " +class_input.name);
+        console.log(class_input);
+    }
+
+    /*  handleAddClick(courselist) {
+          this.setState({userCourses : courselist})
+      }*/
+
+    handleRemoveClick(courselist) {
+        this.setState({userCourses: courselist}, () => {
+        })
+    }
+
+    handleYearChange(newYear) {
+        this.setState({year: newYear}, () => {
+            this.setState({searchRoute: "search/" + this.state.year + "/"})
+        });
+    }
+    handleSeasonChange(newSeason) {
+        this.setState({season: newSeason}, () => {
+            this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season})
+        });
+    }
+
+    render() {
+        return(
+            <html>
+            <div className={'left_container'}>
+                <div className={'search_fields'}>
                     <Carousel interval={null}>
                         <Carousel.Item>
+
                             <h4>Choose Semester</h4>
-                            <SemesterSelect onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
+                            <SemesterSelector year={this.state.year} season={this.state.season} onYearChange={this.handleYearChange} onSeasonChange={this.handleSeasonChange}/>
 
                         </Carousel.Item>
-
                         <Carousel.Item>
                             <h4>Filters</h4>
+                            <div className={'addClasses'}>
+                                <Table>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <Form>
+                                                <Form.Switch
+                                                    type="switch"
+                                                    id="custom-switch"
+                                                    label="Open Sections only"
+                                                />
+                                            </Form>
+                                        </td>
+                                        <td>
+                                            <Form>
+                                                {['checkbox'].map((type) => (
+                                                    <div key={`inline-${type}`} className="mb-3">
+                                                        <Form.Check inline label="M" type={type} id={`inline-${type}-1`} />
+                                                        <Form.Check inline label="T" type={type} id={`inline-${type}-1`} />
+                                                        <Form.Check inline label="W" type={type} id={`inline-${type}-1`} />
+                                                        <Form.Check inline label="T" type={type} id={`inline-${type}-1`} />
+                                                        <Form.Check inline label="F" type={type} id={`inline-${type}-1`} />
+                                                    </div>
+                                                ))}
+                                            </Form>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Attributes:
+                                            <Autocomplete
+                                                className="professor_filter"
+                                                size="small"
+                                                //multiple
+                                                //limitTags={2}
+                                                //create function to get all professor for certain course
+                                                //options={options}
+                                                autoComplete={true}
+                                                onChange={(event, object) => {}}
+                                                getOptionLabel={(option) => option.prof}
+                                                renderInput={(params) => <TextField {...params} variant="outlined"/>}
+                                            />
+                                        </td>
+                                        <td>
+                                            Part of Term:
+                                            <Autocomplete
+                                                className="professor_filter"
+                                                size="small"
+                                                //multiple
+                                                //limitTags={2}
+                                                //create function to get all professor for certain course
+                                                //options={options}
+                                                autoComplete={true}
+                                                onChange={(event, object) => {}}
+                                                getOptionLabel={(option) => option.prof}
+                                                renderInput={(params) => <TextField {...params} variant="outlined"/>}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <Form>
+                                                <Form.Group controlId="formBasicRange">
+                                                    <Form.Label>Start time</Form.Label>
+                                                    <Form.Control type="range" />
+                                                </Form.Group>
+                                            </Form>
+                                        </td>
+                                        <td>
+                                            <Form>
+                                                <Form.Group controlId="formBasicRange">
+                                                    <Form.Label>End time</Form.Label>
+                                                    <Form.Control type="range" />
+                                                </Form.Group>
+                                            </Form>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <Form size="sm">
+                                                <Form.Group controlId="exampleForm.SelectCustom">
+                                                    <Form.Label>Credits:</Form.Label>
+                                                    <Form.Control as="select" custom>
+                                                        <option>0</option>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </Form.Control>
+                                                </Form.Group>
+                                            </Form>
+                                        </td>
+                                        <td>
 
-            <div className={'addClasses'}>
-                <Table>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <Form>
-                                <Form.Switch 
-                                    type="switch"
-                                    id="custom-switch"
-                                    label="Open Sections only"
-                                />
-                            </Form>
-                        </td>
-                        <td>
-                                <Form>
-                                    {['checkbox'].map((type) => (
-                                    <div key={`inline-${type}`} className="mb-3">
-                                    <Form.Check inline label="M" type={type} id={`inline-${type}-1`} />
-                                    <Form.Check inline label="T" type={type} id={`inline-${type}-1`} />
-                                    <Form.Check inline label="W" type={type} id={`inline-${type}-1`} />
-                                    <Form.Check inline label="T" type={type} id={`inline-${type}-1`} />
-                                    <Form.Check inline label="F" type={type} id={`inline-${type}-1`} />  
-                                    </div>             
-                                    ))}
-                                </Form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Attributes:
-                            <Autocomplete
-                                            className="professor_filter"
-                                            size="small"
-                                            //multiple
-                                            //limitTags={2}
-                                            //create function to get all professor for certain course
-                                            //options={options}
-                                            autoComplete={true}
-                                            onChange={(event, object) => {}}
-                                            getOptionLabel={(option) => option.prof}
-                                            renderInput={(params) => <TextField {...params} variant="outlined"/>}
-                                            />
-                        </td> 
-                        <td>
-                        Part of Term:
-                            <Autocomplete
-                                            className="professor_filter"
-                                            size="small"
-                                            //multiple
-                                            //limitTags={2}
-                                            //create function to get all professor for certain course
-                                            //options={options}
-                                            autoComplete={true}
-                                            onChange={(event, object) => {}}
-                                            getOptionLabel={(option) => option.prof}
-                                            renderInput={(params) => <TextField {...params} variant="outlined"/>}
-                                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        <Form>
-                        <Form.Group controlId="formBasicRange">
-                            <Form.Label>Start time</Form.Label>
-                                <Form.Control type="range" />
-                                </Form.Group>
-                                </Form>
-                        </td>
-                        <td>
-                        <Form>
-                        <Form.Group controlId="formBasicRange">
-                            <Form.Label>End time</Form.Label>
-                                <Form.Control type="range" />
-                                </Form.Group>
-                                </Form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                         <Form size="sm">
-                         <Form.Group controlId="exampleForm.SelectCustom">
-                           <Form.Label>Credits:</Form.Label>
-                           <Form.Control as="select" custom>
-                             <option>0</option>
-                             <option>1</option>
-                             <option>2</option>
-                             <option>3</option>
-                             <option>4</option>
-                             <option>5</option>
-                           </Form.Control>
-                         </Form.Group>
-                       </Form>
-                        </td>
-                        <td>
-                        
-                        
-                            <Form>
-                        <Form.Group controlId="GPAslider">
-                                    <Form.Label>GPA: {this.state.mingpa}</Form.Label>
-                                <Form.Control type="range" />
-                                </Form.Group>
-                                </Form>
-                        </td>
-                    </tr>
-                             </tbody>
-                                </Table> 
+
+                                            <Form>
+                                                <Form.Group controlId="GPAslider">
+                                                    <Form.Label>GPA: {this.state.mingpa}</Form.Label>
+                                                    <Form.Control type="range" />
+                                                </Form.Group>
+                                            </Form>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </Table>
                             </div>
 
                         </Carousel.Item>
-
                         <Carousel.Item>
                             <div className={"addClasses"}>
                                 <h4>Add Classes</h4>
-
                                 <Table>
                                     <thead>
                                     <tr>
                                         <td>
-                                        Department: 
+                                            Department:
                                         </td>
                                         <td>
-                                        Class:
+                                            Class:
                                         </td>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <Departments route= {this.state.searchRoute} type="department" onChange={this.onChange} handleClick={this.handleClick}/>
-                                            </td>
-                                            <td>
-                                                <Departments route= {this.state.searchCourseRoute} type="classes" onChange={this.onChange} handleClick={this.handleClick}/>
-                                            </td>
+                                    <tr>
+                                        <td>
+                                            <CourseSelector route= {this.state.searchRoute} type="department" onChange={this.onChange} handleClick={this.handleClick}/>
+                                        </td>
+                                        <td>
+                                            <CourseSelector route= {this.state.searchCourseRoute} type="classes" onChange={this.onChange} handleClick={this.handleClick}/>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Professor: 
+                                        <td>Professor:
                                             <Autocomplete
-                                            className="professor_filter"
-                                            size="small"
-                                            //create function to get all professor for certain course
-                                            //options={options}
-                                            autoComplete={true}
-                                            onChange={(event, object) => {}}
-                                            getOptionLabel={(option) => option.prof}
-                                            renderInput={(params) => <TextField {...params} variant="outlined"/>}
+                                                className="professor_filter"
+                                                size="small"
+                                                //create function to get all professor for certain course
+                                                //options={options}
+                                                autoComplete={true}
+                                                onChange={(event, object) => {}}
+                                                getOptionLabel={(option) => option.prof}
+                                                renderInput={(params) => <TextField {...params} variant="outlined"/>}
                                             />
-                                        </td> 
+                                        </td>
                                         <td>
-                                        <Button variant="primary" type="submit" onClick={this.handleAddClick}>
-                                            Add Class
-                                        </Button>
+                                            <Button variant="primary" type="submit" onClick={this.handleAddClick}>
+                                                Add Class
+                                            </Button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -361,211 +334,125 @@ export default class FunctionalCalendar extends React.Component {
                         </Carousel.Item>
                     </Carousel>
                 </div>
-
-            <div className={'roster'}>
-                <ReactRoster
-                    userCourses={this.state.userCourses}
-                    removeClick={{handleRemoveClick: this.handleRemoveClick.bind(this)} }/>
+                <div className={'roster'}>
+                    <ReactRoster
+                        userCourses={this.state.userCourses}
+                        removeClick={{handleRemoveClick: this.handleRemoveClick.bind(this)} }/>
+                </div>
             </div>
 
-        </div>
             <ReactCalendar events={this.state.userCourses}/>
-    </html>
-       )
-   }
+
+            </html>
+        )
+    }
 }
 
-//Used for loading... function
+
 export function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
+    return new Promise((resolve) => {
+        setTimeout(resolve, delay);
+    });
 }
 
-function Departments(props) {
-  const [open, setOpen] = React.useState(false);
-  const [options, setOptions] = React.useState([]);
-  const loading = open && options.length === 0;
+function CourseSelector(props) {
+    const [open, setOpen] = React.useState(false);
+    const [options, setOptions] = React.useState([]);
+    const loading = open && options.length === 0;
 
-  React.useEffect(() => {
-    let active = true;
+    React.useEffect(() => {
+        let active = true;
 
-    if (!loading) {
-      return undefined;
-    }
+        if (!loading) {
+            return undefined;
+        }
+        var type = props.type;
+        const response = "loading";
+        (async () => {
 
-    var type = props.type;
-    const response = "loading";
+            const response = await fetch(props.route).then(response => response.json().then(data => {
+                    setOptions(data);
+                })
+            );
+            await sleep(1e3); // For demo purposes.
+            const countries = "loading";
+            /* if (response != null) {
+             countries = await response.json();
+           }*/
+            if (active) {
+                setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
+            }
+        })();
 
-    (async () => {
-       
-      const response = await fetch(props.route).then(response => response.json().then(data => {
-        setOptions(data);
-    })
-    );
-      await sleep(1e3); // For demo purposes.
-      const courses = "loading";
-     /* if (response != null) {
-      countries = await response.json();
-    }*/
-      if (active) {
-        setOptions(Object.keys(courses).map((key) => courses[key].item[0]));
-      }
-    })();
+        return () => {
+            active = false;
+        };
+    }, [loading]);
 
-    return () => {
-      active = false;
-    };
-  }, [loading]);
+    React.useEffect(() => {
+        if (!open) {
+            setOptions([]);
+        }
+    }, [open]);
 
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
+    return (
+        <div >
+            <Autocomplete
+                id={props.type}
+                size="small"
+                //multiple
+                //limitTags={2}
+                //style={{ width: 200 }}
+                open={open}
+                onOpen={() => {
+                    setOpen(true);
+                }}
+                onClose={() => {
+                    setOpen(false);
+                }}
+                getOptionSelected={(option, value) => option.name === value.name}
+                getOptionLabel={(option) => option.id + ": " + option.name}
+                options={options}
+                loading={loading}
+                onClick={props.onChange}
+                onChange={props.onChange,
+                    (event, object) => {
+                    if (props.type == "department") {
+                        console.log(props.type)
+                    search_input = object;
+                }
+                    else if (props.type == "classes") {
+                        console.log(props.type)
+                    class_input = object;
+                }
 
-  return (
-    <div >
-    <Autocomplete
-      id="departments"
-      size="small"
-      //multiple
-      //limitTags={2}
-      //style={{ width: 200 }}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      getOptionSelected={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.id + ": " + option.name}
-      options={options}
-      loading={loading}
-      onClick={props.onChange}
-      onChange={props.onChange,
-        (event, object) => {
-          if (props.type == "department") {
-        search_input = object;
-          }
-          else if (props.type == "classes") {
-        class_input = object;
-          }
-          
-    }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          id="department"
-          label={props.type}
-          variant="outlined"
-          value={props.department}
-          onChange={props.onChange}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              id={props.type}
-              label={props.type}
-              variant="outlined"
-              value={props.type}
-              onChange={props.onChange}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <React.Fragment>
-                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                    {params.InputProps.endAdornment}
-                  </React.Fragment>
-                ),
-              }}
+                }}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        id={props.type}
+                        label={props.type}
+                        variant="outlined"
+                        value={props.type}
+                        onChange={props.onChange}
+                        InputProps={{
+                            ...params.InputProps,
+                            endAdornment: (
+                                <React.Fragment>
+                                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                    {params.InputProps.endAdornment}
+                                </React.Fragment>
+                            ),
+                        }}
+                    />
+
+                )}
             />
-            )}
-        />
-        
-        )}
-    />
-    </div>
-  );
+        </div>
+    );
 }
 
-function SemesterSelect(props) {
-   return (
-      /* <div class="spacer">
-    
-       <Form>
-           <Form.Group controlId="Year">
-               <Form.Label>Year</Form.Label>
-               <Form.Control id = "year" type="text" value={props.year} placeholder="Enter year" onChange={props.onChange} />
-           </Form.Group>
- 
-           <Form.Group controlId="Season">
-               <Form.Label>Season</Form.Label>
-               <Form.Control id = "season" as="select" value={props.season} onChange={props.onChange} >
-                   <option>Fall</option>
-                   <option>Winter</option>
-                   <option>Spring</option>
-                   <option>Summer</option>
-               </Form.Control>
-           </Form.Group>
 
-       </Form>
-    
-       </div>*/
-<div 
-//class="spacer" 
-//style={{marginTop: 90}}
->
-       <>
-  <InputGroup >
- 
-    <FormControl
-      placeholder="Year"
-      aria-label="Year"
-      aria-describedby="basic-addon2"
-      style={{width: 100, marginLeft: 25}}
-      controlId="Year"
-      id = "year" 
-      type="text" 
-      value={props.year} 
-      placeholder="Enter year" 
-      onChange={props.onChange}
-      onClick={props.onChange}
-    />
-
-<div class="semesterform">
-    <DropdownButton
-      as={InputGroup.Append}
-      variant="primary"
-      title="Season"
-      id="season"
-      //style={{width: 20}}
-      controlId="Season"
-      value={props.season} 
-      onChange={props.onChange}
-      //onClick={props.onChange}
-    >
-      <Dropdown.Item  href="#">Fall</Dropdown.Item>
-      <Dropdown.Item href="#">Winter</Dropdown.Item>
-      <Dropdown.Item href="#">Spring</Dropdown.Item>
-      <Dropdown.Item href="#">Summer</Dropdown.Item>
-    
-    </DropdownButton>
-    </div>
-  </InputGroup>
-</>
-</div>
-   );
-}
 /*
 function OptionSelect(props) {
     const [list, setList] = useState([]);
