@@ -60,7 +60,8 @@ export default class FunctionalCalendar extends React.Component {
            searchStage : 0,
            userCourses: rosterdata.courses,
            name: "test",
-           mingpa: 0
+           mingpa: 0,
+           totalcredits: 0
        }
         this.onChange = this.onChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -83,6 +84,7 @@ export default class FunctionalCalendar extends React.Component {
    }
    setEventColors() {
        let i;
+       this.state.totalcredits = 0;
     for (i=0; i < this.state.userCourses.length; i++) {
         this.state.userCourses[i].backgroundColor = rgb(
             this.state.userCourses[i].CRN/80, 
@@ -91,8 +93,9 @@ export default class FunctionalCalendar extends React.Component {
     this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
     this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
     this.state.userCourses[i].title = this.state.userCourses[i].name + " " + this.state.userCourses[i].rating + "/5 " + this.state.userCourses[i].disparity;
+    this.state.totalcredits += this.state.userCourses[i].credits;
     } 
-
+    console.log(this.state.totalcredits)
    }
    
   handleAddClick() {
@@ -376,6 +379,7 @@ export default class FunctionalCalendar extends React.Component {
                 </div>
             
                 <ReactRoster
+                    credits={this.state.totalcredits}
                     userCourses={this.state.userCourses}
                     CRNs={{getCRNs: this.getCRNs.bind(this)}}
                     removeClick={{handleRemoveClick: this.handleRemoveClick.bind(this)} }/>

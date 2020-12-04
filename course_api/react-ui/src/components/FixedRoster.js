@@ -101,7 +101,7 @@ export default class ReactRoster extends React.Component {
                         <thead >
                             <tr>
                                 <th style={{border: 0}}>
-                                    Credit Hours:
+                                    Credit Hours: {this.props.credits*1}
                                 </th>
                                 <th style={{border: 0}}>
                                     Billing Credits:                               
