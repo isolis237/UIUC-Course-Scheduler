@@ -1,45 +1,30 @@
 .left_container {
-  
   /*min-height: 650px;*/
-  min-width: 400px;
-  max-width: 600px;
-  width: 400px;
+  position: relative;
   padding: 6px;
+  padding-bottom: 0px;
   float: left;
   background-color: #202020;
-  resize: horizontal;
-  overflow: auto;
-}
-/*
-unnecessary
-.right_container {
-  position: relative;
-  min-width: 500px;
-  font-size: 12px;
-  color: white;
  
-  height: 100%;
-  margin: 0px;
-  margin-left: 1000px;
-}*/
+}
 .search_fields {
   background-color: #353535;
   border: 1px solid #353535;
   border-radius: 5px;
   position: static;
   min-height: 293px;
-  height: 340px;
+  min-width: 325px;
+  width: 400px;
+  max-width: 600px;
+  height: 50%;
   max-height: 400px;
   font-size: 12px;
-  resize: vertical;
+  resize: both;
   overflow: hidden;
 }
 .addClasses {
   position: static;
-  margin-left: 5px;
-  margin-right: 5px;
   min-height: 300px;
-  padding-top: 5px;
   vertical-align: center;
 }
 .calendar {
@@ -49,25 +34,8 @@ unnecessary
   position: relative;
   margin: 0px;
   overflow: auto;
-  
 }
-/*.searchbar {
-  width: calc(95% - 10px);
-  height: 22px;
-  border: 1px solid lightgray;
-  background-color: white;
-  border-radius: 2px;
-  font-family: Arial;
-  margin-left: 7px;
-  margin-right: 10px;
-  margin-bottom: 4px;
-  margin-top: 0px;
-  vertical-align: top;
-  padding: 1px;
-  position: static;
-}*/
 .filters {
-
   position: static;
   float: left;
   margin-left: 20px;
@@ -97,39 +65,20 @@ unnecessary
   border: 1px solid rgb(58, 58, 58);
   border-radius: 5px;
 }
-/*.search {
-  resize: vertical;
-  overflow: hidden;
-  padding: 3px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  background-color: white;
-  min-height: 204px;
-}*/
-/*.class_searchbar {
-  border: 1px solid lightgray;
-  background-color: white;
-  border-radius: 2px;
-  font-family: Arial;
-  margin-left: 7px;
-  margin-right: 10px;
-  margin-bottom: 4px;
-  margin-top: 0px;
-  vertical-align: center;
-  padding: 1px;
-  position: static;
-}*/
 .carousel {
   text-align: center;
   color:white;
   background-color: #353535;
-  min-height: 250px;
+  height: calc(100% + 25px);
+  bottom: 0px;
+  padding-right: 20px;
+  padding-left: 20px;
+  position: fixed;
 }
 .carousel-indicators {
-  vertical-align: bottom;
-  bottom: 0;
-  position: relative;
-  margin-top: 100px;
+
+  position: fixed;
+  
 }
 .carousel-control-next:focus, .carousel-control-next:hover, .carousel-control-prev:focus, .carousel-control-prev:hover, .carousel-control-next, .carousel-control-prev {
 
@@ -148,44 +97,46 @@ unnecessary
   vertical-align: middle;
   overflow: auto;
 }
-.semesterform {
-  
-  width: 20px;
+.yearform {
+  width: calc(90% - 110px);
+  vertical-align: center;
   float: left;
-  position: static;
-  
 }
-
-/*.leftside {
-  min-width: 200px;
-  max-width: 700px;
-  width: 20.81%;
-  height: 925px;
-  margin: .2%;
-  overflow: hidden;
+.seasonform {
   float: left;
-  padding-left: 4px;
-  resize: horizontal;
-  background-color: white;
-}*/
+}
+.semesterform {
+  height: 20px;
+  padding-left: 40px;
+  padding-top: 50px;
+}
 .roster {
-  height: 580px;
-  overflow: hidden;
-  resize: vertical;
+  overflow: auto;
   position: sticky;
+  bottom: 0px;
   margin-top: 5px;
+  margin-right: inherit;
   margin-bottom: 5px;
+  padding-bottom: 0px;
   min-height: 200px;
-  border: 1px solid #353535;
   border-radius: 5px;
   background-color: #353535;
 }
 .rosterbottombar {
   position: absolute;
   text-align: center;
-  bottom: 0;
-  width: 100%;
+  bottom: 0px;
+  width: calc(100% - 12px);
   height: 40px;
+  border-radius: 5px;
+  border-bottom: 5px solid  #5e5e5e;
+  margin-bottom: 4px;
+  overflow: hidden;
+  background-color: #202020;
+}
+.bottombar {
+  border-radius: 5px;
+  border-bottom: 5px solid  #5e5e5e;
 }
 .roster_details {
   background-color: #5e5e5e;
@@ -209,10 +160,58 @@ table, th {
   font-weight: lighter;
   font-style: normal;
   font-variant-caps: normal; 
+  text-transform: none;
+  
+}
+.btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+.btn-crn {
+  color: #fff;
+  background-color: #34c2c7;
+  border-color: #3ac2d4;
+}
+/*.MuiButton-root, .MuiButtonBase-root, .rosterbutton {
+  
+  color: white;
+  font-size: 13px;
+  font-variant: normal;
+  font-weight: lighter;
+  font-style: normal;
+  font-variant-caps: normal; 
+  text-transform: none;
+  color: blue;
+  border: 0;
+  cursor: pointer;
+  margin: 0;
+  display: inline-flex;
+  outline: 0;
+  padding: 0;
+  position: relative;
+  align-items: center;
+  user-select: none;
+  border-radius: 0;
+  vertical-align: middle;
+  -moz-appearance: none;
+  justify-content: center;
+  text-decoration: none;
+  background-color: blue;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}*/
+.MuiButton-label {
+  color: whitesmoke;
+  font-size: 12px;
+  height: 13px;
+  width: 100%;
+  display: inherit;
+  align-items: inherit;
+  justify-content: inherit;
 }
 td {
   background-color: #353535;
-  
 }
 .table-responsive {
   background-color: #353535;
@@ -223,7 +222,15 @@ td {
 .fc-theme-standard td, .fc-theme-standard th, .fc .fc-scrollgrid {
   border: 1px solid rgb(41, 41, 41);
   border: 1px solid var(--fc-border-color, rgb(102, 102, 102));
+  font-size: 11px;
+}
+.fc-timegrid-event .fc-event-time {
   font-size: 10px;
+}
+.fc-event-title {
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: lighter;
 }
 .fc .fc-scrollgrid {
   border: 1px solid rgb(41, 41, 41);

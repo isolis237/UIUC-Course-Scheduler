@@ -87,7 +87,7 @@ export default class ReactCalendar extends React.Component {
         //.setProp( "display", "auto" )
         //arg.event.setProp( "backgroundColor", "blue")
         //return this.props.events[i]
-        this.props.select.eventselect(i);
+        this.props.select.eventsel(i);
         }
     }
     }

@@ -66,10 +66,10 @@ export default class FunctionalCalendar extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.getCRNs = this.getCRNs.bind(this);
         this.setEventColors = this.setEventColors.bind(this);
-        this.eventselect = this.eventselect.bind(this);
+        this.eventsel = this.eventsel.bind(this);
         
    }
-   eventselect(i) {
+   eventsel(i) {
     this.state.userCourses[i].display = "auto"
     this.state.userCourses[i].backgroundColor = "blue"
    }
@@ -85,12 +85,13 @@ export default class FunctionalCalendar extends React.Component {
        let i;
     for (i=0; i < this.state.userCourses.length; i++) {
         this.state.userCourses[i].backgroundColor = rgb(
-            this.state.userCourses[i].CRN/8, 
+            this.state.userCourses[i].CRN/80, 
             this.state.userCourses[i].rating*this.state.userCourses[i].rating*7, 
-            this.state.userCourses[i].CRN/10)
+            this.state.userCourses[i].CRN/100)
     this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
     this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
-    }
+    this.state.userCourses[i].title = this.state.userCourses[i].name + " " + this.state.userCourses[i].rating + "/5 " + this.state.userCourses[i].disparity;
+    } 
 
    }
    
@@ -208,17 +209,20 @@ export default class FunctionalCalendar extends React.Component {
            this.setEventColors(),
            //this.state.userCourses[1].display = "auto",
         <html>
-        <div className={'left_container'} style={{height: window.innerHeight}}>
+        <div className={'left_container'} style={{height: window.innerHeight, maxHeight: window.innerHeight}}>
             <div className={'search_fields'}>
                     <Carousel interval={null}>
                         <Carousel.Item>
+                        <h4>Choose Semester</h4>
+                            <div 
+                            //className={'semesterform'}
+                            >
                             
-                            <h4>Choose Semester</h4>
                             <SemesterSelect onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
-                            
+                            </div>
                         </Carousel.Item>
                         <Carousel.Item>
-                            <h4>Filters</h4>
+                        <h4>Filters</h4>
             <div className={'addClasses'}>
                 <Table>
                     <tbody>
@@ -329,25 +333,17 @@ export default class FunctionalCalendar extends React.Component {
                           
                         </Carousel.Item>
                         <Carousel.Item>
+                        <h4>Add Classes</h4>
                             <div className={"addClasses"}>
-                                <h4>Add Classes</h4>
                                 <Table>
-                                    <thead>
-                                    <tr>
-                                        <td>
-                                        Department: 
-                                        </td>
-                                        <td>
-                                        Class:
-                                        </td>
-                                    </tr>
-                                    </thead>
                                     <tbody>
                                         <tr>
                                             <td>
+                                            Department: 
                                                 <Departments route= {this.state.searchRoute} type="department" onChange={this.onChange} handleClick={this.handleClick}/>
                                             </td>
                                             <td>
+                                            Class:
                                                 <Departments route= {this.state.searchCourseRoute} type="classes" onChange={this.onChange} handleClick={this.handleClick}/>
                                             </td>
                                     </tr>
@@ -378,15 +374,15 @@ export default class FunctionalCalendar extends React.Component {
                         </Carousel.Item>
                     </Carousel>
                 </div>
-            <div className={'roster'}>
+            
                 <ReactRoster
                     userCourses={this.state.userCourses}
                     CRNs={{getCRNs: this.getCRNs.bind(this)}}
                     removeClick={{handleRemoveClick: this.handleRemoveClick.bind(this)} }/>
-            </div>
+            
         </div>
         
-            <ReactCalendar events={this.state.userCourses} select={{eventselect: this.eventselect.bind(this)}}/>
+            <ReactCalendar events={this.state.userCourses} select={{eventsel: this.eventsel.bind(this)}}/>
         
     </html>
        )
@@ -528,18 +524,19 @@ function SemesterSelect(props) {
        </Form>
     
        </div>*/
-<div 
-//class="spacer" 
-//style={{marginTop: 90}}
->
+
+    <Table>
+        <tbody>
+            <tr>
+                <td>
+                <div className={'semesterform'}>
        <>
   <InputGroup >
- 
+  <div class="yearform">
     <FormControl
       placeholder="Year"
       aria-label="Year"
       aria-describedby="basic-addon2"
-      style={{width: 100, marginLeft: 25}}
       controlId="Year"
       id = "year" 
       type="text" 
@@ -548,8 +545,8 @@ function SemesterSelect(props) {
       onChange={props.onChange}
       onClick={props.onChange}
     />
-
-<div class="semesterform">
+</div>
+<div class="seasonform">
     <DropdownButton
       as={InputGroup.Append}
       variant="primary"
@@ -571,6 +568,12 @@ function SemesterSelect(props) {
   </InputGroup>
 </>
 </div>
+</td>
+</tr>
+</tbody>
+</Table>
+
+
    );
 }
 /*

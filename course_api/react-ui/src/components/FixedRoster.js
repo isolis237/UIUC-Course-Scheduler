@@ -6,6 +6,7 @@ import Table from 'react-bootstrap/Table';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import { Button } from '@material-ui/core';
+import { computeSmallestCellWidth } from '@fullcalendar/core';
 
 
 
@@ -51,7 +52,7 @@ export default class ReactRoster extends React.Component {
         <Accordion key={course.title}>
                 <Card.Header>
                     <Accordion.Toggle as={Card.Header} eventKey={"0"}>
-                                {course.title}
+                                {course.name}
                                 
                     </Accordion.Toggle>
                 </Card.Header>
@@ -66,7 +67,7 @@ export default class ReactRoster extends React.Component {
         <td>{course.prof}</td>
         <td>{course.rating}</td>
         <td>
-            <Button variant="danger" onClick={() => {this.handleClick(course)}}>
+            <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 20, height: 25}} onClick={() => {this.handleClick(course)}}>
             <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png" width="24px;" height="24px"></img>
             </Button>
         </td>
@@ -79,6 +80,7 @@ export default class ReactRoster extends React.Component {
         return(
             
             <div>
+                <div className={'roster'}>
                 <Table responsive>
                     <thead>
                     <tr>
@@ -92,21 +94,24 @@ export default class ReactRoster extends React.Component {
                     {this.renderRoster()}
 
                 </Table>
+                </div>
                 <div className={'rosterbottombar'}>
-                    <Table>
-                        <thead>
+                    <div class="bottombar">
+                    <Table >
+                        <thead >
                             <tr>
-                                <th>
+                                <th style={{border: 0}}>
                                     Credit Hours:
                                 </th>
-                                <th>
+                                <th style={{border: 0}}>
                                     Billing Credits:                               
                                 </th>
-                                <th>
+                                <th style={{border: 0}}>
                         <Button 
                             variant="success" 
                             type="submit" 
                             onClick={this.props.CRNs.getCRNs}
+                            style={{color:"white", backgroundColor: "teal", textTransform: "none"}}
                         >
                             Retreive CRNs
                         </Button>
@@ -114,6 +119,7 @@ export default class ReactRoster extends React.Component {
                             </tr>
                         </thead>
                     </Table>
+                    </div>
                 </div>
             </div>
             
