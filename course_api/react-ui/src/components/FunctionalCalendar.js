@@ -16,21 +16,13 @@ import TextField from "@material-ui/core/TextField";
 import { FormGroup, List } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Table from 'react-bootstrap/Table'
-import { blue } from '@material-ui/core/colors'
 import * as rosterdata from './roster.json'
+import SemesterSelector from "./SemesterSelector";
 
 
  let search_input = 1;
  let class_input = 1;
- /*
- let i;
-    for (i=0; i<rosterdata.courses.length; i++) {
-       this.setState({userCourses : this.state.userCourses.concat(class_input)}, () => {
-           this.state.userCourses[i] = rosterdata.courses[i];
-       })
-    console.log(this.state.userCourses[i])
-    }
-*/
+
  // helper function for checking class with existing classes
  function containsObject(obj, list) {
     var i;
@@ -39,14 +31,21 @@ import * as rosterdata from './roster.json'
             return true;
         }
     }
-
     return false;
 }
 
 // helper function for input of rgb
-function rgb(r, g, b){
+function rgb(crn){
+    let gray = 2.5
+    let brightness = 60
+    let r = (Math.sin(crn)+gray)*brightness
+    let g = (Math.sin(crn*crn)+gray)*brightness
+    let b = (Math.sin(crn*crn*crn)+gray)*(brightness+5)
     return "rgb("+r+","+g+","+b+")";
   }
+
+// helper function for "random" seed generator
+
 export default class FunctionalCalendar extends React.Component {
    constructor() {
        super();
@@ -66,6 +65,8 @@ export default class FunctionalCalendar extends React.Component {
        }
         this.onChange = this.onChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleSeasonChange = this.handleSeasonChange.bind(this)
+        this.handleYearChange = this.handleYearChange.bind(this)
         this.getCRNs = this.getCRNs.bind(this);
         this.setEventColors = this.setEventColors.bind(this);
         this.eventsel = this.eventsel.bind(this);
@@ -78,7 +79,7 @@ export default class FunctionalCalendar extends React.Component {
         for (i=0; i < this.state.userCourses.length; i++) {
             this.state.avgdisparity += this.state.userCourses[i].disparity*1;
         }
-        this.state.avgdisparity= this.state.avgdisparity/this.state.userCourses.length;
+        this.state.avgdisparity= Math.round((this.state.avgdisparity/this.state.userCourses.length)*100)/100
     }
     setTotalCredits() {
         let i;
@@ -103,16 +104,14 @@ export default class FunctionalCalendar extends React.Component {
        let i;
        this.state.totalcredits = 0;
     for (i=0; i < this.state.userCourses.length; i++) {
-        this.state.userCourses[i].backgroundColor = rgb(
-            this.state.userCourses[i].CRN/80, 
-            this.state.userCourses[i].rating*this.state.userCourses[i].rating*7, 
-            this.state.userCourses[i].CRN/100)
+    this.state.userCourses[i].backgroundColor = rgb(this.state.userCourses[i].CRN)
     this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
     this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
     this.state.userCourses[i].title = this.state.userCourses[i].name + " " + this.state.userCourses[i].rating + "/5 " + this.state.userCourses[i].disparity;
     this.state.totalcredits += this.state.userCourses[i].credits;
     } 
     console.log(this.state.totalcredits)
+    
    }
    
    
@@ -133,9 +132,7 @@ export default class FunctionalCalendar extends React.Component {
          this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
      }
      })
-    // alert("Adding " +search_input.title + " to schedule")
  }
-
  this.setTotalCredits();
  this.setAverageDisparity();
 }
@@ -154,7 +151,7 @@ export default class FunctionalCalendar extends React.Component {
      route: this.state.searchRoute
  }
  console.log("search route: " + this.state.searchCourseRoute);
- console.log("seearch_input: " + search_input.id);
+ console.log("search_input: " + search_input.id);
  console.log("this.state.department: " + this.state.department);
  console.log("selected class: " + class_input.id + " " +class_input.name);
  console.log(class_input);
@@ -205,10 +202,21 @@ export default class FunctionalCalendar extends React.Component {
        this.setState({userCourses : courselist})
    }*/
  
-   handleRemoveClick(courselist) {
-       this.setState({userCourses: courselist}, () => {
-       })
-   }
+handleRemoveClick(courselist) {
+    this.setState({userCourses: courselist}, () => {
+    })
+   
+}
+handleYearChange(newYear) {
+    this.setState({year: newYear}, () => {
+        this.setState({searchRoute: "search/" + this.state.year + "/"})
+    });
+}
+handleSeasonChange(newSeason) {
+    this.setState({season: newSeason}, () => {
+        this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season})
+    });
+}
  
    render() {
         /* 
@@ -243,7 +251,8 @@ export default class FunctionalCalendar extends React.Component {
                             //className={'semesterform'}
                             >
                             
-                            <SemesterSelect onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
+                            
+                            <SemesterSelector year={this.state.year} season={this.state.season} onYearChange={this.handleYearChange} onSeasonChange={this.handleSeasonChange}/>
                             </div>
                         </Carousel.Item>
                         <Carousel.Item>
@@ -405,7 +414,7 @@ export default class FunctionalCalendar extends React.Component {
                     avggpa={this.state.avgdisparity}
                     userCourses={this.state.userCourses}
                     CRNs={{getCRNs: this.getCRNs.bind(this)}}
-                    removeClick={{handleRemoveClick: this.handleRemoveClick.bind(this)} }/>
+                    removeClick={{handleRemoveClick: this.handleRemoveClick.bind(this)}}/>
             
         </div>
         
@@ -525,169 +534,3 @@ function Departments(props) {
   );
 }
 
-function SemesterSelect(props) {
-   return (
-      /* <div class="spacer">
-    
-       <Form>
-           <Form.Group controlId="Year">
-               <Form.Label>Year</Form.Label>
-               <Form.Control id = "year" type="text" value={props.year} placeholder="Enter year" onChange={props.onChange} />
-           </Form.Group>
- 
-           <Form.Group controlId="Season">
-               <Form.Label>Season</Form.Label>
-               <Form.Control id = "season" as="select" value={props.season} onChange={props.onChange} >
-                   <option>Fall</option>
-                   <option>Winter</option>
-                   <option>Spring</option>
-                   <option>Summer</option>
-               </Form.Control>
-           </Form.Group>
- 
-           <Button variant="primary" type="button" onClick={props.handleClick}>
-               update
-           </Button>
-       </Form>
-    
-       </div>*/
-
-    <Table>
-        <tbody>
-            <tr>
-                <td>
-                <div className={'semesterform'}>
-       <>
-  <InputGroup >
-  <div class="yearform">
-    <FormControl
-      placeholder="Year"
-      aria-label="Year"
-      aria-describedby="basic-addon2"
-      controlId="Year"
-      id = "year" 
-      type="text" 
-      value={props.year} 
-      placeholder="Enter year" 
-      onChange={props.onChange}
-      onClick={props.onChange}
-    />
-</div>
-<div class="seasonform">
-    <DropdownButton
-      as={InputGroup.Append}
-      variant="primary"
-      title="Season"
-      id="season"
-      //style={{width: 20}}
-      controlId="Season"
-      value={props.season} 
-      onChange={props.onChange}
-      //onClick={props.onChange}
-    >
-      <Dropdown.Item  href="#">Fall</Dropdown.Item>
-      <Dropdown.Item href="#">Winter</Dropdown.Item>
-      <Dropdown.Item href="#">Spring</Dropdown.Item>
-      <Dropdown.Item href="#">Summer</Dropdown.Item>
-    
-    </DropdownButton>
-    </div>
-  </InputGroup>
-</>
-</div>
-</td>
-</tr>
-</tbody>
-</Table>
-
-
-   );
-}
-/*
-function OptionSelect(props) {
-    const [list, setList] = useState([]);
-    const [options, setOptions] = React.useState([]);
-    const type = props.type
-    useEffect(() => {
-        fetch(props.route).then(response => response.json().then(data => {
-            setList(data);
-            setOptions(data);
-        })
-        );
-    }, []) 
-    
-    const buttonStyle = {
-        height: "25px",
-        padding: "1px",
-        margin: "1px",
-        fontFamily: "Arial",
-        fontSize: "15px",
-        border: "1px solid lightgray",
-        borderRadius: "5px"
-    }
-    
-    return (
-       <div>
-            {list.map(item => {
-                return (  
-                    <Button style = {buttonStyle} variant="primary" type="submit" onClick={props.handleClick}>
-                        {item.id + ": " + item.name}
-                    </Button>
-                )
-            })}
-
-           <Button variant="primary" type="submit" onClick={props.handleClick}>
-               Next
-           </Button>
-       </div>
-   );
-}
-*/
-
-/*
-function FilterCourses(props) {
-   return(
-       <div className={'filters'}>
-           <label>
-               <div>
-                   Credits
-                   <div>
-                       <input
-                           type={'number'}
-                           min={1}
-                           max={4}
-                       />
-                   </div>
-               </div>
- 
-               <div>
-                   Professor
-                   <Autocomplete
-                       className="professor_filter"
-                       //create function to get all professor for certain course
-                       options={props.options}
-                       autoComplete={true}
-                       onChange={(event, object) => {
-                       }}
-                       getOptionLabel={(option) => option.prof}
-                       renderInput={(params) => <TextField {...params} variant="outlined"/>}
-                   />
-               </div>
-               <div>
-                   Department
-                   <Autocomplete
-                       className="Department_filter"
-                       //create function to get all professor for certain course
-                       options={props.options}
-                       autoComplete={true}
-                       onChange={(event, object) => {
-                       }}
-                       getOptionLabel={(option) => option.department}
-                       renderInput={(params) => <TextField {...params} variant="outlined"/>}
-                   />
-               </div>
-           </label>
-       </div>
-   )
-}
-*/

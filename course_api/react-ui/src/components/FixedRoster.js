@@ -59,18 +59,21 @@ export default class ReactRoster extends React.Component {
                 <Accordion.Collapse eventKey="0">
                     <div className={"roster_details"}>
                         <tr>{course.type} : {course.section}</tr>
+                        <tr> credits: {course.credits}</tr>
                         <tr> CRN: {course.CRN}</tr>
-                        <tr> Meets: {course.daysOfWeek}</tr>
+                        <tr> meets: {course.daysOfWeek}</tr>
                     </div>
                 </Accordion.Collapse>
         </Accordion></td>
+        
         <td>{course.prof}</td>
+        <td>{course.disparity}</td>
         <td>{course.rating}</td>
         <td>
             <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 10, height: 25}} onClick={() => {this.handleClick(course)}}>
             <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png" width="24px;" height="24px"></img>
             </Button>
-        </td>
+        </td> 
         </tr>      
             ));
         return mapCourses;
@@ -78,7 +81,6 @@ export default class ReactRoster extends React.Component {
 
     render() {
         return(
-            
             <div>
                 <div className={'roster'}>
                 <Table responsive>
@@ -86,6 +88,7 @@ export default class ReactRoster extends React.Component {
                     <tr>
                         <th>Class</th>
                         <th>prof</th>
+                        <th>GPA</th>
                         <th>rating</th>
                         <th></th>
                     </tr>
@@ -101,7 +104,7 @@ export default class ReactRoster extends React.Component {
                         <thead >
                             <tr>
                                 <th style={{border: 0}}>
-                                    Credit Hours: {this.props.credits*1}
+                                    Credits: {this.props.credits*1}
                                 </th>
                                 <th style={{border: 0}}>
                                     Avg GPA: {this.props.avggpa*1}                             
@@ -126,86 +129,3 @@ export default class ReactRoster extends React.Component {
         )
     }
 }
-/*
-export default class ReactRoster extends React.Component {
-
-    render() {
-
-        const renObjData = this.props.userCourses.map(function(data, idx) {
-            return ([
-                <Accordion>
-                    <Card>
-                        <Card.Header>
-                            <Accordion.Toggle as={Card.Header} eventKey="0">
-                                <div>
-                                    <b>
-                                    <td key={idx}>{data.title}</td>
-                                    <td key={idx}>{data.prof}</td>
-                                    <td key={idx}>{data.rating}</td>
-                                    
-                                    </b>
-                                </div>
-                            </Accordion.Toggle>
-                        </Card.Header>
-                        <Accordion.Collapse eventKey="0">
-                            <div className={"roster_details"}>
-                                <tr key={idx}>{data.type} : {data.section}</tr>
-                                <tr key={idx}> CRN: {data.CRN}</tr>
-                                <tr key={idx}> Meets: {data.daysOfWeek}</tr>
-                            </div>
-                        </Accordion.Collapse>
-                    </Card>
-                </Accordion>
-            ]);
-        });
-
-        return(
-            <body>
-            <div>
-                <Table responsive>
-                    <thead>
-                    <tr>
-                        <th>Class</th>
-                        <th>prof</th>
-                        <th>rating</th>
-                    </tr>
-                    </thead>
-
-                    {renObjData}
-
-                </Table>
-                <div className={'rosterbottombar'}>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>
-                                    Credit Hours:
-                                </th>
-                                <th>
-                                    Billing Credits:                               
-                                </th>
-                                <th>
-                        <Button 
-                            variant="success" 
-                            type="submit" 
-                            //onClick={this.handleAddClick}
-                        >
-                            Retreive CRNs
-                        </Button>
-                        </th>
-                            </tr>
-                        </thead>
-                    </Table>
-                </div>
-            </div>
-
-            <div>
-
-            </div>
-            </body>
-
-
-        )
-    }
-}
-*/

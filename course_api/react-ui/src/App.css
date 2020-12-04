@@ -13,10 +13,10 @@
   border-radius: 5px;
   position: static;
   min-height: 293px;
-  min-width: 325px;
+  min-width: 340px;
   width: 400px;
   max-width: 600px;
-  height: 50%;
+  height: 30%;
   max-height: 400px;
   font-size: 12px;
   resize: both;
@@ -98,7 +98,7 @@
   overflow: auto;
 }
 .yearform {
-  width: calc(90% - 110px);
+  width: calc(100% - 105px);
   vertical-align: center;
   float: left;
 }
@@ -140,6 +140,7 @@
 }
 .roster_details {
   background-color: #5e5e5e;
+  padding: 5px;
 }
 .rostertable {
   font-size: 13px;

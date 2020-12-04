@@ -3,8 +3,6 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import { Calendar } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction'
 import React from 'react';
-
-import ClassSearchBar from "./ClassSearchBar";
 import * as rosterdata from './roster.json'
 
 
