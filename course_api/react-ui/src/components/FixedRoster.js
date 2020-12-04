@@ -67,7 +67,7 @@ export default class ReactRoster extends React.Component {
         <td>{course.prof}</td>
         <td>{course.rating}</td>
         <td>
-            <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 20, height: 25}} onClick={() => {this.handleClick(course)}}>
+            <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 10, height: 25}} onClick={() => {this.handleClick(course)}}>
             <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png" width="24px;" height="24px"></img>
             </Button>
         </td>
@@ -104,14 +104,14 @@ export default class ReactRoster extends React.Component {
                                     Credit Hours: {this.props.credits*1}
                                 </th>
                                 <th style={{border: 0}}>
-                                    Billing Credits:                               
+                                    Avg GPA: {this.props.avggpa*1}                             
                                 </th>
                                 <th style={{border: 0}}>
                         <Button 
                             variant="success" 
                             type="submit" 
                             onClick={this.props.CRNs.getCRNs}
-                            style={{color:"white", backgroundColor: "teal", textTransform: "none"}}
+                            style={{color:"white", backgroundColor: "#25acb1", textTransform: "none", width: 116, height: 24}}
                         >
                             Retreive CRNs
                         </Button>

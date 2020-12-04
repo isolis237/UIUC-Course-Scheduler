@@ -167,10 +167,11 @@ table, th {
   color: #fff;
   background-color: #d9534f;
   border-color: #d43f3a;
+  width: 10px;
 }
 .btn-crn {
   color: #fff;
-  background-color: #34c2c7;
+  background-color: #25acb1;
   border-color: #3ac2d4;
 }
 /*.MuiButton-root, .MuiButtonBase-root, .rosterbutton {

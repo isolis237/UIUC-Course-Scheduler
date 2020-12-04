@@ -6,6 +6,8 @@
       "name": "ECE 220",
       "prof": "Schmidt",
       "rating": "4.5",
+      "disparity": "3.0",
+      "credits": "3",
       "section": "L1",
       "CRN": "12342",
       "type": "Lecture",
@@ -15,15 +17,15 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto",
-      "disparity": 3.0,
-      "credits:": 3
+      "display": "auto"
     } ,
     {
       "title": "ECE 220 ratemyprof: 4/5 avg gpa: 3.0",
       "name": "ECE 220",
       "prof": "Schmidt",
       "rating": "4.5",
+      "disparity": "3.0",
+      "credits": "3",
       "section": "L2",
       "CRN": "12352",
       "type": "Lecture",
@@ -32,15 +34,15 @@
       "startTime": "09:00",
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
-      "display": "none",
-      "disparity": 3.0,
-      "credits:": 3
+      "display": "none"
     } ,
     {
       "title": "ECE 210 ratemyprof: 4/5 avg gpa: 3.0",
       "name": "ECE 210",
       "prof": "Schmidt",
       "rating": "4",
+      "disparity": "3.0",
+      "credits": "3",
       "section": "M2",
       "CRN": "12222",
       "type": "Lab",
@@ -50,15 +52,15 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto",
-      "disparity": 3.0,
-      "credits:": 3
+      "display": "auto"
     } ,
     {
       "title": "MATH 231 ratemyprof: 4/5 avg gpa: 3.0",
       "name": "MATH 231",
       "prof": "Guzman",
       "rating": "4",
+      "disparity": "3.0",
+      "credits": "3",
       "section": "L2",
       "CRN": "12352",
       "type": "Lecture",
@@ -67,15 +69,15 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto",
-      "disparity": 3.0,
-      "credits:": 3
+      "display": "auto"
     },
     {
       "title": "RHET 105 ratemyprof: 4/5 avg gpa: 3.0",
       "name": "RHET 105",
       "prof": "Lee",
       "rating": "4",
+      "disparity": "3.0",
+      "credits": "3",
       "section": "L3",
       "CRN": "12362",
       "type": "Lecture",
@@ -84,15 +86,15 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto",
-      "disparity": 3.0,
-      "credits:": 3
+      "display": "auto"
     },
     {
       "title": "MCB 150 ratemyprof: 4/5 avg gpa: 3.0",
       "name": "MCB 150",
       "prof": "Helen",
       "rating": "5",
+      "disparity": "3.0",
+      "credits": "3",
       "section": "L1",
       "CRN": "12372",
       "type": "Lecture",
@@ -101,15 +103,15 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto",
-      "disparity": 3.0,
-      "credits:": 3
+      "display": "auto"
     },
     {
       "title": "CS 125 ratemyprof: 4/5 avg gpa: 3.0",
       "name": "CS 125",
       "prof": "Chapman",
       "rating": "4",
+      "disparity": "3.0",
+      "credits": "3",
       "section": "L1",
       "CRN": "12382",
       "type": "Lecture",
@@ -118,15 +120,15 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto",
-      "disparity": 3.0,
-      "credits:": 3
+      "display": "auto"
     },
     {
       "title": "CS 196 ratemyprof: 4/5 avg gpa: 3.0",
       "name": "CS 196",
       "prof": "Sami/Rohan",
       "rating": "6",
+      "disparity": "3.0",
+      "credits": "3",
       "section": "L1",
       "CRN": "12392",
       "type": "Lecture",
@@ -135,15 +137,15 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto",
-      "disparity": 3.0,
-      "credits:": 3
+      "display": "auto"
     },
     {
       "title": "CS 173 ratemyprof: 4/5 avg gpa: 3.0",
       "name": "CS 173",
       "prof": "Professor a",
       "rating": "3",
+      "disparity": "3.0",
+      "credits": "3",
       "section": "L1",
       "CRN": "12922",
       "type": "Discussion",
@@ -152,15 +154,15 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto",
-      "disparity": 3.0,
-      "credits:": 3
+      "display": "auto"
     },
     {
       "title": "ENG 100 ratemyprof: 4/5 avg gpa: 3.0",
       "name": "ENG 100",
       "prof": "...",
-      "rating": "...",
+      "rating": "3",
+      "disparity": "3.0",
+      "credits": "3",
       "section": "L1",
       "CRN": "12402",
       "type": "Lecture",
@@ -169,9 +171,7 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto",
-      "disparity": 3.0,
-      "credits:": 3
+      "display": "auto"
     }
   ]
 

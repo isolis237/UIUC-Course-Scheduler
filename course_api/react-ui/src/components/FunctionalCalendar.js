@@ -57,19 +57,36 @@ export default class FunctionalCalendar extends React.Component {
            searchRoute : "",
            searchCourseRoute : "",
            rosterRoute : "",
-           searchStage : 0,
+           searchStage : "0",
            userCourses: rosterdata.courses,
            name: "test",
-           mingpa: 0,
-           totalcredits: 0
+           mingpa: "0",
+           totalcredits: "0",
+           avgdisparity: "0"
        }
         this.onChange = this.onChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.getCRNs = this.getCRNs.bind(this);
         this.setEventColors = this.setEventColors.bind(this);
         this.eventsel = this.eventsel.bind(this);
-        
+        this.setTotalCredits = this.setTotalCredits.bind(this);
+        this.setAverageDisparity = this.setAverageDisparity.bind(this);
    }
+    setAverageDisparity() {
+       let i;
+        this.state.avgdisparity = 0;
+        for (i=0; i < this.state.userCourses.length; i++) {
+            this.state.avgdisparity += this.state.userCourses[i].disparity*1;
+        }
+        this.state.avgdisparity= this.state.avgdisparity/this.state.userCourses.length;
+    }
+    setTotalCredits() {
+        let i;
+         this.state.totalcredits = 0;
+         for (i=0; i < this.state.userCourses.length; i++) {
+             this.state.totalcredits += this.state.userCourses[i].credits*1;
+         }
+     }
    eventsel(i) {
     this.state.userCourses[i].display = "auto"
     this.state.userCourses[i].backgroundColor = "blue"
@@ -98,8 +115,8 @@ export default class FunctionalCalendar extends React.Component {
     console.log(this.state.totalcredits)
    }
    
+   
   handleAddClick() {
-      
     console.log(class_input.id)
  if (class_input==null) {
      alert("Cannot add null class!")
@@ -118,6 +135,9 @@ export default class FunctionalCalendar extends React.Component {
      })
     // alert("Adding " +search_input.title + " to schedule")
  }
+
+ this.setTotalCredits();
+ this.setAverageDisparity();
 }
     handleClick() {
         
@@ -210,6 +230,8 @@ export default class FunctionalCalendar extends React.Component {
        */
        return(
            this.setEventColors(),
+           this.setTotalCredits(),
+           this.setAverageDisparity(),
            //this.state.userCourses[1].display = "auto",
         <html>
         <div className={'left_container'} style={{height: window.innerHeight, maxHeight: window.innerHeight}}>
@@ -380,6 +402,7 @@ export default class FunctionalCalendar extends React.Component {
             
                 <ReactRoster
                     credits={this.state.totalcredits}
+                    avggpa={this.state.avgdisparity}
                     userCourses={this.state.userCourses}
                     CRNs={{getCRNs: this.getCRNs.bind(this)}}
                     removeClick={{handleRemoveClick: this.handleRemoveClick.bind(this)} }/>
