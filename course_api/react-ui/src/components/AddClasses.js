@@ -92,7 +92,7 @@ function AddClass(props) {
           setOptions(data);
       })
       );
-        await sleep(1e3);    
+        await sleep(1e3);
         let countries = "loading";
         if (response != null) {
         countries = await response.json();

@@ -18,11 +18,18 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Table from 'react-bootstrap/Table'
 import { blue } from '@material-ui/core/colors'
 
+import CourseSelect from "./CourseSelect";
+
 import SemesterSelector from "./SemesterSelector";
 
 let search_input = 1;
 let class_input = 1;
 
+export function sleep(delay = 0) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, delay);
+    });
+}
 // helper function for checking class with existing classes
 function containsObject(obj, list) {
     var i;
@@ -45,7 +52,7 @@ export default class FunctionalCalendar extends React.Component {
         super();
         this.state = {
             year: "",
-            season: "Fall",
+            season: "Semester",
             department: "",
             searchRoute : "",
             searchCourseRoute : "",
@@ -59,6 +66,8 @@ export default class FunctionalCalendar extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleSeasonChange = this.handleSeasonChange.bind(this)
         this.handleYearChange = this.handleYearChange.bind(this)
+        this.handleDeptSelect = this.handleDeptSelect.bind(this)
+        this.handleClassSelect = this.handleClassSelect.bind(this)
     }
 
     handleAddClick() {
@@ -149,6 +158,15 @@ export default class FunctionalCalendar extends React.Component {
     handleRemoveClick(courselist) {
         this.setState({userCourses: courselist}, () => {
         })
+    }
+
+    handleDeptSelect(newDept) {
+        this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season + "/"
+        + newDept}, () => {console.log(this.state.searchRoute)})
+    }
+    handleClassSelect(newClass) {
+        this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season + "/"
+                + this.state.department + "/" + newClass}, () => {console.log(this.state.searchRoute)})
     }
 
     handleYearChange(newYear) {
@@ -302,10 +320,10 @@ export default class FunctionalCalendar extends React.Component {
                                     <tbody>
                                     <tr>
                                         <td>
-                                            <CourseSelector route= {this.state.searchRoute} type="department" onChange={this.onChange} handleClick={this.handleClick}/>
+                                            <CourseSelect route={this.state.searchRoute} onDeptSelect={this.handleDeptSelect} type={"department"}/>
                                         </td>
                                         <td>
-                                            <CourseSelector route= {this.state.searchCourseRoute} type="classes" onChange={this.onChange} handleClick={this.handleClick}/>
+                                            <CourseSelect route={this.state.searchRoute} onClassSelect={this.handleClassSelect} type={"classes"}/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -348,151 +366,6 @@ export default class FunctionalCalendar extends React.Component {
     }
 }
 
-
-export function sleep(delay = 0) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay);
-    });
-}
-
-function CourseSelector(props) {
-    const [open, setOpen] = React.useState(false);
-    const [options, setOptions] = React.useState([]);
-    const loading = open && options.length === 0;
-
-    React.useEffect(() => {
-        let active = true;
-
-        if (!loading) {
-            return undefined;
-        }
-        var type = props.type;
-        const response = "loading";
-        (async () => {
-
-            const response = await fetch(props.route).then(response => response.json().then(data => {
-                    setOptions(data);
-                })
-            );
-            await sleep(1e3); // For demo purposes.
-            const countries = "loading";
-            /* if (response != null) {
-             countries = await response.json();
-           }*/
-            if (active) {
-                setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
-            }
-        })();
-
-        return () => {
-            active = false;
-        };
-    }, [loading]);
-
-    React.useEffect(() => {
-        if (!open) {
-            setOptions([]);
-        }
-    }, [open]);
-
-    return (
-        <div >
-            <Autocomplete
-                id={props.type}
-                size="small"
-                //multiple
-                //limitTags={2}
-                //style={{ width: 200 }}
-                open={open}
-                onOpen={() => {
-                    setOpen(true);
-                }}
-                onClose={() => {
-                    setOpen(false);
-                }}
-                getOptionSelected={(option, value) => option.name === value.name}
-                getOptionLabel={(option) => option.id + ": " + option.name}
-                options={options}
-                loading={loading}
-                onClick={props.onChange}
-                onChange={props.onChange,
-                    (event, object) => {
-                    if (props.type == "department") {
-                        console.log(props.type)
-                    search_input = object;
-                }
-                    else if (props.type == "classes") {
-                        console.log(props.type)
-                    class_input = object;
-                }
-
-                }}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        id={props.type}
-                        label={props.type}
-                        variant="outlined"
-                        value={props.type}
-                        onChange={props.onChange}
-                        InputProps={{
-                            ...params.InputProps,
-                            endAdornment: (
-                                <React.Fragment>
-                                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                                    {params.InputProps.endAdornment}
-                                </React.Fragment>
-                            ),
-                        }}
-                    />
-
-                )}
-            />
-        </div>
-    );
-}
-
-
-/*
-function OptionSelect(props) {
-    const [list, setList] = useState([]);
-    const [options, setOptions] = React.useState([]);
-    const type = props.type
-    useEffect(() => {
-        fetch(props.route).then(response => response.json().then(data => {
-            setList(data);
-            setOptions(data);
-        })
-        );
-    }, []) 
-    
-    const buttonStyle = {
-        height: "25px",
-        padding: "1px",
-        margin: "1px",
-        fontFamily: "Arial",
-        fontSize: "15px",
-        border: "1px solid lightgray",
-        borderRadius: "5px"
-    }
-    
-    return (
-       <div>
-            {list.map(item => {
-                return (  
-                    <Button style = {buttonStyle} variant="primary" type="submit" onClick={props.handleClick}>
-                        {item.id + ": " + item.name}
-                    </Button>
-                )
-            })}
-
-           <Button variant="primary" type="submit" onClick={props.handleClick}>
-               Next
-           </Button>
-       </div>
-   );
-}
-*/
 
 /*
 function FilterCourses(props) {
