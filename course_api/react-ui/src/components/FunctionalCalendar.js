@@ -5,7 +5,7 @@ import ReactRoster from "./FixedRoster"
 import "../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "../App.css"
 import Carousel from 'react-bootstrap/Carousel';
-import {Button, Dropdown, DropdownButton} from 'react-bootstrap';
+import {Button, Dropdown, DropdownButton, ThemeProvider} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
@@ -69,7 +69,27 @@ export default class FunctionalCalendar extends React.Component {
            year: "",
            season: "Season",
            department: "",
-           class: "none",
+           class: {
+            title: "Temp",
+            name: "none",
+            number: "none",
+            department: "none",
+            prof: "none",
+            rating: "0",
+            disparity: "0",
+            credits: "0",
+            section: "L1",
+            CRN: "12402",
+            type: "Lecture",
+            daysOfWeek: [2, 4],
+            startTime: "14:00",
+            slotDuration: "00:50",
+            groupId: "this will be changed automatically",
+            id: "1",
+            display: "auto",
+            seatsleft: "0",
+            capacity: "30"
+           },
            searchRoute : "",
            searchCourseRoute : "",
            rosterRoute : "",
@@ -85,6 +105,8 @@ export default class FunctionalCalendar extends React.Component {
        }
         this.onChange = this.onChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleAddClick = this.handleAddClick.bind(this);
+        this.setClass = this.setClass.bind(this);
         this.handleSeasonChange = this.handleSeasonChange.bind(this)
         this.handleYearChange = this.handleYearChange.bind(this)
         this.handleDeptSelect = this.handleDeptSelect.bind(this)
@@ -155,30 +177,29 @@ export default class FunctionalCalendar extends React.Component {
     this.state.userCourses[i].capacity + " (FULL)";
     }
 
-    this.state.totalcredits += this.state.userCourses[i].credits;
+    this.state.totalcredits += this.state.userCourses[i].credits*1;
     } 
     console.log(this.state.totalcredits)
     
    }
    
-   
+   setClass(courselist) {
+    this.setState({userCourses : courselist})
+}
   handleAddClick() {
-    alert(this.state.mingpa)
-    alert(this.state.class)
- if (this.state.class==null) {
+      //this is a temporary class template until the api is done
+     
+      
+      console.log(this.state.class)
+ if (this.state.class.name==null) {
      alert("Cannot add null class!")
  }
- else if (containsObject(this.state.class, this.state.userCourses)) {
+ else if (containsObject(this.state.class.name, this.state.userCourses)) {
      alert("Class already in schedule!");
  } else {
-     this.setState({userCourses : this.state.userCourses.concat(class_input)}, () => {
-         this.props.addClick.handleAddClick(this.state.userCourses);
-         let i;
-         for (i=0; i < this.state.userCourses.length; i++) {
-         this.state.userCourses[i].backgroundColor = rgb(this.state.userCourses[i].CRN/8, this.state.userCourses[i].rating*this.state.userCourses[i].rating*7, this.state.userCourses[i].CRN/10)
-         this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
-         this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
-     }
+     this.setState({
+         userCourses : this.state.userCourses.concat(this.state.class)}, () => {
+         this.setClass(this.state.userCourses);
      })
  }
  this.setTotalCredits();
@@ -272,12 +293,34 @@ handleSeasonChange(newSeason) {
     });
 }
 handleDeptSelect(newDept) {
-    this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season + "/"
+    this.setState({
+        department: newDept,
+        searchRoute: "search/" + this.state.year + "/" + this.state.season + "/"
     + newDept}, () => {console.log(this.state.searchRoute)})
 }
 handleClassSelect(newClass) {
     this.setState({
-        class: newClass,
+        class: {
+            title: "temp",
+            name: this.state.department + " " + newClass,
+            number: newClass,
+            department: this.state.department,
+            prof: "...",
+            rating: "3",
+            disparity: "3.0",
+            credits: "3",
+            section: "L1",
+            CRN: "12402",
+            type: "Lecture",
+            daysOfWeek: [2, 4],
+            startTime: "14:00",
+            slotDuration: "00:50",
+            groupId: "this will be changed automatically",
+            id: "1",
+            display: "auto",
+            seatsleft: "0",
+            capacity: "30"
+        },
         searchRoute: "search/" + this.state.year + "/" + this.state.season + "/"
             + this.state.department + "/" + newClass}, () => {console.log(this.state.searchRoute);
             console.log(this.state.class);})

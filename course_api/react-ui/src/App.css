@@ -188,6 +188,8 @@ input:checked + .slider:before {
   flex-flow: column;
   width: calc(100% - 12px);
   
+  max-height: 593px;
+  
   border-radius: 5px;
   background-color: #353535;
 }
@@ -313,6 +315,12 @@ td {
 }
 .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiAutocomplete-inputRoot {
   background-color:whitesmoke;
+}
+.MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child {
+  width: 200%;
+  margin-right: -27px;
+ 
+
 }
 .fc-theme-standard td, .fc-theme-standard th, .fc .fc-scrollgrid {
   border: 1px solid rgb(41, 41, 41);
