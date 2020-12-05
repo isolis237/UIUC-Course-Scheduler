@@ -17,7 +17,9 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto"
+      "display": "auto",
+      "seatsleft": "1",
+      "capacity": "30"
     } ,
     {
       "title": "ECE 220 ratemyprof: 4/5 avg gpa: 3.0",
@@ -34,7 +36,9 @@
       "startTime": "09:00",
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
-      "display": "none"
+      "display": "none",
+      "seatsleft": "1",
+      "capacity": "30"
     } ,
     {
       "title": "ECE 210 ratemyprof: 4/5 avg gpa: 3.0",
@@ -52,7 +56,9 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto"
+      "display": "auto",
+      "seatsleft": "1",
+      "capacity": "30"
     } ,
     {
       "title": "MATH 231 ratemyprof: 4/5 avg gpa: 3.0",
@@ -69,7 +75,9 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto"
+      "display": "auto",
+      "seatsleft": "1",
+      "capacity": "30"
     },
     {
       "title": "RHET 105 ratemyprof: 4/5 avg gpa: 3.0",
@@ -86,7 +94,9 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto"
+      "display": "auto",
+      "seatsleft": "1",
+      "capacity": "30"
     },
     {
       "title": "MCB 150 ratemyprof: 4/5 avg gpa: 3.0",
@@ -103,7 +113,9 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto"
+      "display": "auto",
+      "seatsleft": "0",
+      "capacity": "30"
     },
     {
       "title": "CS 125 ratemyprof: 4/5 avg gpa: 3.0",
@@ -120,7 +132,9 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto"
+      "display": "auto",
+      "seatsleft": "0",
+      "capacity": "30"
     },
     {
       "title": "CS 196 ratemyprof: 4/5 avg gpa: 3.0",
@@ -137,7 +151,9 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto"
+      "display": "auto",
+      "seatsleft": "0",
+      "capacity": "30"
     },
     {
       "title": "CS 173 ratemyprof: 4/5 avg gpa: 3.0",
@@ -154,7 +170,9 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto"
+      "display": "auto",
+      "seatsleft": "0",
+      "capacity": "30"
     },
     {
       "title": "ENG 100 ratemyprof: 4/5 avg gpa: 3.0",
@@ -171,7 +189,47 @@
       "slotDuration": "00:50",
       "groupId": "this will be changed automatically",
       "id": "1",
-      "display": "auto"
+      "display": "auto",
+      "seatsleft": "0",
+      "capacity": "30"
+    },
+    {
+      "title": "ENG 100 ratemyprof: 4/5 avg gpa: 3.0",
+      "name": "ENG 100",
+      "prof": "...",
+      "rating": "3",
+      "disparity": "3.0",
+      "credits": "3",
+      "section": "L1",
+      "CRN": "12402",
+      "type": "Lecture",
+      "daysOfWeek": [1],
+      "startTime": "14:00",
+      "slotDuration": "00:50",
+      "groupId": "this will be changed automatically",
+      "id": "1",
+      "display": "auto",
+      "seatsleft": "0",
+      "capacity": "30"
+    },
+    {
+      "title": "ENG 100 ratemyprof: 4/5 avg gpa: 3.0",
+      "name": "ENG 100",
+      "prof": "...",
+      "rating": "3",
+      "disparity": "3.0",
+      "credits": "3",
+      "section": "L1",
+      "CRN": "12402",
+      "type": "Lecture",
+      "daysOfWeek": [1],
+      "startTime": "14:00",
+      "slotDuration": "00:50",
+      "groupId": "this will be changed automatically",
+      "id": "1",
+      "display": "auto",
+      "seatsleft": "0",
+      "capacity": "30"
     }
   ]
 

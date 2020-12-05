@@ -2,10 +2,8 @@ import React, {useEffect, useState} from 'react'
 import ReactCalendar from './ReactCalendar'
 import AddClasses from './AddClasses'
 import ReactRoster from "./FixedRoster"
- 
 import "../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "../App.css"
- 
 import Carousel from 'react-bootstrap/Carousel';
 import {Button, Dropdown, DropdownButton} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
@@ -18,10 +16,25 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Table from 'react-bootstrap/Table'
 import * as rosterdata from './roster.json'
 import SemesterSelector from "./SemesterSelector";
+import 'bootstrap/dist/css/bootstrap.css'; // or include from a CDN
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+import CourseSelect from "./CourseSelect";
 
 
  let search_input = 1;
  let class_input = 1;
+
+ /*
+ var r = document.querySelector(':root');
+ function myFunction_get() {
+    var rs = getComputedStyle(r);
+    alert("The value of --height is: " + rs.getPropertyValue('--height'));
+  }
+  function myFunction_set() {
+    r.style.setProperty('--height', );
+  }
+*/
+
 
  // helper function for checking class with existing classes
  function containsObject(obj, list) {
@@ -35,12 +48,15 @@ import SemesterSelector from "./SemesterSelector";
 }
 
 // helper function for input of rgb
-function rgb(crn){
+function color(crn){
     let gray = 2.5
     let brightness = 60
     let r = (Math.sin(crn)+gray)*brightness
     let g = (Math.sin(crn*crn)+gray)*brightness
     let b = (Math.sin(crn*crn*crn)+gray)*(brightness+5)
+    return "rgb("+r+","+g+","+b+")";
+  }
+  function rgb(r, g, b){
     return "rgb("+r+","+g+","+b+")";
   }
 
@@ -51,8 +67,9 @@ export default class FunctionalCalendar extends React.Component {
        super();
        this.state = {
            year: "",
-           season: "Fall",
+           season: "Season",
            department: "",
+           class: "none",
            searchRoute : "",
            searchCourseRoute : "",
            rosterRoute : "",
@@ -61,12 +78,17 @@ export default class FunctionalCalendar extends React.Component {
            name: "test",
            mingpa: "0",
            totalcredits: "0",
-           avgdisparity: "0"
+           avgdisparity: "0",
+           filterstarttime: "0",
+           filterendtime: "0",
+           opensections: "false"
        }
         this.onChange = this.onChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleSeasonChange = this.handleSeasonChange.bind(this)
         this.handleYearChange = this.handleYearChange.bind(this)
+        this.handleDeptSelect = this.handleDeptSelect.bind(this)
+        this.handleClassSelect = this.handleClassSelect.bind(this)
         this.getCRNs = this.getCRNs.bind(this);
         this.setEventColors = this.setEventColors.bind(this);
         this.eventsel = this.eventsel.bind(this);
@@ -80,6 +102,9 @@ export default class FunctionalCalendar extends React.Component {
             this.state.avgdisparity += this.state.userCourses[i].disparity*1;
         }
         this.state.avgdisparity= Math.round((this.state.avgdisparity/this.state.userCourses.length)*100)/100
+        if (this.state.userCourses.length == 0){
+            this.state.avgdisparity = 0;
+        }
     }
     setTotalCredits() {
         let i;
@@ -89,8 +114,10 @@ export default class FunctionalCalendar extends React.Component {
          }
      }
    eventsel(i) {
-    this.state.userCourses[i].display = "auto"
-    this.state.userCourses[i].backgroundColor = "blue"
+    this.state.userCourses[i*1].display = "auto"
+    //this.state.userCourses[1].setProp( "backgroundColor", "blue")
+    this.state.userCourses[i*1].backgroundColor = "blue"
+    console.log("test")
    }
    getCRNs() {
     let i;
@@ -104,10 +131,30 @@ export default class FunctionalCalendar extends React.Component {
        let i;
        this.state.totalcredits = 0;
     for (i=0; i < this.state.userCourses.length; i++) {
-    this.state.userCourses[i].backgroundColor = rgb(this.state.userCourses[i].CRN)
+    this.state.userCourses[i].backgroundColor = color(this.state.userCourses[i].CRN)
     this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
     this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
-    this.state.userCourses[i].title = this.state.userCourses[i].name + " " + this.state.userCourses[i].rating + "/5 " + this.state.userCourses[i].disparity;
+    this.state.userCourses[i].title = 
+
+    this.state.userCourses[i].name + " \n" +
+    this.state.userCourses[i].disparity + " " + 
+    this.state.userCourses[i].rating + "/5 " + 
+    this.state.userCourses[i].seatsleft + "/" + 
+    this.state.userCourses[i].capacity;
+
+    //full class
+    if (this.state.userCourses[i].seatsleft == 0) {
+        this.state.userCourses[i].backgroundColor = rgb(50, 30, 30)  
+        this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
+        this.state.userCourses[i].title = 
+
+    this.state.userCourses[i].name + " \n" +
+    this.state.userCourses[i].disparity + " " + 
+    this.state.userCourses[i].rating + "/5 " + 
+    this.state.userCourses[i].seatsleft + "/" + 
+    this.state.userCourses[i].capacity + " (FULL)";
+    }
+
     this.state.totalcredits += this.state.userCourses[i].credits;
     } 
     console.log(this.state.totalcredits)
@@ -116,11 +163,12 @@ export default class FunctionalCalendar extends React.Component {
    
    
   handleAddClick() {
-    console.log(class_input.id)
- if (class_input==null) {
+    alert(this.state.mingpa)
+    alert(this.state.class)
+ if (this.state.class==null) {
      alert("Cannot add null class!")
  }
- else if (containsObject(class_input, this.state.userCourses)) {
+ else if (containsObject(this.state.class, this.state.userCourses)) {
      alert("Class already in schedule!");
  } else {
      this.setState({userCourses : this.state.userCourses.concat(class_input)}, () => {
@@ -146,10 +194,7 @@ export default class FunctionalCalendar extends React.Component {
         searchStage : this.state.searchStage + 1, 
         mingpa: this.state.mingpa,
     });
-    var prop = {
-     type: "Department",
-     route: this.state.searchRoute
- }
+    
  console.log("search route: " + this.state.searchCourseRoute);
  console.log("search_input: " + search_input.id);
  console.log("this.state.department: " + this.state.department);
@@ -178,8 +223,20 @@ export default class FunctionalCalendar extends React.Component {
         if (e.target.id === "department") {
             this.setState({department: e.target.value}, () => {updateRoutes()});
         }
+        if (e.target.id === "class") {
+            this.setState({class: e.target.value}, () => {updateRoutes()});
+        }
         if (e.target.id === "gpaslider") {
             this.setState({mingpa: e.target.value}, () => {updateRoutes()});
+        }
+        if (e.target.id === "starttimeslider") {
+            this.setState({filterstarttime: e.target.value}, () => {updateRoutes()});
+        }
+        if (e.target.id === "endtimeslider") {
+            this.setState({filterendtime: e.target.value}, () => {updateRoutes()});
+        }
+        if (e.target.id === "opensections") {
+            this.setState({ opensections: e.target.value }, () => {updateRoutes()});
         }
         //this.setState({userCourses : rosterdata.courses})
        this.setState({
@@ -187,15 +244,12 @@ export default class FunctionalCalendar extends React.Component {
         searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
         searchStage : this.state.searchStage + 1, 
     });
-    var prop = {
-     type: "Department",
-     route: this.state.searchRoute
- }
  console.log("search route: " + this.state.searchCourseRoute);
  console.log("seearch_input: " + search_input.id);
  console.log("this.state.department: " + this.state.department);
  console.log("selected class: " + class_input.id + " " +class_input.name);
  console.log(class_input);
+ console.log("mingpa:" + this.state.mingpa);
    }
  
  /*  handleAddClick(courselist) {
@@ -217,41 +271,35 @@ handleSeasonChange(newSeason) {
         this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season})
     });
 }
+handleDeptSelect(newDept) {
+    this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season + "/"
+    + newDept}, () => {console.log(this.state.searchRoute)})
+}
+handleClassSelect(newClass) {
+    this.setState({
+        class: newClass,
+        searchRoute: "search/" + this.state.year + "/" + this.state.season + "/"
+            + this.state.department + "/" + newClass}, () => {console.log(this.state.searchRoute);
+            console.log(this.state.class);})
+}
  
    render() {
-        /* 
-        let select;
-       switch (this.state.searchStage) {
-           case (0):
-               select = <SemesterSelect onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
-               break;
-           case (1):
-               select = <OptionSelect type="Department" route= {this.state.searchRoute}onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
-               break;
-           case (2):
-                select = <OptionSelect type="Class" route= {this.state.searchRoute}onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
-                break;
-           case (3):
-                select = <OptionSelect type="Section" route= {this.state.searchRoute}onChange={this.onChange} handleClick={this.handleClick} year={this.state.year} season={this.state.season}/>
-                break;
-       }
-       */
+    
        return(
            this.setEventColors(),
            this.setTotalCredits(),
            this.setAverageDisparity(),
+           //this.eventsel(1),
            //this.state.userCourses[1].display = "auto",
         <html>
         <div className={'left_container'} style={{height: window.innerHeight, maxHeight: window.innerHeight}}>
-            <div className={'search_fields'}>
+            <div className={'search_fields'} >
                     <Carousel interval={null}>
                         <Carousel.Item>
                         <h4>Choose Semester</h4>
                             <div 
                             //className={'semesterform'}
                             >
-                            
-                            
                             <SemesterSelector year={this.state.year} season={this.state.season} onYearChange={this.handleYearChange} onSeasonChange={this.handleSeasonChange}/>
                             </div>
                         </Carousel.Item>
@@ -262,23 +310,33 @@ handleSeasonChange(newSeason) {
                     <tbody>
                     <tr>
                         <td>
-                            <Form>
-                                <Form.Switch 
-                                    type="switch"
-                                    id="custom-switch"
-                                    label="Open Sections only"
-                                />
-                            </Form>
+                        exclude full sections {this.state.opensections}
+                        <br></br>
+                        <Form.Group controlId="opensections">
+                            <label class="switch">
+                                <input type="checkbox" controlId="opensections" id="opensections" onchange={this.onChange}/>
+                                <span class="slider round"></span>
+  
+                            </label>
+                        </Form.Group>
                         </td>
                         <td>
                                 <Form>
                                     {['checkbox'].map((type) => (
-                                    <div key={`inline-${type}`} className="mb-3">
-                                    <Form.Check inline label="M" type={type} id={`inline-${type}-1`} />
-                                    <Form.Check inline label="T" type={type} id={`inline-${type}-1`} />
-                                    <Form.Check inline label="W" type={type} id={`inline-${type}-1`} />
-                                    <Form.Check inline label="T" type={type} id={`inline-${type}-1`} />
-                                    <Form.Check inline label="F" type={type} id={`inline-${type}-1`} />  
+                                    <div key={`inline-${type}`} className="mb-3" style={{height: 5, position: "relative", paddingTop: 0}}>
+                                       
+                                                        <label class="weekdaysfilter">M</label>
+                                                        <label class="weekdaysfilter">T</label>
+                                                        <label class="weekdaysfilter">W</label>
+                                                        <label class="weekdaysfilter">T</label>
+                                                        <label class="weekdaysfilter">F</label>
+                                                        <br></br>
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
+
                                     </div>             
                                     ))}
                                 </Form>
@@ -319,17 +377,17 @@ handleSeasonChange(newSeason) {
                     <tr>
                         <td>
                         <Form>
-                        <Form.Group controlId="formBasicRange">
-                            <Form.Label>Start time</Form.Label>
-                                <Form.Control type="range" />
+                        <Form.Group controlId="starttimeslider">
+                                    <Form.Label>Start time: {this.state.filterstarttime}</Form.Label>
+                                <Form.Control type="range" min="8" max="21" step="1" onChange={this.onChange}/>
                                 </Form.Group>
                                 </Form>
                         </td>
                         <td>
                         <Form>
-                        <Form.Group controlId="formBasicRange">
-                            <Form.Label>End time</Form.Label>
-                                <Form.Control type="range" />
+                        <Form.Group controlId="endtimeslider">
+                            <Form.Label>End time: {this.state.filterendtime}</Form.Label>
+                                <Form.Control type="range" min="8.5" max="21.5" step="1" onChange={this.onChange}/>
                                 </Form.Group>
                                 </Form>
                         </td>
@@ -352,11 +410,12 @@ handleSeasonChange(newSeason) {
                         </td>
                         <td>
                         
-                        
+                       
                             <Form>
-                        <Form.Group controlId="GPAslider">
+                        <Form.Group controlId="gpaslider">
                                     <Form.Label>GPA: {this.state.mingpa}</Form.Label>
-                                <Form.Control type="range" />
+                                <Form.Control id="gpaslider" type="range" min="0" max="4" step="0.01" onChange={this.onChange}/>
+                                
                                 </Form.Group>
                                 </Form>
                         </td>
@@ -373,14 +432,14 @@ handleSeasonChange(newSeason) {
                                     <tbody>
                                         <tr>
                                             <td>
-                                            Department: 
-                                                <Departments route= {this.state.searchRoute} type="department" onChange={this.onChange} handleClick={this.handleClick}/>
+                                                Department: 
+                                                <CourseSelect route={this.state.searchRoute} onDeptSelect={this.handleDeptSelect} type={"department"}/>
                                             </td>
                                             <td>
-                                            Class:
-                                                <Departments route= {this.state.searchCourseRoute} type="classes" onChange={this.onChange} handleClick={this.handleClick}/>
+                                                Class:
+                                                <CourseSelect route={this.state.searchRoute} onClassSelect={this.handleClassSelect} type={"classes"}/>
                                             </td>
-                                    </tr>
+                                        </tr>
                                     <tr>
                                         <td>Professor: 
                                             <Autocomplete
@@ -395,7 +454,7 @@ handleSeasonChange(newSeason) {
                                             />
                                         </td> 
                                         <td>
-                                        <Button variant="primary" type="submit" onClick={this.handleAddClick}>
+                                        <Button variant="primary" type="submit" onClick={this.handleAddClick} style={{margin: 18}}>
                                             Add Class
                                         </Button>
                                        
@@ -434,11 +493,13 @@ export function rosterCRNs(this) {
     alert("CRNs: " + list)
 }
 */
+
 export function sleep(delay = 0) {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
   });
 }
+/*
 function Departments(props) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
@@ -462,7 +523,7 @@ function Departments(props) {
       const countries = "loading";
      /* if (response != null) {
       countries = await response.json();
-    }*/
+    }
       if (active) {
         setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
       }
@@ -534,3 +595,4 @@ function Departments(props) {
   );
 }
 
+*/

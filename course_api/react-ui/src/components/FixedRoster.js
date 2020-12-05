@@ -4,10 +4,13 @@ import Fragment from 'render-fragment';
 import Carousel from 'react-bootstrap/Carousel'
 import Table from 'react-bootstrap/Table';
 import Accordion from 'react-bootstrap/Accordion';
+import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
 import Card from 'react-bootstrap/Card';
-import { Button } from '@material-ui/core';
-import { computeSmallestCellWidth } from '@fullcalendar/core';
-
+import {Button, Dropdown, DropdownButton} from 'react-bootstrap';
+import { Calendar, computeSmallestCellWidth } from '@fullcalendar/core';
+//import 'http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css'
+//import 'http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js'
+import "../App.css"
 
 
 export default class ReactRoster extends React.Component {
@@ -40,6 +43,7 @@ export default class ReactRoster extends React.Component {
         this.setState({userCourses: updatedCourses}, () => {
             this.props.removeClick.handleRemoveClick(this.state.userCourses);
         })
+        
     }
 
     //function that takes this.state.userCourses and returns Accordians of each course
@@ -47,34 +51,86 @@ export default class ReactRoster extends React.Component {
         const courses = this.state.userCourses;
 
         const mapCourses = courses.map((course) => (
+            
+            /*
+        <div>
+                <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                    <td>{course.name}</td>
+                    <td>{course.prof}</td>
+                    <td>{course.disparity}</td>
+                    <td>{course.rating}</td>
+                    <td>
+                        <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 10, height: 25}} onClick={() => {this.handleClick(course)}}>
+                            <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png" width="24px;" height="24px"></img>
+                        </Button>
+                    </td> 
+                </tr>
+            
+                
+                
+                    <tr colspan="6" class="hiddenRow" class="accordian-body collapse" className={"roster_details2"} id="demo1">
+                    {course.type} : {course.section} {" "}
+                        credits: {course.credits}{" "}
+                        CRN: {course.CRN}{" "}
+                        meets: {course.daysOfWeek}{" "}
+                    </tr>
+                    
+                </div>*/
+
+              
             <tr>
-            <td>
-        <Accordion key={course.title}>
+                <td>{course.name}</td>
+                <td>{course.prof}</td>
+                <td>{course.disparity}</td>
+                <td>{course.rating}</td>
+                <td>
+                <div class="deletebutton">
+                <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 29, height: 29}} onClick={() => {this.handleClick(course)}}>
+                <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png" width="24px;" height="24px" style={{marginLeft: -10, marginTop:-5, padding:0}}></img>
+                </Button>
+                </div>
+                </td> 
+            </tr>
+    
+        
+        
+        
+          /*  
+            <Accordion key={course.title}>
                 <Card.Header>
                     <Accordion.Toggle as={Card.Header} eventKey={"0"}>
-                                {course.name}
-                                
+                        <div class="rostertables">
+                    <Table> 
+                        
+                        <tr >
+                            <td>{course.name}</td>
+                            <td>{course.prof}</td>
+                            <td>{course.disparity}</td>
+                            <td>{course.rating}</td>
+                            <td>
+                            <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 10, height: 25}} onClick={() => {this.handleClick(course)}}>
+                            <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png" width="24px;" height="24px"></img>
+                            </Button>
+                            </td> 
+                        </tr>
+                    </Table>
+                    </div>
                     </Accordion.Toggle>
+                    
                 </Card.Header>
+                
                 <Accordion.Collapse eventKey="0">
                     <div className={"roster_details"}>
-                        <tr>{course.type} : {course.section}</tr>
-                        <tr> credits: {course.credits}</tr>
-                        <tr> CRN: {course.CRN}</tr>
-                        <tr> meets: {course.daysOfWeek}</tr>
+                        {course.type} : {course.section} {" "}
+                        credits: {course.credits}{" "}
+                        CRN: {course.CRN}{" "}
+                        meets: {course.daysOfWeek}{" "}
                     </div>
                 </Accordion.Collapse>
-        </Accordion></td>
+        </Accordion>
         
-        <td>{course.prof}</td>
-        <td>{course.disparity}</td>
-        <td>{course.rating}</td>
-        <td>
-            <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 10, height: 25}} onClick={() => {this.handleClick(course)}}>
-            <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png" width="24px;" height="24px"></img>
-            </Button>
-        </td> 
-        </tr>      
+            */
+        
             ));
         return mapCourses;
     }
@@ -83,7 +139,9 @@ export default class ReactRoster extends React.Component {
         return(
             <div>
                 <div className={'roster'}>
-                <Table responsive>
+                
+                    
+                <Table>
                     <thead>
                     <tr>
                         <th>Class</th>
@@ -93,30 +151,35 @@ export default class ReactRoster extends React.Component {
                         <th></th>
                     </tr>
                     </thead>
-
+                    <tbody>
                     {this.renderRoster()}
-
+                    </tbody>
                 </Table>
-                </div>
-                <div className={'rosterbottombar'}>
+                
+                
+                
+                
+            </div>
+            <div className={'rosterbottombar'}>
                     <div class="bottombar">
                     <Table >
                         <thead >
                             <tr>
-                                <th style={{border: 0}}>
+                                <th style={{border: 0, padding: 13}}>
                                     Credits: {this.props.credits*1}
                                 </th>
-                                <th style={{border: 0}}>
+                                <th style={{border: 0, padding: 13, paddingRight:60}}>
                                     Avg GPA: {this.props.avggpa*1}                             
                                 </th>
                                 <th style={{border: 0}}>
+                                    
                         <Button 
                             variant="success" 
                             type="submit" 
                             onClick={this.props.CRNs.getCRNs}
-                            style={{color:"white", backgroundColor: "#25acb1", textTransform: "none", width: 116, height: 24}}
+                            style={{color:"white", textTransform: "none", width: 100, height: 28, fontSize:13, position:"absolute", bottom: 0, right: 6}}
                         >
-                            Retreive CRNs
+                            <span style={{marginTop: -10, marginLeft:-5}}>Retreive CRNs</span>
                         </Button>
                         </th>
                             </tr>
@@ -125,7 +188,6 @@ export default class ReactRoster extends React.Component {
                     </div>
                 </div>
             </div>
-            
         )
     }
 }

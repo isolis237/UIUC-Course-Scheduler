@@ -1,3 +1,68 @@
+:root {
+  --height: 925px;
+
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 35px;
+  height: 15px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 0px;
+  bottom: 0px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
 .left_container {
   /*min-height: 650px;*/
   position: relative;
@@ -5,6 +70,7 @@
   padding-bottom: 0px;
   float: left;
   background-color: #202020;
+  overflow: hidden;
  
 }
 .search_fields {
@@ -16,7 +82,6 @@
   min-width: 340px;
   width: 400px;
   max-width: 600px;
-  height: 30%;
   max-height: 400px;
   font-size: 12px;
   resize: both;
@@ -112,13 +177,17 @@
 }
 .roster {
   overflow: auto;
-  position: sticky;
-  bottom: 0px;
+  resize: vertical;
+  position: absolute;
   margin-top: 5px;
   margin-right: inherit;
   margin-bottom: 5px;
   padding-bottom: 0px;
-  min-height: 200px;
+  margin-bottom: 0px;
+  display: flex;
+  flex-flow: column;
+  width: calc(100% - 12px);
+  
   border-radius: 5px;
   background-color: #353535;
 }
@@ -141,6 +210,15 @@
 .roster_details {
   background-color: #5e5e5e;
   padding: 5px;
+  color: whitesmoke;
+  font-size: 15px;
+}
+.roster_details2 {
+  background-color: #5e5e5e;
+  padding: 5px;
+  color: whitesmoke;
+  font-size: 15px;
+  
 }
 .rostertable {
   font-size: 13px;
@@ -162,19 +240,34 @@ table, th {
   font-style: normal;
   font-variant-caps: normal; 
   text-transform: none;
-  
 }
+.rostertables {
+  padding: 0px;
+  margin: 0px;
+  height: 40px;
+}
+.invisible {
+  padding: 0px;
+  margin: 0px;
+  height: 0px;
+}
+.weekdaysfilter {
+padding-right: 13px;
+}
+/*
 .btn-danger {
   color: #fff;
   background-color: #d9534f;
   border-color: #d43f3a;
   width: 10px;
 }
+
 .btn-crn {
   color: #fff;
   background-color: #25acb1;
   border-color: #3ac2d4;
 }
+*/
 /*.MuiButton-root, .MuiButtonBase-root, .rosterbutton {
   
   color: white;
@@ -230,7 +323,7 @@ td {
   font-size: 10px;
 }
 .fc-event-title {
-  font-size: 12px;
+  font-size: 14px;
   font-family: inherit;
   font-weight: lighter;
 }
