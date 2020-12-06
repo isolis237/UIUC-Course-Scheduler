@@ -120,7 +120,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from "@material-ui/core/TextField";
 import * as data from './roster.json';
 import Button from 'react-bootstrap/Button'
-import { sleep } from "./FunctionalCalendar.js"
+import { sleep } from "../App.js"
 import { Popover } from '@material-ui/core';
 
 let search_input;
