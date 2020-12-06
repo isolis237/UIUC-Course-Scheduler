@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from "@material-ui/core/TextField";
-import * as data from './roster.json';
-
-=======
 /*import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from "@material-ui/core/TextField";
@@ -12,7 +5,6 @@ import * as data from './roster.json';
 import Button from 'react-bootstrap/Button'
 import { sleep } from "./FunctionalCalendar.js"
 import { Popover } from '@material-ui/core';
->>>>>>> sdimov2
 
 let search_input;
 
@@ -27,14 +19,11 @@ function containsObject(obj, list) {
     return false;
 }
 
-<<<<<<< HEAD
-=======
 // helper function for input of rgb
 function rgb(r, g, b){
     return "rgb("+r+","+g+","+b+")";
   }
 
->>>>>>> sdimov2
 export default class AddClasses extends React.Component {
 
     constructor() {
@@ -45,45 +34,6 @@ export default class AddClasses extends React.Component {
     }
 
     handleAddClick() {
-<<<<<<< HEAD
-        if (containsObject(search_input, this.state.userCourses)) {
-            alert("Class already in schedule!")
-        } else {
-            this.setState({userCourses : this.state.userCourses.concat(search_input)}, () => {
-                //console.log(this.state.userCourses)
-            })
-            alert("Adding " + search_input.title + " to schedule")
-        }
-
-    }
-
-
-
-    render() {
-        return(
-            <div>
-                <Autocomplete
-                    options={data.courses}
-                    autoComplete={true}
-                    onChange={(event, object) => {
-                        //console.log(object)
-                        search_input = object;
-                    }}
-                    getOptionLabel={(option) => option.title}
-                    renderInput={(params) => <TextField {...params} variant="outlined"/>}
-                />
-
-                <button onClick={() => {
-                    this.handleAddClick();
-                    this.props.addClick.handleClick(this.state.userCourses);
-                }
-                }> Add Class </button>
-
-            </div>
-
-        )
-    }
-=======
         if (search_input==null) {
             alert("Cannot add null class!")
         }
@@ -170,7 +120,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from "@material-ui/core/TextField";
 import * as data from './roster.json';
 import Button from 'react-bootstrap/Button'
-import { sleep } from "./FunctionalCalendar.js"
+import { sleep } from "../App.js"
 import { Popover } from '@material-ui/core';
 
 let search_input;
@@ -281,5 +231,4 @@ function AddClass(props) {
     }, [open]);
     return options;
 
->>>>>>> sdimov2
 }

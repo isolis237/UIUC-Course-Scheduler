@@ -1,63 +1,3 @@
-<<<<<<< HEAD
-.left_container {
-  width: 20%;
-  min-height: 650px;
-  min-width: 200px;
-  padding: 1%;
-  background-color: gainsboro;
-  float: left;
-}
-.right_container {
-  width: 80%;
-  min-height: 70px;
-  min-width: 500px;
-  float: right;
-}
-.search_fields {
-  background-color: white;
-  position: static;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  vertical-align: center;
-  height: 200px;
-}
-.addClasses {
-  position: static;
-  vertical-align: center;
-  height: 200px;
-}
-.calendar {
-  height: 100%;
-  font-size: 15px;
-  padding: 2px;
-  position: relative;
-  margin: 0px;
-  margin-right: 2px;
-  padding-top: 4px;
-}
-.searchbar {
-  width: calc(95% - 10px);
-  height: 22px;
-  border: 1px solid lightgray;
-  background-color: white;
-  border-radius: 2px;
-  font-family: Arial;
-  margin-left: 7px;
-  margin-right: 10px;
-  margin-bottom: 4px;
-  margin-top: 0px;
-  vertical-align: top;
-  padding: 1px;
-  position: static;
-}
-.filters {
-  position: static;
-  padding: 1%;
-}
-.results {
-  resize: vertical;
-  background-color: white;
-=======
 :root {
   --height: 925px;
 
@@ -170,7 +110,6 @@ input:checked + .slider:before {
 .results {
   resize: vertical;
   background-color: #353535;
->>>>>>> sdimov2
   overflow-y: auto;
   font-family: Arial;
   vertical-align: top;
@@ -188,69 +127,6 @@ input:checked + .slider:before {
   margin: 1px;
   font-family: Arial;
   font-size: 15px;
-<<<<<<< HEAD
-  border: 1px solid lightgray;
-  border-radius: 5px;
-}
-.search {
-  resize: vertical;
-  overflow: hidden;
-  padding: 3px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  background-color: white;
-  min-height: 204px;
-
-}
-.class_searchbar {
-  border: 1px solid lightgray;
-  background-color: white;
-  border-radius: 2px;
-  font-family: Arial;
-  margin-left: 7px;
-  margin-right: 10px;
-  margin-bottom: 4px;
-  margin-top: 0px;
-  vertical-align: center;
-  padding: 1px;
-  position: static;
-}
-.carousel {
-  text-align: center;
-  color: black;
-}
-.spacer {
-  margin-bottom: 150px;
-  margin-left: 70px;
-  margin-right: 70px;
-}
-.leftside {
-  min-width: 200px;
-  max-width: 700px;
-  width: 20.81%;
-  height: 925px;
-  margin: .2%;
-  overflow: hidden;
-  float: left;
-  padding-left: 4px;
-  resize: horizontal;
-  background-color: white;
-}
-.roster {
-  height: 76%;
-  background-color: white;
-  overflow: hidden;
-  position: sticky;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  min-height: 200px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  background-color: white;
-}
-.roster_details {
-  background-color: whitesmoke;
-=======
   border: 1px solid rgb(58, 58, 58);
   border-radius: 5px;
 }
@@ -345,16 +221,12 @@ input:checked + .slider:before {
   color: whitesmoke;
   font-size: 15px;
   
->>>>>>> sdimov2
 }
 .rostertable {
   font-size: 13px;
   padding: 0px;
   margin: 0px;
 }
-<<<<<<< HEAD
-
-=======
 .card-header {
   background-color: #353535;
   padding: 0px;
@@ -470,13 +342,10 @@ td {
 .fc-event-main {
   font-size: 10px;
 }
->>>>>>> sdimov2
 .right {
   float: right;
   vertical-align: middle;
 }
-<<<<<<< HEAD
-=======
 .left {
   float: left;
   padding: 0px;
@@ -484,7 +353,6 @@ td {
   width: 200px;
   white-space: nowrap;
 }
->>>>>>> sdimov2
 .fit {
   vertical-align: top;
   margin: 0px;
@@ -493,19 +361,12 @@ td {
 ::-webkit-scrollbar {
   width: 0px;
 }
-<<<<<<< HEAD
-body {
-  height: 100%;
-  width: 100%;
-  resize: vertical;
-=======
 html {
   background-color: black;
   height: 100%;
   width: 100%;
   padding: 0%;
   margin: 0%;
->>>>>>> sdimov2
   overflow: auto;
 }
 p {
@@ -514,13 +375,6 @@ p {
   padding: 0px;
   margin: 2px;
 }
-<<<<<<< HEAD
-h3 {
-
-  text-align: center;
-}
-=======
->>>>>>> sdimov2
 .App {
   text-align: center;
 }
