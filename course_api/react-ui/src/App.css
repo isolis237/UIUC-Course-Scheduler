@@ -1,61 +1,115 @@
-.left_container {
-  width: 20%;
-  min-height: 650px;
-  min-width: 200px;
-  padding: 1%;
-  background-color: gainsboro;
-  float: left;
+:root {
+  --height: 925px;
+
 }
-.right_container {
-  width: 80%;
-  min-height: 70px;
-  min-width: 500px;
-  float: right;
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 35px;
+  height: 15px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 0px;
+  bottom: 0px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+.left_container {
+  /*min-height: 650px;*/
+  position: relative;
+  padding: 6px;
+  padding-bottom: 0px;
+  float: left;
+  background-color: #202020;
+  overflow: hidden;
+ 
 }
 .search_fields {
-  background-color: white;
+  background-color: #353535;
+  border: 1px solid #353535;
+  border-radius: 5px;
   position: static;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  vertical-align: center;
-  height: 200px;
+  min-height: 293px;
+  min-width: 340px;
+  width: 400px;
+  max-width: 600px;
+  max-height: 400px;
+  font-size: 12px;
+  resize: both;
+  overflow: hidden;
 }
 .addClasses {
   position: static;
+  min-height: 300px;
   vertical-align: center;
-  height: 200px;
 }
 .calendar {
   height: 100%;
-  font-size: 15px;
-  padding: 2px;
+  font-size: 20px;
+  padding: 0px;
   position: relative;
   margin: 0px;
-  margin-right: 2px;
-  padding-top: 4px;
-}
-.searchbar {
-  width: calc(95% - 10px);
-  height: 22px;
-  border: 1px solid lightgray;
-  background-color: white;
-  border-radius: 2px;
-  font-family: Arial;
-  margin-left: 7px;
-  margin-right: 10px;
-  margin-bottom: 4px;
-  margin-top: 0px;
-  vertical-align: top;
-  padding: 1px;
-  position: static;
+  overflow: auto;
 }
 .filters {
   position: static;
-  padding: 1%;
+  float: left;
+  margin-left: 20px;
+  padding:5px;
+  overflow: scroll;
 }
 .results {
   resize: vertical;
-  background-color: white;
+  background-color: #353535;
   overflow-y: auto;
   font-family: Arial;
   vertical-align: top;
@@ -73,77 +127,230 @@
   margin: 1px;
   font-family: Arial;
   font-size: 15px;
-  border: 1px solid lightgray;
+  border: 1px solid rgb(58, 58, 58);
   border-radius: 5px;
-}
-.search {
-  resize: vertical;
-  overflow: hidden;
-  padding: 3px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  background-color: white;
-  min-height: 204px;
-
-}
-.class_searchbar {
-  border: 1px solid lightgray;
-  background-color: white;
-  border-radius: 2px;
-  font-family: Arial;
-  margin-left: 7px;
-  margin-right: 10px;
-  margin-bottom: 4px;
-  margin-top: 0px;
-  vertical-align: center;
-  padding: 1px;
-  position: static;
 }
 .carousel {
   text-align: center;
-  color: black;
+  color:white;
+  background-color: #353535;
+  height: calc(100% + 25px);
+  bottom: 0px;
+  padding-right: 20px;
+  padding-left: 20px;
+  position: fixed;
+}
+.carousel-indicators {
+
+  position: fixed;
+  
+}
+.carousel-control-next:focus, .carousel-control-next:hover, .carousel-control-prev:focus, .carousel-control-prev:hover, .carousel-control-next, .carousel-control-prev {
+
+  width: 20px;
+}
+.carousel-inner {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
 }
 .spacer {
-  margin-bottom: 150px;
+  margin-top: 20px;
   margin-left: 70px;
   margin-right: 70px;
+  vertical-align: middle;
+  overflow: auto;
 }
-.leftside {
-  min-width: 200px;
-  max-width: 700px;
-  width: 20.81%;
-  height: 925px;
-  margin: .2%;
-  overflow: hidden;
+.yearform {
+  width: calc(100% - 105px);
+  vertical-align: center;
   float: left;
-  padding-left: 4px;
-  resize: horizontal;
-  background-color: white;
+}
+.seasonform {
+  float: left;
+}
+.semesterform {
+  height: 20px;
+  padding-left: 40px;
+  padding-top: 50px;
 }
 .roster {
-  height: 76%;
-  background-color: white;
-  overflow: hidden;
-  position: sticky;
+  overflow: auto;
+  resize: vertical;
+  position: absolute;
   margin-top: 5px;
+  margin-right: inherit;
   margin-bottom: 5px;
-  min-height: 200px;
-  border: 1px solid lightgray;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  display: flex;
+  flex-flow: column;
+  width: calc(100% - 12px);
+  
+  max-height: 593px;
+  
   border-radius: 5px;
-  background-color: white;
+  background-color: #353535;
+}
+.rosterbottombar {
+  position: absolute;
+  text-align: center;
+  bottom: 0px;
+  width: calc(100% - 12px);
+  height: 40px;
+  border-radius: 5px;
+  border-bottom: 5px solid  #5e5e5e;
+  margin-bottom: 4px;
+  overflow: hidden;
+  background-color: #202020;
+}
+.bottombar {
+  border-radius: 5px;
+  border-bottom: 5px solid  #5e5e5e;
 }
 .roster_details {
-  background-color: whitesmoke;
+  background-color: #5e5e5e;
+  padding: 5px;
+  color: whitesmoke;
+  font-size: 15px;
+}
+.roster_details2 {
+  background-color: #5e5e5e;
+  padding: 5px;
+  color: whitesmoke;
+  font-size: 15px;
+  
 }
 .rostertable {
   font-size: 13px;
   padding: 0px;
   margin: 0px;
 }
+.card-header {
+  background-color: #353535;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+table, th {
+  background-color: #5e5e5e;
+  color: white;
+  font-size: 13px;
+  font-variant: normal;
+  font-weight: lighter;
+  font-style: normal;
+  font-variant-caps: normal; 
+  text-transform: none;
+}
+.rostertables {
+  padding: 0px;
+  margin: 0px;
+  height: 40px;
+}
+.invisible {
+  padding: 0px;
+  margin: 0px;
+  height: 0px;
+}
+.weekdaysfilter {
+padding-right: 13px;
+}
+/*
+.btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  width: 10px;
+}
+.btn-crn {
+  color: #fff;
+  background-color: #25acb1;
+  border-color: #3ac2d4;
+}
+*/
+/*.MuiButton-root, .MuiButtonBase-root, .rosterbutton {
+  
+  color: white;
+  font-size: 13px;
+  font-variant: normal;
+  font-weight: lighter;
+  font-style: normal;
+  font-variant-caps: normal; 
+  text-transform: none;
+  color: blue;
+  border: 0;
+  cursor: pointer;
+  margin: 0;
+  display: inline-flex;
+  outline: 0;
+  padding: 0;
+  position: relative;
+  align-items: center;
+  user-select: none;
+  border-radius: 0;
+  vertical-align: middle;
+  -moz-appearance: none;
+  justify-content: center;
+  text-decoration: none;
+  background-color: blue;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}*/
+.MuiButton-label {
+  color: whitesmoke;
+  font-size: 12px;
+  height: 13px;
+  width: 100%;
+  display: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+}
+td {
+  background-color: #353535;
+}
+.table-responsive {
+  background-color: #353535;
+}
+.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiAutocomplete-inputRoot {
+  background-color:whitesmoke;
+}
+.MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child {
+  width: 200%;
+  margin-right: -27px;
+ 
 
+}
+.fc-theme-standard td, .fc-theme-standard th, .fc .fc-scrollgrid {
+  border: 1px solid rgb(41, 41, 41);
+  border: 1px solid var(--fc-border-color, rgb(102, 102, 102));
+  font-size: 11px;
+}
+.fc-timegrid-event .fc-event-time {
+  font-size: 10px;
+}
+.fc-event-title {
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: lighter;
+}
+.fc .fc-scrollgrid {
+  border: 1px solid rgb(41, 41, 41);
+  border: 1px solid var(--fc-border-color, rgb(102, 102, 102));
+}
+.fc-event-main {
+  font-size: 10px;
+}
 .right {
   float: right;
   vertical-align: middle;
+}
+.left {
+  float: left;
+  padding: 0px;
+  margin: 0px;
+  width: 200px;
+  white-space: nowrap;
 }
 .fit {
   vertical-align: top;
@@ -153,10 +360,12 @@
 ::-webkit-scrollbar {
   width: 0px;
 }
-body {
+html {
+  background-color: black;
   height: 100%;
   width: 100%;
-  resize: vertical;
+  padding: 0%;
+  margin: 0%;
   overflow: auto;
 }
 p {
@@ -164,10 +373,6 @@ p {
   font-size: 15px;
   padding: 0px;
   margin: 2px;
-}
-h3 {
-
-  text-align: center;
 }
 .App {
   text-align: center;
