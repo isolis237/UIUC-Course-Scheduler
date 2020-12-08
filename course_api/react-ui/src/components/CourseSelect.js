@@ -3,8 +3,8 @@ import {useState, useEffect} from "react";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {sleep} from "./FunctionalCalendar"
-
+import {sleep} from "../App"
+import "../App.css"
 
 
 
@@ -81,6 +81,10 @@ export default function CourseSelect(props) {
                     if (props.type == "classes") {
                         setOpen(false);
                         //Not sure how the api wants the class formatted
+                        let value = e.target.innerHTML
+                        let id = value.split(":")
+                        //gross way
+                        handleChange(id[0])
                         console.log(e.target.innerHTML)
                         //handleChange(CLASS_GOES_HERE)
                     }
@@ -99,7 +103,6 @@ export default function CourseSelect(props) {
                     else if (props.type == "classes") {
                     console.log(props.type)
                 }
-
                 }}
                 renderInput={(params) => (
                     <TextField
@@ -109,6 +112,7 @@ export default function CourseSelect(props) {
                         variant="outlined"
                         value={props.type}
                         onChange={props.onChange}
+                        class="autocomplete"
                         InputProps={{
                             ...params.InputProps,
                             endAdornment: (

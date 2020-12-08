@@ -2,6 +2,8 @@ import React from 'react'
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import {Dropdown, DropdownButton} from "react-bootstrap";
+import Table from 'react-bootstrap/Table'
+import "../App.css"
 
 export default class SemesterSelector extends React.Component {
     constructor() {
@@ -17,7 +19,8 @@ export default class SemesterSelector extends React.Component {
         if (e.target.id === "year") {
             console.log(e.target.value)
             this.props.onYearChange(e.target.value)
-        } else if (e.target.id === "Fall" || e.target.id === "Summer" || e.target.id === "Winter" || e.target.id === "Spring" ) {
+        }
+        if (e.target.id === "Fall" || e.target.id === "Summer" || e.target.id === "Winter" || e.target.id === "Spring" ) {
             this.props.onSeasonChange(e.target.id)
         }
 
@@ -25,14 +28,18 @@ export default class SemesterSelector extends React.Component {
 
     render() {
         return (
+    <Table>
+        <tbody>
+            <tr>
+                <td>
+                <div className={'semesterform'}>
             <>
                 <InputGroup >
-
+                <div class="yearform">
                     <FormControl
                         placeholder="Year"
                         aria-label="Year"
                         aria-describedby="basic-addon2"
-                        style={{width: 100, marginLeft: 25}}
                         controlId="Year"
                         id = "year"
                         type="text"
@@ -40,8 +47,8 @@ export default class SemesterSelector extends React.Component {
                         placeholder="Enter year"
                         onChange={this.handleChange}
                     />
-
-                    <div class="semesterform">
+                </div>
+                <div class="seasonform">
                         <DropdownButton
                             as={InputGroup.Append}
                             variant="primary"
@@ -56,9 +63,14 @@ export default class SemesterSelector extends React.Component {
                             <Dropdown.Item id={"Summer"} onClick={this.handleChange}>Summer</Dropdown.Item>
 
                         </DropdownButton>
-                    </div>
+                </div>
                 </InputGroup>
             </>
+            </div>
+        </td>
+    </tr>
+</tbody>
+</Table>
         );
     }
 }
