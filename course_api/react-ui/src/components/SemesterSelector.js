@@ -17,7 +17,6 @@ export default class SemesterSelector extends React.Component {
 
     handleChange(e) {
         if (e.target.id === "year") {
-            console.log(e.target.value)
             this.props.onYearChange(e.target.value)
         }
         if (e.target.id === "Fall" || e.target.id === "Summer" || e.target.id === "Winter" || e.target.id === "Spring" ) {

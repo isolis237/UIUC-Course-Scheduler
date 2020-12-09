@@ -101,7 +101,7 @@ export default class ReactCalendar extends React.Component {
                 dayHeaderFormat={{weekday: 'long'}}
                 eventStartEditable={true}
                 durationEditable={false}
-                //eventContent={"TESTING" /**this.eventselect*/}
+                //eventContent={this.props.content/**this.eventselect*/}
                 events={this.props.events}
                 eventMouseEnter={this.eventselect}
                 eventClick={this.eventselect}

@@ -102,7 +102,7 @@ export default function CourseSelect(props) {
                         let id = value.split(":")
                         //gross way
                         handleChange(id[0])
-                        console.log(e.target.innerHTML)
+                        //console.log(e.target.innerHTML)
                         //handleChange(CLASS_GOES_HERE)
                     }
 
@@ -115,10 +115,10 @@ export default function CourseSelect(props) {
                 onChange={props.onChange,
                     (event, object) => {
                     if (props.type == "department") {
-                    console.log(props.type)
+                    //console.log(props.type)
                 }
                     else if (props.type == "classes") {
-                    console.log(props.type)
+                   // console.log(props.type)
                 }
                 }}
                 renderInput={(params) => (

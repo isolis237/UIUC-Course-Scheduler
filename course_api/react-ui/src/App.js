@@ -108,7 +108,7 @@ export default class FunctionalCalendar extends React.Component {
             capacity: "30"
            },
            searchRoute : "",
-           searchCourseRoute : "",
+           deptSearchRoute : "",
            rosterRoute : "",
            searchStage : "0",
            userCourses: rosterdata.courses,
@@ -121,7 +121,7 @@ export default class FunctionalCalendar extends React.Component {
            opensections: "false"
        }
         this.onChange = this.onChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        //this.handleClick = this.handleClick.bind(this);
         this.handleAddClick = this.handleAddClick.bind(this);
         this.setClass = this.setClass.bind(this);
         this.handleSeasonChange = this.handleSeasonChange.bind(this)
@@ -174,7 +174,7 @@ export default class FunctionalCalendar extends React.Component {
     this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
     this.state.userCourses[i].title = 
 
-    this.state.userCourses[i].name + " \t Average GPA: " +
+    this.state.userCourses[i].name + " \t \t Avg GPA: " +
     this.state.userCourses[i].disparity + " RateMyProf: " +
     this.state.userCourses[i].rating + "/5 \tSeats left: " +
     this.state.userCourses[i].seatsleft + "/" +
@@ -219,6 +219,7 @@ export default class FunctionalCalendar extends React.Component {
      })
  }
 }
+/**
     handleClick() {
         
     this.setState({
@@ -235,7 +236,7 @@ export default class FunctionalCalendar extends React.Component {
  console.log("this.state.department: " + this.state.department);
  console.log("selected class: " + class_input.id + " " +class_input.name);
  console.log(class_input);
-   }
+   }*/
    
     onChange(e) {
         
@@ -247,7 +248,7 @@ export default class FunctionalCalendar extends React.Component {
                 searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
                 searchStage : this.state.searchStage + 1,
                 mingpa : this.state.mingpa
-            });
+            }, () => {console.log(this.state.searchRoute)});
         }
         if (e.target.id === "year") {
             this.setState({ year: e.target.value }, () => {updateRoutes()});
@@ -314,20 +315,24 @@ handleRemoveClick(courselist) {
    
 }
 handleYearChange(newYear) {
-    this.setState({year: newYear}, () => {
-        this.setState({searchRoute: "search/" + this.state.year + "/"})
-    });
+    this.setState({searchRoute: "search/" + newYear + "/", year: newYear}, () => {
+        console.log(this.state.searchRoute)
+    })
 }
 handleSeasonChange(newSeason) {
-    this.setState({season: newSeason}, () => {
-        this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season})
-    });
+    this.setState({searchRoute: "search/" + this.state.year + "/" + newSeason, season: newSeason}, () => {
+        console.log(this.state.searchRoute)
+    })
+    this.setState({deptSearchRoute: "search/" + this.state.year + "/" + newSeason}, () => {
+        console.log(this.state.deptSearchRoute)
+    })
+
 }
 handleDeptSelect(newDept) {
-    this.setState({
-        department: newDept,
-        searchRoute: "search/" + this.state.year + "/" + this.state.season + "/"
-    + newDept}, () => {console.log(this.state.searchRoute)})
+    if (newDept.length > 0) {
+        this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season +
+                "/" + newDept, department: newDept}, () => {console.log(this.state.searchRoute)})
+    }
 }
 handleClassSelect(newClass) {
     this.setState({
@@ -515,7 +520,7 @@ handleClassSelect(newClass) {
                                         <tr>
                                             <td>
                                                 <text style={{color:"white"}}>Department: </text>
-                                                <CourseSelect route={this.state.searchRoute} onDeptSelect={this.handleDeptSelect} type={"department"}/>
+                                                <CourseSelect route={this.state.deptSearchRoute} onDeptSelect={this.handleDeptSelect} type={"department"}/>
                                             </td>
                                             <td>
                                                 <text style={{color:"white"}}>Class: </text>
