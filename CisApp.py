@@ -99,7 +99,31 @@ class CisappParser:
         sections = list()
         for section in root.iter('course'):
             sections.append(section.get('id') + ": " + section.text)
-        return sections
+
+        
+        Courses= []
+        Courses['title'] = 'k' 
+        Courses['name'] = sections
+        Courses['number'] =p1.getCourseNumber
+        Courses['department'] = p1.getDepartments
+        Courses['prof'] = p1.getRelevantProfessors
+        Courses['rating'] = 'j' 
+        Courses['disparity'] = 'h'
+        Courses['credits'] = p1.getCreditHours
+        Courses['section'] ='y'
+        Courses['CRN'] = 'x'
+        Courses['type'] = p1.lessonType
+        Courses['eventContent'] = p1.description
+        Courses['daysOfWeek'] = p1.daysOfTheWeek
+        Courses['startTime'] = p1.getStarttime
+        Courses['slotDuration'] = 'not implemented' 
+        Courses['groupId'] = 5
+        Courses['id'] = 'j'
+        Courses['display'] = "auto"
+        return Courses
+        
+
+
 
     # added method to give numbers for every course in any department
 
@@ -174,8 +198,8 @@ class CisappParser:
                 for meeting in section.findall('meetings'):
                     for meet in meeting.findall('meeting'):
                         for starttime in meet.findall('start'):
-                            if(start.find('start') is not None):
-                                sections.append(start.find('start').text 
+                            if(starttime.find('start') is not None):
+                                sections.append(starttime.find('start').text 
         return sections
     # added method to get credithours associated with the course.
     def getCreditHours(self):
@@ -226,11 +250,11 @@ class CisappParser:
                     for meetings in meeting.findall('meeting'):
                         for daysofweek in meetings.findall('daysOfTheWeek'):
                             if(daysofweek.find('daysOfTheWeek') ==TR):
-                                sections.append('2,5')
+                                sections.append(2,5)
                             else if(daysofweek.find('daysOfTheWeek') == MWF):
-                                sections.append('1,3,5')
+                                sections.append(1,3,5)
                             else if(daysofweekfind('daysOfTheWeek') == MW): 
-                                sections.append('1,3')               
+                                sections.append(1,3)               
         return sections
     # added method to get lesson type like if it is online or inperson e.t.c
     def lessonType(self):
@@ -312,42 +336,42 @@ class CisappParser:
 
 
 
-
+print(p1.getCourses)
         
 
 # User input
 
-year = input("Enter year:")
-season = input("Enter season:")
-dept = input("Enter department:")
-number = input("Enter course number:")
-dept = dept.upper()
+#year = input("Enter year:")
+#season = input("Enter season:")
+#dept = input("Enter department:")
+#number = input("Enter course number:")
+#dept = dept.upper()
 
-p1 = CisappParser(year,season, dept, number)
+#p1 = CisappParser(year,season, dept, number)
 #print('https://courses.illinois.edu/cisapp/explorer/schedule/' + p1.getYear() + '/' + p1.getSeason() + '/' + p1.getDepartment() + '/' + p1.getCourse() + '.xml?mode=detail')
 #print(p1.getRelevantProfessors())
 
 #function that writes a json file with all courses and every 'relevant professor' in the format 'course': 'relevant professor'
 
-def writeToJSONFile(path, fileName, data):
+#def writeToJSONFile(path, fileName, data):
     filePathNameWExt = './' + path + '/' + fileName + '.json'
     with open(filePathNameWExt, 'w') as fp:
         json.dump(data, fp)
 
-courses = p1.getCourses()
-numbers = p1.getCourseNumber()
-starttime = p1.getduration()
-endtime = p1.endTime()
-eventype = p1.eventType()
-lessontype = p1.lessonType()
-daysofweek = p1.daysOfTheWeek()
-credithours = p1.getCreditHours()
+#courses = p1.getCourses()
+#numbers = p1.getCourseNumber()
+#starttime = p1.getduration()
+#endtime = p1.endTime()
+#eventype = p1.eventType()
+#lessontype = p1.lessonType()
+#daysofweek = p1.daysOfTheWeek()
+#credithours = p1.getCreditHours()
  
 
 
-data = {}
-data ['Courses'] = []
-for i in range(len(p1.getCourses())):
+#data = {}
+##data ['Courses'] = []
+#for i in range(len(p1.getCourses())):
     p1 = CisappParser(p1.getYear(), p1.getSeason(), p1.getDepartment(), numbers[i])
     for j in p1.getRelevantProfessors():
         data ['Courses'].append({
@@ -355,4 +379,12 @@ for i in range(len(p1.getCourses())):
         })
 
 
-writeToJSONFile('./','file-name',data)
+#writeToJSONFile('./','file-name',data)
+year = input("Enter year:")
+        season = input("Enter season:")
+        dept = input("Enter department:")
+        number = input("Enter course number:")
+        dept = dept.upper()
+
+        p1 = CisappParser(year,season, dept, number)
+        print(p1.getCourses)
