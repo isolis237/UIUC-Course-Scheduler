@@ -33,16 +33,33 @@ export default function CourseSelect(props) {
         (async () => {
 
             const response = await fetch(props.route).then(response => response.json().then(data => {
+                /**
+                if (type == "classes") {
+                    if (props.closedSections == true) {
+                        let filteredCourses = [];
+                        console.log("data.length: " + data.length)
+                        for (let i = 0; i <data.length; i++) {
+                            console.log("data[i]: " + data[i].name)
+                            console.log("data[i].seatsleft: " + data[i].seatsleft)
+                            if (data[i].seatsleft > 0) {
+                                filteredCourses.push(data[i])
+                            }
+                        }
+                        console.log("filter on: " + filteredCourses)
+                        data = filteredCourses
+                    }
+                }*/
+                //console.log("data props: " + Object.getOwnPropertyNames(data[0]))
                     setOptions(data);
                 })
             );
             await sleep(1e3); // For demo purposes.
-            let countries = "loading";
+            let courses = "loading";
             if (response != null) {
-                countries = await response.json();
+                courses = await response.json();
             }
             if (active) {
-                setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
+                setOptions(Object.keys(courses).map((key) => courses[key].item[0]));
             }
         })();
 
@@ -108,7 +125,7 @@ export default function CourseSelect(props) {
                     <TextField
                         {...params}
                         id={props.type}
-                        label={props.type}
+                        //label={props.type}
                         variant="outlined"
                         value={props.type}
                         onChange={props.onChange}

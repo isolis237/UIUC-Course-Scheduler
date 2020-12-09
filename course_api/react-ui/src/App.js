@@ -169,16 +169,15 @@ export default class FunctionalCalendar extends React.Component {
    setEventColors() {
        let i;
     for (i=0; i < this.state.userCourses.length; i++) {
-        console.log(i + " " + this.state.userCourses[i].name)
     this.state.userCourses[i].backgroundColor = color(this.state.userCourses[i].CRN)
     this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
     this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
     this.state.userCourses[i].title = 
 
-    this.state.userCourses[i].name + " \t" +
-    this.state.userCourses[i].disparity + " " + 
-    this.state.userCourses[i].rating + "/5 " + 
-    this.state.userCourses[i].seatsleft + "/" + 
+    this.state.userCourses[i].name + " \t Average GPA: " +
+    this.state.userCourses[i].disparity + " RateMyProf: " +
+    this.state.userCourses[i].rating + "/5 \tSeats left: " +
+    this.state.userCourses[i].seatsleft + "/" +
     this.state.userCourses[i].capacity;
 
     //full class
@@ -368,7 +367,7 @@ handleClassSelect(newClass) {
         <html>
         <div className={'left_container'} style={{height: window.innerHeight, maxHeight: window.innerHeight}}>
             <div className={'search_fields'} >
-                    <Carousel interval={null}>
+                    <Carousel interval={null} >
                         <Carousel.Item>
                         <h4>Choose Semester</h4>
                             <div 
@@ -384,7 +383,7 @@ handleClassSelect(newClass) {
                     <tbody>
                     <tr>
                         <td>
-                        exclude full sections {this.state.opensections}
+                        <text style={{color:"white"}}>Exclude full sections {this.state.opensections}</text>
                         <br></br>
                         <Form.Group controlId="opensections">
                             <label class="switch">
@@ -401,7 +400,7 @@ handleClassSelect(newClass) {
                         <td>
                                 <Form>
                                     {['checkbox'].map((type) => (
-                                    <div key={`inline-${type}`} className="mb-3" style={{height: 5, position: "relative", paddingTop: 0}}>
+                                    <div key={`inline-${type}`} className="mb-3" style={{height: 5, position: "relative", paddingTop: 0, color: "white"}}>
                                        
                                                         <label class="weekdaysfilter">M</label>
                                                         <label class="weekdaysfilter">T</label>
@@ -409,11 +408,16 @@ handleClassSelect(newClass) {
                                                         <label class="weekdaysfilter">T</label>
                                                         <label class="weekdaysfilter">F</label>
                                                         <br></br>
-                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
-                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
-                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
-                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
-                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`}
+                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`}
+                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`}
+                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`}
+                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`}
+                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
 
                                     </div>             
                                     ))}
@@ -422,7 +426,7 @@ handleClassSelect(newClass) {
                     </tr>
                     <tr>
                         <td>
-                            Attributes:
+                            <text style={{color:"white"}}>Attributes: </text>
                             <Autocomplete
                                             className="professor_filter"
                                             size="small"
@@ -437,7 +441,7 @@ handleClassSelect(newClass) {
                                             />
                         </td> 
                         <td>
-                        Part of Term:
+                            <text style={{color:"white"}}>Part of Term:</text>
                             <Autocomplete
                                             className="professor_filter"
                                             size="small"
@@ -456,7 +460,7 @@ handleClassSelect(newClass) {
                         <td>
                         <Form>
                         <Form.Group controlId="starttimeslider">
-                                    <Form.Label>Start time: {this.state.filterstarttime}</Form.Label>
+                            <Form.Label><text style={{color:"white"}}>Start time: {this.state.filterstarttime}</text></Form.Label>
                                 <Form.Control type="range" min="8" max="21" step="1" onChange={this.onChange}/>
                                 </Form.Group>
                                 </Form>
@@ -464,7 +468,7 @@ handleClassSelect(newClass) {
                         <td>
                         <Form>
                         <Form.Group controlId="endtimeslider">
-                            <Form.Label>End time: {this.state.filterendtime}</Form.Label>
+                            <Form.Label><text style={{color:"white"}}>End time: {this.state.filterendtime}</text></Form.Label>
                                 <Form.Control type="range" min="8.5" max="21.5" step="1" onChange={this.onChange}/>
                                 </Form.Group>
                                 </Form>
@@ -474,8 +478,8 @@ handleClassSelect(newClass) {
                         <td>
                          <Form size="sm">
                          <Form.Group controlId="exampleForm.SelectCustom">
-                           <Form.Label>Credits:</Form.Label>
-                           <Form.Control as="select" custom>
+                             <Form.Label><text style={{color:"white"}}>Credits:</text></Form.Label>
+                           <Form.Control as="select" custom onChange={(e) => {console.log(e.target.value)}}>
                              <option>0</option>
                              <option>1</option>
                              <option>2</option>
@@ -491,7 +495,7 @@ handleClassSelect(newClass) {
                        
                             <Form>
                         <Form.Group controlId="gpaslider">
-                                    <Form.Label>GPA: {this.state.mingpa}</Form.Label>
+                            <Form.Label><text style={{color:"white"}}>GPA: {this.state.mingpa}</text></Form.Label>
                                 <Form.Control id="gpaslider" type="range" min="0" max="4" step="0.01" onChange={this.onChange}/>
                                 
                                 </Form.Group>
@@ -510,16 +514,21 @@ handleClassSelect(newClass) {
                                     <tbody>
                                         <tr>
                                             <td>
-                                                Department: 
+                                                <text style={{color:"white"}}>Department: </text>
                                                 <CourseSelect route={this.state.searchRoute} onDeptSelect={this.handleDeptSelect} type={"department"}/>
                                             </td>
                                             <td>
-                                                Class:
-                                                <CourseSelect route={this.state.searchRoute} onClassSelect={this.handleClassSelect} type={"classes"}/>
+                                                <text style={{color:"white"}}>Class: </text>
+                                                <CourseSelect
+                                                    route={this.state.searchRoute}
+                                                    onClassSelect={this.handleClassSelect}
+                                                    type={"classes"}
+                                                    closedSections={this.state.opensections}
+                                                />
                                             </td>
                                         </tr>
                                     <tr>
-                                        <td>Professor: 
+                                        <td> <text style={{color:"white"}}>Professor: </text>
                                             <Autocomplete
                                             className="professor_filter"
                                             size="small"

@@ -79,10 +79,10 @@ export default class ReactRoster extends React.Component {
 
               
             <tr>
-                <td>{course.name}</td>
-                <td>{course.prof}</td>
-                <td>{course.disparity}</td>
-                <td>{course.rating}</td>
+                <td style={{color:"white"}}>{course.name}</td>
+                <td style={{color:"white"}}>{course.prof}</td>
+                <td style={{color:"white"}}>{course.disparity}</td>
+                <td style={{color:"white"}}>{course.rating}</td>
                 <td>
                 <div class="deletebutton">
                 <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 29, height: 29}} onClick={() => {this.handleClick(course)}}>
