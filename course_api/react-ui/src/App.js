@@ -20,7 +20,7 @@ import 'bootstrap/dist/css/bootstrap.css'; // or include from a CDN
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import CourseSelect from "./components/CourseSelect";
 import { render } from 'react-dom'
-
+import Breadcrumb from 'react-bootstrap/Breadcrumb'
 
  let search_input = 1;
  let class_input = 1;
@@ -56,13 +56,13 @@ export default class FunctionalCalendar extends React.Component {
    constructor() {
        super();
        this.state = {
-           year: "",
+           year: "Year",
            season: "Season",
-           department: "",
+           department: "Department",
            class: {
                 title: "Temp",
                 name: "none",
-                number: "none",
+                number: "number",
                 department: "none",
                 prof: "none",
                 rating: "0",
@@ -80,8 +80,10 @@ export default class FunctionalCalendar extends React.Component {
                 seatsleft: "0",
                 capacity: "30"
            },
+           section: "section",
            searchRoute : "",
            searchCourseRoute : "",
+           searchSectionRoute : "",
            rosterRoute : "",
            searchStage : "0",
            userCourses: rosterdata.courses,
@@ -93,6 +95,14 @@ export default class FunctionalCalendar extends React.Component {
            filterendtime: "0",
            opensections: "false",
            filtercredits: "false", //not yet functional
+           filterweekdays: {
+               Monday: true,
+               Tuesday: true,
+               Wednesday: true,
+               Thursday: true,
+               Friday: true
+           }
+           
        }
         this.onChange = this.onChange.bind(this);
         //this.handleClick = this.handleClick.bind(this);
@@ -102,6 +112,7 @@ export default class FunctionalCalendar extends React.Component {
         this.handleYearChange = this.handleYearChange.bind(this)
         this.handleDeptSelect = this.handleDeptSelect.bind(this)
         this.handleClassSelect = this.handleClassSelect.bind(this)
+        this.handleSectionSelect = this.handleSectionSelect.bind(this)
         this.getCRNs = this.getCRNs.bind(this);
         this.setEventColors = this.setEventColors.bind(this);
         this.eventSel = this.eventSel.bind(this);
@@ -265,7 +276,7 @@ export default class FunctionalCalendar extends React.Component {
             this.setState({filterendtime: e.target.value}, () => {updateRoutes()});
         }
         if (e.target.id === "opensections") {
-            this.setState({ opensections: e.target.checked }, () => { console.log(this.state.opensections)
+            this.setState({ opensections: e.target.checked }, () => { console.log("open sections: " + this.state.opensections)
                 updateRoutes()
                 if (this.state.opensections == true) {
                     //filter courses based on capacity property
@@ -282,6 +293,7 @@ export default class FunctionalCalendar extends React.Component {
                 }
             });
         }
+        
         //this.setState({userCourses : rosterdata.courses})
        this.setState({
         searchRoute : "search/" + this.state.year + "/" + this.state.season,
@@ -353,10 +365,20 @@ handleClassSelect(newClass) {
             seatsleft: "1",
             capacity: "30"
         },
-        searchRoute:
-            "search/" + this.state.year + "/" + this.state.season + "/"
-            + this.state.department + "/" + newClass},
-        () => {console.log(this.state.searchRoute); console.log(this.state.class);})
+        searchRoute: "search/" + this.state.year + "/" + this.state.season + "/" + this.state.department + "/" + newClass,
+        searchSectionRoute: "search/" + this.state.year + "/" + this.state.season + "/" + this.state.department + "/" + newClass + "/"},
+
+        () => {console.log(this.state.searchRoute); console.log(this.state.class); console.log("searchsection:" + this.state.searchSectionRoute);})
+}
+handleSectionSelect(newSection) {
+    if (newSection.length > 0) {
+        this.setState({
+        searchRoute: "search/" + this.state.year + "/" + this.state.season + "/" + this.state.class + "/" + newSection,
+        section: newSection
+            }, () => {console.log(this.state.searchRoute)})
+
+        
+    }
 }
  
    render() {
@@ -377,7 +399,17 @@ handleClassSelect(newClass) {
                             <div 
                             //className={'semesterform'}
                             >
+                            
+                            <Breadcrumb>
+                                <Breadcrumb.Item style={{color: "whitesmoke"}}>{this.state.year}</Breadcrumb.Item>
+                                <Breadcrumb.Item>{this.state.season}</Breadcrumb.Item>    
+                                <Breadcrumb.Item>{this.state.department}</Breadcrumb.Item>
+                                <Breadcrumb.Item>{this.state.class.number}</Breadcrumb.Item>
+                                <Breadcrumb.Item>{this.state.section}</Breadcrumb.Item>
+                            </Breadcrumb>
+                            
                             <SemesterSelector year={this.state.year} season={this.state.season} onYearChange={this.handleYearChange} onSeasonChange={this.handleSeasonChange}/>
+                            
                             </div>
                         </Carousel.Item>
                         <Carousel.Item>
@@ -412,15 +444,15 @@ handleClassSelect(newClass) {
                                                         <label class="weekdaysfilter">F</label>
                                                         <br></br>
                                                         <Form.Check inline type={type} id={`inline-${type}-1`}
-                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                                    onChange={(e) => {this.state.filterweekdays[0] = e.target.checked; console.log(this.state.filterweekdays)}}/>
                                                         <Form.Check inline type={type} id={`inline-${type}-1`}
-                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                                    onChange={(e) => {this.state.filterweekdays[1] = e.target.checked; console.log(this.state.filterweekdays)}}/>
                                                         <Form.Check inline type={type} id={`inline-${type}-1`}
-                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                                    onChange={(e) => {this.state.filterweekdays[2] = e.target.checked; console.log(this.state.filterweekdays)}}/>
                                                         <Form.Check inline type={type} id={`inline-${type}-1`}
-                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                                    onChange={(e) => {this.state.filterweekdays[3] = e.target.checked; console.log(this.state.filterweekdays)}}/>
                                                         <Form.Check inline type={type} id={`inline-${type}-1`}
-                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                                    onChange={(e) => {this.state.filterweekdays[4] = e.target.checked; console.log(this.state.filterweekdays)}}/>
 
                                     </div>             
                                     ))}
@@ -513,6 +545,13 @@ handleClassSelect(newClass) {
                         <Carousel.Item>
                         <h4>Add Classes</h4>
                             <div className={"addClasses"}>
+                            <Breadcrumb>
+                                <Breadcrumb.Item style={{color: "whitesmoke"}}>{this.state.year}</Breadcrumb.Item>
+                                <Breadcrumb.Item>{this.state.season}</Breadcrumb.Item>    
+                                <Breadcrumb.Item>{this.state.department}</Breadcrumb.Item>
+                                <Breadcrumb.Item>{this.state.class.number}</Breadcrumb.Item>
+                                <Breadcrumb.Item>{this.state.section}</Breadcrumb.Item>
+                            </Breadcrumb>
                                 <Table>
                                     <tbody>
                                         <tr>
@@ -549,10 +588,22 @@ handleClassSelect(newClass) {
                                             />
                                         </td> 
                                         <td>
+                                                <text style={{color:"white"}}>Section: </text>
+                                                <CourseSelect
+                                                    route={this.state.searchSectionRoute}
+                                                    onSectionSelect={this.handleSectionSelect}
+                                                    type={"sections"}
+                                                    //closedSections={this.state.opensections}
+                                                    //mingpa={this.state.mingpa}
+                                                />
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
                                         <Button variant="primary" type="submit" onClick={this.handleAddClick} style={{margin: 18}}>
                                             Add Class
                                         </Button>
-                                       
                                         </td>
                                     </tr>
                                     </tbody>

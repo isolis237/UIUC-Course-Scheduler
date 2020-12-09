@@ -19,6 +19,9 @@ export default function CourseSelect(props) {
         if (props.type == "classes") {
             props.onClassSelect(e)
         }
+        if (props.type == "sections") {
+            props.onSectionSelect(e)
+        }
     }
 
     React.useEffect(() => {
@@ -33,6 +36,7 @@ export default function CourseSelect(props) {
 
             const response = await fetch(props.route).then(response => response.json().then(data => {
                 if (type == "classes") {
+                    /*
                     let filteredCourses = [];
                     console.log("data.length: " + data.length)
                     for (let i = 0; i < data.length; i++) {

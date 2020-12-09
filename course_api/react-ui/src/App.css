@@ -14,7 +14,18 @@
   width: 0;
   height: 0;
 }
-
+ol.breadcrumb {
+  padding: 0px;
+  margin-bottom: 5px;
+  list-style: none;
+  background-color: inherit;
+  color: whitesmoke  !important;
+  border-radius: 4px;
+  
+}
+ div a {
+  color: whitesmoke;
+}
 .slider {
   position: absolute;
   cursor: pointer;

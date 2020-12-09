@@ -42,7 +42,7 @@ export default class SemesterSelector extends React.Component {
                         controlId="Year"
                         id = "year"
                         type="text"
-                        value={this.props.year}
+                        //value={this.props.year}
                         placeholder="Enter year"
                         onChange={this.handleChange}
                     />
