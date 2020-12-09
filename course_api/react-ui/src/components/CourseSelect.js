@@ -5,8 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {sleep} from "../App"
 import "../App.css"
-
-
+import * as rosterdata from './roster.json'
 
 export default function CourseSelect(props) {
     const [open, setOpen] = React.useState(false);
@@ -33,16 +32,45 @@ export default function CourseSelect(props) {
         (async () => {
 
             const response = await fetch(props.route).then(response => response.json().then(data => {
-                    setOptions(data);
+                if (type == "classes") {
+                    let filteredCourses = [];
+                    console.log("data.length: " + data.length)
+                    for (let i = 0; i < data.length; i++) {
+                        console.log("data[i]: " + data[i].name)
+                        console.log("data[i]: " + data[i].disparity)
+                        if (data[i].disparity > props.mingpa) {
+                            filteredCourses.push(data[i])
+                        
+                        }
+                    }
+                    /*
+                    if (props.closedSections == true) {
+                        let filteredCourses = [];
+                        console.log("data.length: " + data.length)
+                        for (let i = 0; i <data.length; i++) {
+                            console.log("data[i]: " + data[i].name)
+                            console.log("data[i].seatsleft: " + data[i].seatsleft)
+                            if (data[i].seatsleft > 0) {
+                                filteredCourses.push(data[i])
+                            }
+                        }
+                        console.log("filter on: " + filteredCourses)
+                        data = filteredCourses
+                    }
+                    */
+                    
+                }
+                //console.log("data props: " + Object.getOwnPropertyNames(data[0]))
+                setOptions(data);
                 })
             );
             await sleep(1e3); // For demo purposes.
-            let countries = "loading";
+            let courses = "loading";
             if (response != null) {
-                countries = await response.json();
+                courses = await response.json();
             }
             if (active) {
-                setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
+                setOptions(Object.keys(courses).map((key) => courses[key].item[0]));
             }
         })();
 
@@ -77,21 +105,17 @@ export default function CourseSelect(props) {
                         let id = value.split(":")
                         //gross way of getting department but it works use "id[0]"
                         handleChange(id[0])
-                        
                     }
                     if (props.type == "classes") {
                         setOpen(false);
                         //Not sure how the api wants the class formatted
-
                         let value = e.target.innerHTML
                         let id = value.split(":")
                         //gross way
                         handleChange(id[0])
-
-                        console.log(e.target.innerHTML)
+                        //console.log(e.target.innerHTML)
                         //handleChange(CLASS_GOES_HERE)
                     }
-
                 }}
                 getOptionSelected={(option, value) => option.name === value.name}
                 getOptionLabel={(option) => option.id + ": " + option.name}
@@ -101,18 +125,17 @@ export default function CourseSelect(props) {
                 onChange={props.onChange,
                     (event, object) => {
                     if (props.type == "department") {
-                    console.log(props.type)
+                    //console.log("department" + props.type)
                 }
                     else if (props.type == "classes") {
-                    console.log(props.type)
+                    //console.log("classes" + props.type)
                 }
-
                 }}
                 renderInput={(params) => (
                     <TextField
                         {...params}
                         id={props.type}
-                        label={props.type}
+                        //label={props.type}
                         variant="outlined"
                         value={props.type}
                         onChange={props.onChange}

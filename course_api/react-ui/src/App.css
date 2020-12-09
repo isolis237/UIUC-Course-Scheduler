@@ -334,6 +334,11 @@ td {
   font-size: 14px;
   font-family: inherit;
   font-weight: lighter;
+  white-space: pre-wrap;
+}
+.smallfont {
+ font-size:  8px;
+
 }
 .fc .fc-scrollgrid {
   border: 1px solid rgb(41, 41, 41);

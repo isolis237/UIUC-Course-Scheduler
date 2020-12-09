@@ -1,20 +1,3 @@
-/*import ReactCalendar from "./components/ReactCalendar";
-import AddClasses from "./components/AddClasses"
-import FunctionalCalendar from "./components/FunctionalCalendar"
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Table from 'react-bootstrap/Table';
-import React from "react";
-import './App.css';
-
-function App() {
-  return (
-      <body>
-        <FunctionalCalendar/>
-      </body>
-  );
-}
-
-export default App; */
 import React, {useEffect, useState} from 'react'
 import ReactCalendar from './components/ReactCalendar'
 import AddClasses from './components/AddClasses'
@@ -36,21 +19,11 @@ import SemesterSelector from "./components/SemesterSelector";
 import 'bootstrap/dist/css/bootstrap.css'; // or include from a CDN
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import CourseSelect from "./components/CourseSelect";
+import { render } from 'react-dom'
 
 
  let search_input = 1;
  let class_input = 1;
-
- /*
- var r = document.querySelector(':root');
- function myFunction_get() {
-    var rs = getComputedStyle(r);
-    alert("The value of --height is: " + rs.getPropertyValue('--height'));
-  }
-  function myFunction_set() {
-    r.style.setProperty('--height', );
-  }
-*/
 
 
  // helper function for checking class with existing classes
@@ -87,25 +60,25 @@ export default class FunctionalCalendar extends React.Component {
            season: "Season",
            department: "",
            class: {
-            title: "Temp",
-            name: "none",
-            number: "none",
-            department: "none",
-            prof: "none",
-            rating: "0",
-            disparity: "0",
-            credits: "0",
-            section: "L1",
-            CRN: "12402",
-            type: "Lecture",
-            daysOfWeek: [2, 4],
-            startTime: "14:00",
-            slotDuration: "00:50",
-            groupId: "this will be changed automatically",
-            id: "1",
-            display: "auto",
-            seatsleft: "0",
-            capacity: "30"
+                title: "Temp",
+                name: "none",
+                number: "none",
+                department: "none",
+                prof: "none",
+                rating: "0",
+                disparity: "0",
+                credits: "0",
+                section: "L1",
+                CRN: "12402",
+                type: "Lecture",
+                daysOfWeek: [2, 4],
+                startTime: "14:00",
+                slotDuration: "00:50",
+                groupId: "this will be changed automatically",
+                id: "1",
+                display: "auto",
+                seatsleft: "0",
+                capacity: "30"
            },
            searchRoute : "",
            searchCourseRoute : "",
@@ -118,10 +91,11 @@ export default class FunctionalCalendar extends React.Component {
            avgdisparity: "0",
            filterstarttime: "0",
            filterendtime: "0",
-           opensections: "false"
+           opensections: "false",
+           filtercredits: "false", //not yet functional
        }
         this.onChange = this.onChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        //this.handleClick = this.handleClick.bind(this);
         this.handleAddClick = this.handleAddClick.bind(this);
         this.setClass = this.setClass.bind(this);
         this.handleSeasonChange = this.handleSeasonChange.bind(this)
@@ -130,7 +104,7 @@ export default class FunctionalCalendar extends React.Component {
         this.handleClassSelect = this.handleClassSelect.bind(this)
         this.getCRNs = this.getCRNs.bind(this);
         this.setEventColors = this.setEventColors.bind(this);
-        this.eventsel = this.eventsel.bind(this);
+        this.eventSel = this.eventSel.bind(this);
         this.setTotalCredits = this.setTotalCredits.bind(this);
         this.setAverageDisparity = this.setAverageDisparity.bind(this);
    }
@@ -144,6 +118,18 @@ export default class FunctionalCalendar extends React.Component {
         if (this.state.userCourses.length == 0){
             this.state.avgdisparity = 0;
         }
+        /*
+        Ivan's version
+        
+        if (this.state.userCourses.length == 0) {
+            return;
+        }
+        let runningdisp = 0;
+        for (let i = 0; i < this.state.userCourses.length; i++) {
+            runningdisp += parseInt(this.state.userCourses[i].disparity)
+        }
+        let avgdisp = Math.round((runningdisp / this.state.userCourses.length) * 100) / 100
+        this.setState({avgdisparity : avgdisp})*/
     }
     setTotalCredits() {
         let i;
@@ -151,35 +137,44 @@ export default class FunctionalCalendar extends React.Component {
          for (i=0; i < this.state.userCourses.length; i++) {
              this.state.totalcredits += this.state.userCourses[i].credits*1;
          }
+        /*
+         Ivan's version
+         
+         let creds = 0;
+       for (let i = 0; i < this.state.userCourses.length; i++) {
+           let num = parseInt(this.state.userCourses[i].credits)
+           creds += num
+       }
+       this.setState({totalcredits : creds}); */
      }
-   eventsel(i) {
-    console.log("i is:" + i)
-    this.state.userCourses[i*1].display = "auto"
+   eventSel(i) {
     //this.state.userCourses[1].setProp( "backgroundColor", "blue")
-    this.state.userCourses[i*1].backgroundColor = "blue"
+    console.log("i is:" + i)
    }
    getCRNs() {
     let i;
     let list = [];
     for (i=0; i<this.state.userCourses.length; i++) {
-    list[i] = this.state.userCourses[i].CRN
+        list[i] = this.state.userCourses[i].CRN
     }
     alert("CRNs: " + list)
    }
    setEventColors() {
-       let i;
-       this.state.totalcredits = 0;
+    let i;
+    this.state.totalcredits = 0;
     for (i=0; i < this.state.userCourses.length; i++) {
     this.state.userCourses[i].backgroundColor = color(this.state.userCourses[i].CRN)
     this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
     this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
+    this.state.userCourses[i].id = this.state.userCourses[i].CRN;
     this.state.userCourses[i].title = 
 
-    this.state.userCourses[i].name + " \t" +
-    this.state.userCourses[i].disparity + " " + 
-    this.state.userCourses[i].rating + "/5 " + 
-    this.state.userCourses[i].seatsleft + "/" + 
-    this.state.userCourses[i].capacity;
+    this.state.userCourses[i].name + "    \t" +
+    
+    "seats: " + this.state.userCourses[i].seatsleft + "/" + this.state.userCourses[i].capacity + " \n\t\t\t" +
+    "gpa: " + this.state.userCourses[i].disparity + " \n\t\t\t" + 
+    "prof: " + this.state.userCourses[i].rating + "/5"; 
+    
 
     //full class
     if (this.state.userCourses[i].seatsleft == 0) {
@@ -187,16 +182,16 @@ export default class FunctionalCalendar extends React.Component {
         this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
         this.state.userCourses[i].title = 
 
-    this.state.userCourses[i].name + " \n" +
-    this.state.userCourses[i].disparity + " " + 
-    this.state.userCourses[i].rating + "/5 " + 
-    this.state.userCourses[i].seatsleft + "/" + 
-    this.state.userCourses[i].capacity + " (FULL)";
+        this.state.userCourses[i].name + "    \t" +
+    
+        "seats: " + this.state.userCourses[i].seatsleft + "/" + this.state.userCourses[i].capacity + " (FULL) \n\t\t\t" +
+        "gpa: " + this.state.userCourses[i].disparity + " \n\t\t\t" + 
+        "prof: " + this.state.userCourses[i].rating + "/5"
     }
 
     this.state.totalcredits += this.state.userCourses[i].credits*1;
     } 
-    console.log(this.state.totalcredits)
+    
     
    }
    
@@ -205,15 +200,14 @@ export default class FunctionalCalendar extends React.Component {
 }
   handleAddClick() {
       //this is a temporary class template until the api is done
-     
-      
       console.log(this.state.class)
  if (this.state.class.name==null) {
      alert("Cannot add null class!")
  }
- else if (containsObject(this.state.class.name, this.state.userCourses)) {
+ if (containsObject(this.state.class, this.state.userCourses)) {
      alert("Class already in schedule!");
- } else {
+ } 
+ else {
      this.setState({
          userCourses : this.state.userCourses.concat(this.state.class)}, () => {
          this.setClass(this.state.userCourses);
@@ -222,8 +216,7 @@ export default class FunctionalCalendar extends React.Component {
  this.setTotalCredits();
  this.setAverageDisparity();
 }
-    handleClick() {
-        
+/*    handleClick() {  
     this.setState({
         searchRoute : "search/" + this.state.year + "/" + this.state.season,
         searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
@@ -232,14 +225,13 @@ export default class FunctionalCalendar extends React.Component {
         searchStage : this.state.searchStage + 1, 
         mingpa: this.state.mingpa,
     });
-    
  console.log("search route: " + this.state.searchCourseRoute);
  console.log("search_input: " + search_input.id);
  console.log("this.state.department: " + this.state.department);
  console.log("selected class: " + class_input.id + " " +class_input.name);
  console.log(class_input);
    }
-   
+   */
     onChange(e) {
         
         let updateRoutes = () => {
@@ -247,10 +239,9 @@ export default class FunctionalCalendar extends React.Component {
             this.setState({
                 searchRoute : "search/" + this.state.year + "/" + this.state.season,
                 department : search_input.id,
-                searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
-                searchStage : this.state.searchStage + 1,
+                searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + this.state.department,
                 mingpa : this.state.mingpa
-            });
+            }, () => {console.log(this.state.searchRoute)});
         }
         if (e.target.id === "year") {
             this.setState({ year: e.target.value }, () => {updateRoutes()});
@@ -274,12 +265,26 @@ export default class FunctionalCalendar extends React.Component {
             this.setState({filterendtime: e.target.value}, () => {updateRoutes()});
         }
         if (e.target.id === "opensections") {
-            this.setState({ opensections: e.target.value }, () => {updateRoutes()});
+            this.setState({ opensections: e.target.checked }, () => { console.log(this.state.opensections)
+                updateRoutes()
+                if (this.state.opensections == true) {
+                    //filter courses based on capacity property
+                    //fetch /search/year/semester/department
+                    /**
+                     let filteredCourses;
+                     for (let i = 0; i < fetchedCourses.length; i++) {
+                        if (fetchedCourses[i].seatsleft > 0) {
+                            filteredCourses.push(fetchedCourses[i])
+                        }
+                     }
+                     */
+                    //send filteredCourses to be option property of Autocomplete component
+                }
+            });
         }
         //this.setState({userCourses : rosterdata.courses})
        this.setState({
         searchRoute : "search/" + this.state.year + "/" + this.state.season,
-        searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
         searchStage : this.state.searchStage + 1, 
     });
  console.log("search route: " + this.state.searchCourseRoute);
@@ -300,23 +305,33 @@ handleRemoveClick(courselist) {
    
 }
 handleYearChange(newYear) {
-    this.setState({year: newYear}, () => {
-        this.setState({searchRoute: "search/" + this.state.year + "/"})
-    });
+    this.setState({searchRoute: "search/" + newYear + "/", year: newYear}, () => {
+        console.log(this.state.searchRoute)
+    })
 }
 handleSeasonChange(newSeason) {
-    this.setState({season: newSeason}, () => {
-        this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season})
-    });
+    this.setState({searchRoute: "search/" + this.state.year + "/" + newSeason, season: newSeason}, () => {
+        console.log(this.state.searchRoute)
+    })
+    this.setState({deptSearchRoute: "search/" + this.state.year + "/" + newSeason}, () => {
+        console.log(this.state.deptSearchRoute)
+    })
+
 }
 handleDeptSelect(newDept) {
-    this.setState({
-        department: newDept,
-        searchRoute: "search/" + this.state.year + "/" + this.state.season + "/"
-    + newDept}, () => {console.log(this.state.searchRoute)})
+    if (newDept.length > 0) {
+        this.setState({searchRoute: "search/" + this.state.year + "/" + this.state.season + "/" + newDept,
+        department: newDept
+            }, () => {console.log(this.state.searchRoute)})
+
+        this.setState({searchCourseRoute: "search/" + this.state.year + "/" + this.state.season + "/" + newDept
+                }, () => {console.log(this.state.searchRoute)})
+    }
 }
 handleClassSelect(newClass) {
+    
     this.setState({
+        
         class: {
             title: "temp",
             name: this.state.department + " " + newClass,
@@ -335,21 +350,23 @@ handleClassSelect(newClass) {
             groupId: "this will be changed automatically",
             id: "1",
             display: "auto",
-            seatsleft: "0",
+            seatsleft: "1",
             capacity: "30"
         },
-        searchRoute: "search/" + this.state.year + "/" + this.state.season + "/"
-            + this.state.department + "/" + newClass}, () => {console.log(this.state.searchRoute);
-            console.log(this.state.class);})
+        searchRoute:
+            "search/" + this.state.year + "/" + this.state.season + "/"
+            + this.state.department + "/" + newClass},
+        () => {console.log(this.state.searchRoute); console.log(this.state.class);})
 }
  
    render() {
     
        return(
+           //initialize 
            this.setEventColors(),
            this.setTotalCredits(),
            this.setAverageDisparity(),
-           //this.eventsel(1),
+           //this.eventSel(1),
            //this.state.userCourses[1].display = "auto",
         <html>
         <div className={'left_container'} style={{height: window.innerHeight, maxHeight: window.innerHeight}}>
@@ -370,11 +387,14 @@ handleClassSelect(newClass) {
                     <tbody>
                     <tr>
                         <td>
-                        exclude full sections {this.state.opensections}
+                        <text style={{color:"white"}}>Exclude full sections</text>
                         <br></br>
                         <Form.Group controlId="opensections">
                             <label class="switch">
-                                <input type="checkbox" controlId="opensections" id="opensections" onchange={this.onChange}/>
+                                <input type="checkbox" controlId="opensections" id="opensections" 
+                                /**onChange={(e) => {console.log(e.target.checked)}}*/
+                                onChange={(e) => {this.onChange(e)}}
+                                />
                                 <span class="slider round"></span>
   
                             </label>
@@ -391,11 +411,16 @@ handleClassSelect(newClass) {
                                                         <label class="weekdaysfilter">T</label>
                                                         <label class="weekdaysfilter">F</label>
                                                         <br></br>
-                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
-                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
-                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
-                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
-                                                        <Form.Check inline type={type} id={`inline-${type}-1`} />
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`}
+                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`}
+                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`}
+                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`}
+                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
+                                                        <Form.Check inline type={type} id={`inline-${type}-1`}
+                                                                    onChange={(e) => {console.log(e.target.checked)}}/>
 
                                     </div>             
                                     ))}
@@ -457,7 +482,7 @@ handleClassSelect(newClass) {
                          <Form size="sm">
                          <Form.Group controlId="exampleForm.SelectCustom">
                            <Form.Label>Credits:</Form.Label>
-                           <Form.Control as="select" custom>
+                           <Form.Control as="select" custom onChange={(e) => {console.log(e.target.value)}}>
                              <option>0</option>
                              <option>1</option>
                              <option>2</option>
@@ -492,16 +517,26 @@ handleClassSelect(newClass) {
                                     <tbody>
                                         <tr>
                                             <td>
-                                                Department: 
-                                                <CourseSelect route={this.state.searchRoute} onDeptSelect={this.handleDeptSelect} type={"department"}/>
+                                                <text style={{color:"white"}}>Department: </text>
+                                                <CourseSelect 
+                                                    route={this.state.deptSearchRoute} 
+                                                    onDeptSelect={this.handleDeptSelect} 
+                                                    type={"department"}
+                                                    />
                                             </td>
                                             <td>
-                                                Class:
-                                                <CourseSelect route={this.state.searchRoute} onClassSelect={this.handleClassSelect} type={"classes"}/>
+                                                <text style={{color:"white"}}>Class: </text>
+                                                <CourseSelect
+                                                    route={this.state.searchCourseRoute}
+                                                    onClassSelect={this.handleClassSelect}
+                                                    type={"classes"}
+                                                    closedSections={this.state.opensections}
+                                                    mingpa={this.state.mingpa}
+                                                />
                                             </td>
                                         </tr>
                                     <tr>
-                                        <td>Professor: 
+                                        <td><text style={{color:"white"}}>Professor: </text>
                                             <Autocomplete
                                             className="professor_filter"
                                             size="small"
@@ -537,7 +572,7 @@ handleClassSelect(newClass) {
             
         </div>
         
-            <ReactCalendar events={this.state.userCourses} select={{eventsel: this.eventsel.bind(this)}}/>
+            <ReactCalendar events={this.state.userCourses} select={{eventSel: this.eventSel.bind(this)}}/>
         
     </html>
        )

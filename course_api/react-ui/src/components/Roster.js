@@ -12,7 +12,6 @@ import { Calendar, computeSmallestCellWidth } from '@fullcalendar/core';
 //import 'http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js'
 import "../App.css"
 
-
 export default class ReactRoster extends React.Component {
 
     constructor() {

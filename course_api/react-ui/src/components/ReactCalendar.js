@@ -5,9 +5,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import React from 'react';
 import * as rosterdata from './roster.json'
 
-
-
-
 /*
 eventClick: function(info) {
     alert('Event: ' + info.event.title);
@@ -28,9 +25,9 @@ eventClick: function(info) {
 */
 
 export default class ReactCalendar extends React.Component {
-    
-    
-    
+
+    calendarRef = React.createRef()
+
    render() {
        
        let courses
@@ -83,6 +80,7 @@ export default class ReactCalendar extends React.Component {
             <div class="calendar">
                 
             <FullCalendar
+                ref={this.calendarRef}
                 plugins={[timeGridPlugin, interactionPlugin]}
                 initialView={'timeGridWeek'}
                 stickyHeaderDates={true}
@@ -101,7 +99,7 @@ export default class ReactCalendar extends React.Component {
                 dayHeaderFormat={{weekday: 'long'}}
                 eventStartEditable={true}
                 durationEditable={false}
-                //eventContent={this.eventselect}
+                //eventContent={this.props.content/**this.eventselect*/}
                 events={this.props.events}
                 eventMouseEnter={this.eventselect}
                 eventClick={this.eventselect}
@@ -109,28 +107,24 @@ export default class ReactCalendar extends React.Component {
                 select={this.updatesize}
             />
             </div>
-            
-
         )
-
-
     }
     
-    eventselect = (arg) => { 
+    eventselect = (arg, props) => { 
         //console.log("reactcalendar length" + this.props.events.length)
-        
         let i;
-    for (i=0; i<this.props.events.length; i++) {
-        if(this.props.events[i].title === arg.event.title) {
-        console.log(this.props.events[i].title)
-        console.log(arg.event.title)
-        console.log(i)
         
-        //.setProp( "display", "auto" )
-        //arg.event.setProp( "backgroundColor", "blue")
-        //return this.props.events[i]
-        this.props.events[i].display = "auto"
-        this.props.select.eventsel(i);
+
+    for (i=0; i<this.props.events.length; i++) {
+        if(this.props.events[i].title == arg.event.title) {
+        console.log(this.props.events[i].title)
+        console.log(i)
+        //this.props.select.eventSel(i);
+        this.calendarRef.current
+        .getApi()
+        //.getEventById( this.props.events[i].CRN )
+        .getEvents()[i]
+        .setProp( "display", "auto")
         }
     }
     }
@@ -139,6 +133,12 @@ export default class ReactCalendar extends React.Component {
         cal.updateSize()
     
      }
+     someMethod() {
+        let calendarApi = this.calendarRef.current.getApi()
+        calendarApi.next()
+        console.log(this.calendarRef.current.getApi())
+
+      }
    
 }
 
