@@ -63,35 +63,36 @@ export default class ReactCalendar extends React.Component {
     }
     deselect = (arg) => {
         this.checktimes(arg)
-    
         this.calendarRef.current.getApi().getEventSources()[1].remove()
     }
-    addStarts() {
+    addStarts = (dropInfo) => {
         let j;
         let k;
-        let starts = [];
+        console.log("target: " + dropInfo.start)
         for (j=0; j<this.calendarRef.current.getApi().getEvents().length; j++) {
-            
             for (k=0; k<this.props.otherSections.length; k++) {
-            if (this.props.otherSections[k].id == this.calendarRef.current.getApi().getEvents()[j].id) {
-                this.props.otherSections[k].start = this.calendarRef.current.getApi().getEvents()[j].start
-                console.log("possible: " + this.props.otherSections[k].start)
+                if (this.props.otherSections[k].id == this.calendarRef.current.getApi().getEvents()[j].id) {
+                    this.props.otherSections[k].start = this.calendarRef.current.getApi().getEvents()[j].startStr
+                    console.log("possible: " + this.props.otherSections[k].start)
+                    if (dropInfo.startStr == this.props.otherSections[k].start) {
+                        return true
+                        
+                    }
+                }
             }
         }
-        }
-        return starts
+        return false
     }
     checkevents = (dropInfo, draggedEvent) => {
         let i;
         //console.log(draggedEvent.start)
-        console.log("target: " + dropInfo.start)
+        //console.log("target: " + dropInfo.start)
         for (i=0; i<this.props.otherSections.length; i++) {
-            this.addStarts()
-            if (dropInfo.startStr == this.props.otherSections[i].start) {
-                return true
-            }
+            //console.log("possible: " + this.props.otherSections[i].start)
+            console.log(this.addStarts(dropInfo))
+            return this.addStarts(dropInfo)
         }        
-        return false
+        
     }
     checktimes = (arg) => {
 

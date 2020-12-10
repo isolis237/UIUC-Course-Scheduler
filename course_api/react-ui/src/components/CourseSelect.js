@@ -46,7 +46,6 @@ export default function CourseSelect(props) {
                         console.log("data[i]: " + data[i].disparity)
                         if (data[i].disparity > props.mingpa) {
                             filteredCourses.push(data[i])
-                        
                         }
                     }
                     /*

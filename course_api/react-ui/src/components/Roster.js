@@ -76,7 +76,7 @@ export default class ReactRoster extends React.Component {
                     
                 </div>*/
 
-              
+              /*
             <tr>
                 <td>{course.name}</td>
                 <td>{course.prof}</td>
@@ -92,9 +92,9 @@ export default class ReactRoster extends React.Component {
             </tr>
     
         
+        */
         
-        
-          /*  
+          
             <Accordion key={course.title}>
                 <Card.Header>
                     <Accordion.Toggle as={Card.Header} eventKey={"0"}>
@@ -128,7 +128,7 @@ export default class ReactRoster extends React.Component {
                 </Accordion.Collapse>
         </Accordion>
         
-            */
+            
         
             ));
         return mapCourses;
@@ -151,10 +151,10 @@ export default class ReactRoster extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.renderRoster()}
+                    
                     </tbody>
                 </Table>
-                
+                {this.renderRoster()}
                 
                 
                 
