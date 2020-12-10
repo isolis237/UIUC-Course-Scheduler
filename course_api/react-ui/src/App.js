@@ -38,13 +38,13 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb'
 }
 
 // helper function for input of rgb
-function color(crn){
+function color(crn, a){
     let gray = 2.5
     let brightness = 60
     let r = (Math.sin(crn)+gray)*brightness
     let g = (Math.sin(crn*crn)+gray)*brightness
     let b = (Math.sin(crn*crn*crn)+gray)*(brightness+5)
-    return "rgb("+r+","+g+","+b+")";
+    return "rgb("+r+","+g+","+b+","+a+")";
   }
   function rgb(r, g, b){
     return "rgb("+r+","+g+","+b+")";
@@ -62,7 +62,7 @@ export default class FunctionalCalendar extends React.Component {
            class: {
                 title: "Temp",
                 name: "none",
-                number: "number",
+                number: "Number",
                 department: "none",
                 prof: "none",
                 rating: "0",
@@ -78,15 +78,17 @@ export default class FunctionalCalendar extends React.Component {
                 id: "1",
                 display: "auto",
                 seatsleft: "0",
-                capacity: "30"
+                capacity: "30",
+                route: ""
            },
-           section: "section",
+           section: "Section",
            searchRoute : "",
            searchCourseRoute : "",
            searchSectionRoute : "",
            rosterRoute : "",
            searchStage : "0",
            userCourses: rosterdata.courses,
+           otherSections: rosterdata.otherSections,
            name: "test",
            mingpa: "0",
            totalcredits: "0",
@@ -116,6 +118,7 @@ export default class FunctionalCalendar extends React.Component {
         this.getCRNs = this.getCRNs.bind(this);
         this.setEventColors = this.setEventColors.bind(this);
         this.eventSel = this.eventSel.bind(this);
+        this.switchsections = this.switchsections.bind(this);
         this.setTotalCredits = this.setTotalCredits.bind(this);
         this.setAverageDisparity = this.setAverageDisparity.bind(this);
    }
@@ -159,8 +162,22 @@ export default class FunctionalCalendar extends React.Component {
        this.setState({totalcredits : creds}); */
      }
    eventSel(i) {
-    //this.state.userCourses[1].setProp( "backgroundColor", "blue")
-    console.log("i is:" + i)
+        console.log("route: " + this.state.userCourses[i].route)
+        fetch(this.state.userCourses[i].route).then(data => {
+            console.log(data);
+            for (i=0; i<data.length; i++) {
+                data[i].isothersection="true";
+            }
+        })
+   }
+   switchsections(useri, otheri) {
+        //let temp = this.state.userCourses[i]
+        console.log(this.state.userCourses[useri].CRN)
+        console.log(this.state.otherSections[otheri].CRN)
+        this.state.userCourses[useri] = this.state.otherSections[otheri]
+        console.log(this.state.userCourses[useri].CRN)
+        this.state.userCourses[useri].isothersection = false;
+        this.setEventColors()
    }
    getCRNs() {
     let i;
@@ -172,9 +189,28 @@ export default class FunctionalCalendar extends React.Component {
    }
    setEventColors() {
     let i;
+    for (i=0; i<this.state.otherSections.length; i++) {
+        this.state.otherSections[i].backgroundColor = color(this.state.otherSections[i].CRN, 0.2)
+        this.state.otherSections[i].borderColor = this.state.otherSections[i].backgroundColor
+        this.state.otherSections[i].id = this.state.otherSections[i].CRN;
+        this.state.otherSections[i].groupId = this.state.otherSections[i].CRN;
+        this.state.otherSections[i].title = 
+
+        this.state.otherSections[i].name + "    \t" +
+    
+        "seats: " + this.state.otherSections[i].seatsleft + "/" + this.state.otherSections[i].capacity + " \n\t\t\t" +
+        "gpa: " + this.state.otherSections[i].disparity + " \n\t\t\t" + 
+        "prof: " + this.state.otherSections[i].rating + "/5"; 
+    }
+    if (this.state.userCourses.length > 0) {
+    this.state.userCourses[this.state.userCourses.length-1].route = this.state.searchRoute;
+    console.log( this.state.userCourses)
+    console.log(this.state.userCourses[this.state.userCourses.length-1].route)
+    }
+    
     this.state.totalcredits = 0;
     for (i=0; i < this.state.userCourses.length; i++) {
-    this.state.userCourses[i].backgroundColor = color(this.state.userCourses[i].CRN)
+    this.state.userCourses[i].backgroundColor = color(this.state.userCourses[i].CRN, 1)
     this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
     this.state.userCourses[i].groupId = this.state.userCourses[i].CRN;
     this.state.userCourses[i].id = this.state.userCourses[i].CRN;
@@ -202,8 +238,6 @@ export default class FunctionalCalendar extends React.Component {
 
     this.state.totalcredits += this.state.userCourses[i].credits*1;
     } 
-    
-    
    }
    
    setClass(courselist) {
@@ -211,7 +245,7 @@ export default class FunctionalCalendar extends React.Component {
 }
   handleAddClick() {
       //this is a temporary class template until the api is done
-      console.log(this.state.class)
+      console.log(this.state.class.name)
  if (this.state.class.name==null) {
      alert("Cannot add null class!")
  }
@@ -223,13 +257,19 @@ export default class FunctionalCalendar extends React.Component {
          userCourses : this.state.userCourses.concat(this.state.class)}, () => {
          this.setClass(this.state.userCourses);
      })
+     
+     
  }
+
+//this.state.userCourses[i].route = this.state.searchRoute;
+//console.log(this.state.userCourses[i].route)
  this.setTotalCredits();
  this.setAverageDisparity();
+ this.setEventColors();
 }
 /*    handleClick() {  
     this.setState({
-        searchRoute : "search/" + this.state.year + "/" + this.state.season,
+        searchRoute : "search/" + this.state.year + "/" + this.state.season,ss
         searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + search_input.id,
         department : search_input.id,
         rosterRoute : "/roster" + class_input.id,
@@ -317,12 +357,15 @@ handleRemoveClick(courselist) {
    
 }
 handleYearChange(newYear) {
-    this.setState({searchRoute: "search/" + newYear + "/", year: newYear}, () => {
+    this.setState({
+        searchRoute: "search/" + newYear + "/" + this.state.season, year: newYear,
+        deptSearchRoute: "search/" + newYear + "/" + this.state.season}, () => {
         console.log(this.state.searchRoute)
     })
 }
 handleSeasonChange(newSeason) {
-    this.setState({searchRoute: "search/" + this.state.year + "/" + newSeason, season: newSeason}, () => {
+    this.setState({
+        searchRoute: "search/" + this.state.year + "/" + newSeason, season: newSeason}, () => {
         console.log(this.state.searchRoute)
     })
     this.setState({deptSearchRoute: "search/" + this.state.year + "/" + newSeason}, () => {
@@ -366,7 +409,7 @@ handleClassSelect(newClass) {
             capacity: "30"
         },
         searchRoute: "search/" + this.state.year + "/" + this.state.season + "/" + this.state.department + "/" + newClass,
-        searchSectionRoute: "search/" + this.state.year + "/" + this.state.season + "/" + this.state.department + "/" + newClass + "/"},
+        searchSectionRoute: "search/" + this.state.year + "/" + this.state.season + "/" + this.state.department + "/" + newClass},
 
         () => {console.log(this.state.searchRoute); console.log(this.state.class); console.log("searchsection:" + this.state.searchSectionRoute);})
 }
@@ -623,7 +666,13 @@ handleSectionSelect(newSection) {
             
         </div>
         
-            <ReactCalendar events={this.state.userCourses} select={{eventSel: this.eventSel.bind(this)}}/>
+            <ReactCalendar 
+            events={this.state.userCourses} 
+            otherSections={this.state.otherSections} 
+            switch={{switchsections: this.switchsections.bind(this)}}
+            setcolors={{setEventColors: this.setEventColors.bind(this)}} 
+            select={{eventSel: this.eventSel.bind(this)}}
+            />
         
     </html>
        )

@@ -36,6 +36,8 @@ export default function CourseSelect(props) {
 
             const response = await fetch(props.route).then(response => response.json().then(data => {
                 if (type == "classes") {
+                    
+                    console.log("data.length: " + data.length)
                     /*
                     let filteredCourses = [];
                     console.log("data.length: " + data.length)
