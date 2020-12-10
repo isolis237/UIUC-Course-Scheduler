@@ -46,8 +46,8 @@ function color(crn, a){
     let b = (Math.sin(crn*crn*crn)+gray)*(brightness+5)
     return "rgb("+r+","+g+","+b+","+a+")";
   }
-  function rgb(r, g, b){
-    return "rgb("+r+","+g+","+b+")";
+  function rgb(r, g, b, a){
+    return "rgb("+r+","+g+","+b+","+a+")";
   }
 
 // helper function for "random" seed generator
@@ -171,13 +171,16 @@ export default class FunctionalCalendar extends React.Component {
         })
    }
    switchsections(useri, otheri) {
-        //let temp = this.state.userCourses[i]
-        console.log(this.state.userCourses[useri].CRN)
-        console.log(this.state.otherSections[otheri].CRN)
+        if (useri != null && otheri != null) {
+        console.log(this.state.userCourses[useri])
         this.state.userCourses[useri] = this.state.otherSections[otheri]
-        console.log(this.state.userCourses[useri].CRN)
-        this.state.userCourses[useri].isothersection = false;
+        console.log(this.state.userCourses[useri])
+        this.state.userCourses[useri].isothersection = "false";
         this.setEventColors()
+        }
+        else {
+            console.log("this.switchsections failure")
+        }
    }
    getCRNs() {
     let i;
@@ -197,14 +200,12 @@ export default class FunctionalCalendar extends React.Component {
         this.state.otherSections[i].title = 
 
         this.state.otherSections[i].name + "    \t" +
-    
         "seats: " + this.state.otherSections[i].seatsleft + "/" + this.state.otherSections[i].capacity + " \n\t\t\t" +
         "gpa: " + this.state.otherSections[i].disparity + " \n\t\t\t" + 
         "prof: " + this.state.otherSections[i].rating + "/5"; 
     }
     if (this.state.userCourses.length > 0) {
     this.state.userCourses[this.state.userCourses.length-1].route = this.state.searchRoute;
-    console.log( this.state.userCourses)
     console.log(this.state.userCourses[this.state.userCourses.length-1].route)
     }
     
@@ -217,15 +218,13 @@ export default class FunctionalCalendar extends React.Component {
     this.state.userCourses[i].title = 
 
     this.state.userCourses[i].name + "    \t" +
-    
     "seats: " + this.state.userCourses[i].seatsleft + "/" + this.state.userCourses[i].capacity + " \n\t\t\t" +
     "gpa: " + this.state.userCourses[i].disparity + " \n\t\t\t" + 
     "prof: " + this.state.userCourses[i].rating + "/5"; 
     
-
     //full class
     if (this.state.userCourses[i].seatsleft == 0) {
-        this.state.userCourses[i].backgroundColor = rgb(50, 30, 30)  
+        this.state.userCourses[i].backgroundColor = rgb(50, 30, 30, .5)  
         this.state.userCourses[i].borderColor = this.state.userCourses[i].backgroundColor;
         this.state.userCourses[i].title = 
 
@@ -235,7 +234,6 @@ export default class FunctionalCalendar extends React.Component {
         "gpa: " + this.state.userCourses[i].disparity + " \n\t\t\t" + 
         "prof: " + this.state.userCourses[i].rating + "/5"
     }
-
     this.state.totalcredits += this.state.userCourses[i].credits*1;
     } 
    }

@@ -62,68 +62,48 @@ export default class ReactCalendar extends React.Component {
     }
     }
     deselect = (arg) => {
-        this.checktimes(arg)
+        if (this.calendarRef.current.getApi().getEventSources()[1] != null) {
         this.calendarRef.current.getApi().getEventSources()[1].remove()
+        
+        }
     }
-    addStarts = (dropInfo) => {
+    addStarts = (dropInfo, draggedEvent) => {
         let j;
         let k;
-        console.log("target: " + dropInfo.start)
         for (j=0; j<this.calendarRef.current.getApi().getEvents().length; j++) {
             for (k=0; k<this.props.otherSections.length; k++) {
                 if (this.props.otherSections[k].id == this.calendarRef.current.getApi().getEvents()[j].id) {
                     this.props.otherSections[k].start = this.calendarRef.current.getApi().getEvents()[j].startStr
-                    console.log("possible: " + this.props.otherSections[k].start)
                     if (dropInfo.startStr == this.props.otherSections[k].start) {
+                        //this.props.switch.switchsections(this.identifyDragged(draggedEvent), k)
+                        this.dynamicchange()
                         return true
-                        
                     }
                 }
             }
         }
         return false
     }
+    dynamicchange() {
+        let i;
+        for (i=0; i<this.calendarRef.current.getApi().getEvents().length; i++) {
+        //this.calendarRef.current.getApi().getEvents()[i].setProp( "display", "auto");
+        }
+    }
     checkevents = (dropInfo, draggedEvent) => {
         let i;
-        //console.log(draggedEvent.start)
-        //console.log("target: " + dropInfo.start)
         for (i=0; i<this.props.otherSections.length; i++) {
-            //console.log("possible: " + this.props.otherSections[i].start)
-            console.log(this.addStarts(dropInfo))
-            return this.addStarts(dropInfo)
+            return this.addStarts(dropInfo, draggedEvent)
         }        
-        
     }
-    checktimes = (arg) => {
-
-        /*// algorithmn to translate calendar events to a formatted array
+    identifyDragged = (draggedEvent) => {
         let i;
-        let j;
-        let calevid = [];
-        let calevname = [];
-        let new1;
-        let old1;
-
-        for (i=0; i<this.calendarRef.current.getApi().getEvents().length; i++) {
-            new1 = this.calendarRef.current.getApi().getEvents()[i].id;
-            if (new1 != old1) {
-                old1 = this.calendarRef.current.getApi().getEvents()[i].id
-                calevid[i] = this.calendarRef.current.getApi().getEvents()[i].id //get the calendar event id
-                for (j=0; j<this.props.events.length; j++) {
-                    if ( this.props.events[j] == calevid) {
-                        calevname[i] = this.props.events[j].name
-                    }
+            for (i=0; i<this.props.events.length; i++) {
+                if (this.props.events[i].id == draggedEvent.id) {
+                    return i
                 }
             }
-            //for (i2=0; i2<this.props.events.length; i2++) {if (this.props.event[i].name == )}
-        }*/
-
-        let i;
-        let j;
-        let i2;
-        let i3;
-        let argname;
-
+        /*
         //decipher the arg.event.id to its corresponding name
         for (j=0; j<this.props.events.length; j++) {
             if (this.props.events[j].id == arg.event.id) {
