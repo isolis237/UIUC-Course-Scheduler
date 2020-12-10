@@ -5,8 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {sleep} from "../App"
 import "../App.css"
-
-
+import * as rosterdata from './roster.json'
 
 export default function CourseSelect(props) {
     const [open, setOpen] = React.useState(false);
@@ -19,6 +18,9 @@ export default function CourseSelect(props) {
         }
         if (props.type == "classes") {
             props.onClassSelect(e)
+        }
+        if (props.type == "sections") {
+            props.onSectionSelect(e)
         }
     }
 
@@ -33,8 +35,20 @@ export default function CourseSelect(props) {
         (async () => {
 
             const response = await fetch(props.route).then(response => response.json().then(data => {
-                /**
                 if (type == "classes") {
+
+                    console.log("data.length: " + data.length)
+                    /*
+                    let filteredCourses = [];
+                    console.log("data.length: " + data.length)
+                    for (let i = 0; i < data.length; i++) {
+                        console.log("data[i]: " + data[i].name)
+                        console.log("data[i]: " + data[i].disparity)
+                        if (data[i].disparity > props.mingpa) {
+                            filteredCourses.push(data[i])
+                        }
+                    }
+                    /*
                     if (props.closedSections == true) {
                         let filteredCourses = [];
                         console.log("data.length: " + data.length)
@@ -48,9 +62,11 @@ export default function CourseSelect(props) {
                         console.log("filter on: " + filteredCourses)
                         data = filteredCourses
                     }
-                }*/
+                    */
+                    
+                }
                 //console.log("data props: " + Object.getOwnPropertyNames(data[0]))
-                    setOptions(data);
+                setOptions(data);
                 })
             );
             await sleep(1e3); // For demo purposes.
@@ -105,7 +121,6 @@ export default function CourseSelect(props) {
                         //console.log(e.target.innerHTML)
                         //handleChange(CLASS_GOES_HERE)
                     }
-
                 }}
                 getOptionSelected={(option, value) => option.name === value.name}
                 getOptionLabel={(option) => option.id + ": " + option.name}
@@ -115,10 +130,10 @@ export default function CourseSelect(props) {
                 onChange={props.onChange,
                     (event, object) => {
                     if (props.type == "department") {
-                    //console.log(props.type)
+                    //console.log("department" + props.type)
                 }
                     else if (props.type == "classes") {
-                   // console.log(props.type)
+                    //console.log("classes" + props.type)
                 }
                 }}
                 renderInput={(params) => (

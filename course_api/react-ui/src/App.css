@@ -2,6 +2,9 @@
   --height: 925px;
 
 }
+.hiddenRow {
+  padding: 0 !important;
+}
 .switch {
   position: relative;
   display: inline-block;
@@ -14,7 +17,18 @@
   width: 0;
   height: 0;
 }
-
+ol.breadcrumb {
+  padding: 0px;
+  margin-bottom: 5px;
+  list-style: none;
+  background-color: inherit;
+  color: whitesmoke  !important;
+  border-radius: 4px;
+  
+}
+ div a {
+  color: whitesmoke;
+}
 .slider {
   position: absolute;
   cursor: pointer;
@@ -334,6 +348,11 @@ td {
   font-size: 14px;
   font-family: inherit;
   font-weight: lighter;
+  white-space: pre-wrap;
+}
+.smallfont {
+ font-size:  8px;
+
 }
 .fc .fc-scrollgrid {
   border: 1px solid rgb(41, 41, 41);

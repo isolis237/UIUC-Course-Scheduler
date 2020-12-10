@@ -12,7 +12,6 @@ import { Calendar, computeSmallestCellWidth } from '@fullcalendar/core';
 //import 'http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js'
 import "../App.css"
 
-
 export default class ReactRoster extends React.Component {
 
     constructor() {
@@ -46,12 +45,12 @@ export default class ReactRoster extends React.Component {
         
     }
 
+
     //function that takes this.state.userCourses and returns Accordians of each course
     renderRoster = () => {
         const courses = this.state.userCourses;
 
         const mapCourses = courses.map((course) => (
-            
             /*
         <div>
                 <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
@@ -77,69 +76,123 @@ export default class ReactRoster extends React.Component {
                     
                 </div>*/
 
-              
-            <tr>
-                <td style={{color:"white"}}>{course.name}</td>
-                <td style={{color:"white"}}>{course.prof}</td>
-                <td style={{color:"white"}}>{course.disparity}</td>
-                <td style={{color:"white"}}>{course.rating}</td>
-                <td>
-                <div class="deletebutton">
-                <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 29, height: 29}} onClick={() => {this.handleClick(course)}}>
-                <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png" width="24px;" height="24px" style={{marginLeft: -10, marginTop:-5, padding:0}}></img>
-                </Button>
-                </div>
-                </td> 
-            </tr>
-    
-        
-        
-        
-          /*  
-            <Accordion key={course.title}>
-                <Card.Header>
-                    <Accordion.Toggle as={Card.Header} eventKey={"0"}>
-                        <div class="rostertables">
-                    <Table> 
-                        
-                        <tr >
-                            <td>{course.name}</td>
-                            <td>{course.prof}</td>
-                            <td>{course.disparity}</td>
-                            <td>{course.rating}</td>
+              <Accordion key={course.title}>
+                  <Card.Header>
+                      <Accordion.Toggle as={Card.Header} eventKey={"0"}>
+                          <div class="rostertables">
+                      <Table>
+
+                          <tr>
+                              <td style={{color:"white", width:"80px", fontWeight:"bold"}}>{course.name}</td>
+                              <td style={{color:"white", width:"80px", fontWeight:"bold"}}>{course.prof}</td>
+                              <td style={{color:"white", width:"80px", fontWeight:"bold"}}>{course.disparity}</td>
+                              <td style={{color:"white", width:"80px", fontWeight:"bold"}}>{course.rating}</td>
+                              <td>
+                                  <button type="submit" style={{border: "0", background: "#d9534f", width:"40px"}}
+                                  onClick={() => {this.handleClick(course)}}>
+                                      <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png"
+                                           width="20" height="25" alt="submit" />
+                                  </button>
+                              </td>
+                          </tr>
+                      </Table>
+                      </div>
+                      </Accordion.Toggle>
+
+                  </Card.Header>
+
+                  <Accordion.Collapse eventKey="0">
+                      <div style={{padding:"2%"}}>
+                          <table style={{width:"400px", color:"white",}}>
+                              <tr>
+                                  <td style={{width:"80px"}}>{course.type}:</td>
+                                  <td style={{width:"80px"}}>{course.section}</td>
+                                  <td style={{width:"80px"}}> </td>
+                                  <td style={{width:"80px"}}>credits:</td>
+                                  <td style={{width:"80px"}}>{course.credits}</td>
+                              </tr>
+                              <tr>
+                                  <td style={{width:"80px"}}>CRN:</td>
+                                  <td style={{width:"80px"}}>{course.CRN}</td>
+                                  <td style={{width:"80px"}}></td>
+                                  <td style={{width:"80px"}}>meets: </td>
+                                  <td style={{width:"80px"}}>{course.daysOfWeek}</td>
+                              </tr>
+                          </table>
+                      </div>
+                  </Accordion.Collapse>
+          </Accordion>
+
+
+/**
+                        <tr>
+                             <td style={{color: "white"}}>{course.name}</td>
+                             <td style={{color: "white"}}>{course.prof}</td>
+                            <td style={{color: "white"}}>{course.disparity}</td>
+                            <td style={{color: "white"}}>{course.rating}</td>
                             <td>
-                            <Button variant="danger" style={{color: "white", backgroundColor: "#d9534f", width: 10, height: 25}} onClick={() => {this.handleClick(course)}}>
-                            <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png" width="24px;" height="24px"></img>
-                            </Button>
-                            </td> 
+                                <div className="deletebutton">
+                                    <Button variant="danger"
+                                            style={{color: "white", backgroundColor: "#d9534f", width: 29, height: 29}}
+                                            onClick={() => {
+                                                this.handleClick(course)
+                                            }}>
+                                        <img src="http://pluspng.com/img-png/delete-button-png-delete-icon-1600.png" width="24px;"
+                                             height="24px" style={{marginLeft: -10, marginTop: -5, padding: 0}}></img>
+                                    </Button>
+                                </div>
+                            </td>
                         </tr>
-                    </Table>
-                    </div>
-                    </Accordion.Toggle>
-                    
-                </Card.Header>
-                
-                <Accordion.Collapse eventKey="0">
-                    <div className={"roster_details"}>
-                        {course.type} : {course.section} {" "}
-                        credits: {course.credits}{" "}
-                        CRN: {course.CRN}{" "}
-                        meets: {course.daysOfWeek}{" "}
-                    </div>
-                </Accordion.Collapse>
-        </Accordion>
-        
+ */
+
+            /**
+                        <Accordion defaultActiveKey="0" s>
+                            <Card>
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                        Click me!
+                                    </Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey="0">
+                                    <Card.Body>Hello! I'm the body</Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                            <Card>
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                        Click me!
+                                    </Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey="1">
+                                    <Card.Body>Hello! I'm another body</Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                        </Accordion>
             */
-        
-            ));
+        ));
         return mapCourses;
+
     }
 
     render() {
         return(
             <div>
                 <div className={'roster'}>
-                
+                    <div style={{width:"400px",height:"25px", color:"white", padding:"1%"}}>
+                        <table>
+                            <tr>
+                                <td style={{width:"80px", fontWeight:"bold"}}> Class </td>
+                                <td style={{width:"80px", fontWeight:"bold"}}> Professor </td>
+                                <td style={{width:"80px", fontWeight:"bold"}}> GPA </td>
+                                <td style={{width:"80px", fontWeight:"bold"}}> Rating </td>
+                                <td style={{width:"80px", fontWeight:"bold"}}>  </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        {this.renderRoster()}
+                    </div>
+                    {/**
                     
                 <Table>
                     <thead>
@@ -151,15 +204,15 @@ export default class ReactRoster extends React.Component {
                         <th></th>
                     </tr>
                     </thead>
+
                     <tbody>
                     {this.renderRoster()}
                     </tbody>
+
                 </Table>
                 
-                
-                
-                
-            </div>
+                */}
+                </div>
             <div className={'rosterbottombar'}>
                     <div class="bottombar">
                     <Table >
