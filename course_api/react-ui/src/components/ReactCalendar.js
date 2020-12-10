@@ -42,13 +42,15 @@ export default class ReactCalendar extends React.Component {
                 //eventClick={this.eventselect}
                 //dateClick={this.handleDateClick}
                 //select={this.updatesize}
-                //eventChange={this.checkevents}
+                eventChange={this.update}
                 eventAllow={this.checkevents}
             />
             </div>
         )
     }
-    
+    update = (arg) => {
+        console.log(arg)
+    }
     eventselect = (arg) => { 
         let i;
     for (i=0; i<this.props.events.length; i++) {
@@ -64,7 +66,6 @@ export default class ReactCalendar extends React.Component {
     deselect = (arg) => {
         if (this.calendarRef.current.getApi().getEventSources()[1] != null) {
         this.calendarRef.current.getApi().getEventSources()[1].remove()
-        
         }
     }
     addStarts = (dropInfo, draggedEvent) => {
@@ -75,8 +76,7 @@ export default class ReactCalendar extends React.Component {
                 if (this.props.otherSections[k].id == this.calendarRef.current.getApi().getEvents()[j].id) {
                     this.props.otherSections[k].start = this.calendarRef.current.getApi().getEvents()[j].startStr
                     if (dropInfo.startStr == this.props.otherSections[k].start) {
-                        //this.props.switch.switchsections(this.identifyDragged(draggedEvent), k)
-                        this.dynamicchange()
+                            this.props.switch.switchsections(this.identifyDragged(draggedEvent), k)
                         return true
                     }
                 }
@@ -84,10 +84,12 @@ export default class ReactCalendar extends React.Component {
         }
         return false
     }
-    dynamicchange() {
+    dynamicchange = (draggedEvent) => {
         let i;
         for (i=0; i<this.calendarRef.current.getApi().getEvents().length; i++) {
-        //this.calendarRef.current.getApi().getEvents()[i].setProp( "display", "auto");
+            if (this.calendarRef.current.getApi().getEvents()[i].id == draggedEvent.id) {
+                this.calendarRef.current.getApi().getEvents()[i].setProp( "display", "none");
+            }
         }
     }
     checkevents = (dropInfo, draggedEvent) => {

@@ -35,35 +35,65 @@ export default function CourseSelect(props) {
         (async () => {
 
             const response = await fetch(props.route).then(response => response.json().then(data => {
-                if (type == "classes") {
-                    
+                if (type == "sections") {
                     console.log("data.length: " + data.length)
-                    /*
                     let filteredCourses = [];
-                    console.log("data.length: " + data.length)
-                    for (let i = 0; i < data.length; i++) {
-                        console.log("data[i]: " + data[i].name)
-                        console.log("data[i]: " + data[i].disparity)
-                        if (data[i].disparity > props.mingpa) {
-                            filteredCourses.push(data[i])
+                    filteredCourses = data;
+                    for ( const elem of data.entries()) {
+                        filteredCourses = filteredCourses.filter(elem => elem.disparity > props.mingpa);
+                        if (props.opensections == true) {
+                        filteredCourses = filteredCourses.filter(elem => elem.seatsleft > 0);
                         }
-                    }
-                    /*
-                    if (props.closedSections == true) {
-                        let filteredCourses = [];
-                        console.log("data.length: " + data.length)
-                        for (let i = 0; i <data.length; i++) {
-                            console.log("data[i]: " + data[i].name)
-                            console.log("data[i].seatsleft: " + data[i].seatsleft)
-                            if (data[i].seatsleft > 0) {
-                                filteredCourses.push(data[i])
+                        filteredCourses = filteredCourses.filter(elem => elem.startTime > props.filterstarttime);
+                        filteredCourses = filteredCourses.filter(elem => (elem.startTime + elem.slotDuration) < props.filterendtime);
+                        filteredCourses = filteredCourses.filter(elem => elem.credits > props.filtercredits);
+                        if (props.filterweekdays.Monday == true ) {
+                            let dayincluded = false;
+                            for (let i=0; i<elem.daysOfWeek.length; i++) {
+                                if (elem.daysOfWeek[i] == 1) {
+                                    dayincluded = true
+                                }
                             }
+                            filteredCourses = filteredCourses.filter(elem => dayincluded == true )
                         }
-                        console.log("filter on: " + filteredCourses)
-                        data = filteredCourses
+                        if (props.filterweekdays.Tuesday == true ) {
+                            let dayincluded = false;
+                            for (let i=0; i<elem.daysOfWeek.length; i++) {
+                                if (elem.daysOfWeek[i] == 2) {
+                                    dayincluded = true
+                                }
+                            }
+                            filteredCourses = filteredCourses.filter(elem => dayincluded == true )
+                        }
+                        if (props.filterweekdays.Wednesday == true ) {
+                            let dayincluded = false;
+                            for (let i=0; i<elem.daysOfWeek.length; i++) {
+                                if (elem.daysOfWeek[i] == 3) {
+                                    dayincluded = true
+                                }
+                            }
+                            filteredCourses = filteredCourses.filter(elem => dayincluded == true )
+                        }
+                        if (props.filterweekdays.Thursday == true ) {
+                            let dayincluded = false;
+                            for (let i=0; i<elem.daysOfWeek.length; i++) {
+                                if (elem.daysOfWeek[i] == 4) {
+                                    dayincluded = true
+                                }
+                            }
+                            filteredCourses = filteredCourses.filter(elem => dayincluded == true )
+                        }
+                        if (props.filterweekdays.Friday == true ) {
+                            let dayincluded = false;
+                            for (let i=0; i<elem.daysOfWeek.length; i++) {
+                                if (elem.daysOfWeek[i] == 5) {
+                                    dayincluded = true
+                                }
+                            }
+                            filteredCourses = filteredCourses.filter(elem => dayincluded == true )
+                        }
                     }
-                    */
-                    
+                   data = filteredCourses
                 }
                 //console.log("data props: " + Object.getOwnPropertyNames(data[0]))
                 setOptions(data);

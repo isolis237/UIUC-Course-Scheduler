@@ -21,6 +21,7 @@ import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import CourseSelect from "./components/CourseSelect";
 import { render } from 'react-dom'
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import update from 'react-addons-update';
 
  let search_input = 1;
  let class_input = 1;
@@ -172,14 +173,48 @@ export default class FunctionalCalendar extends React.Component {
    }
    switchsections(useri, otheri) {
         if (useri != null && otheri != null) {
-        console.log(this.state.userCourses[useri])
-        this.state.userCourses[useri] = this.state.otherSections[otheri]
-        console.log(this.state.userCourses[useri])
-        this.state.userCourses[useri].isothersection = "false";
+        //this.handleRemoveClick(this.state.userCourses[useri])
+
+        /*
+        let toDelete = this.state.userCourses[useri].title
+        let updatedCourses = this.state.userCourses.filter(course => course.title != toDelete);
+        this.setState({userCourses: updatedCourses}, () => {
+            this.handleRemoveClick(this.state.userCourses);
+        })
+        this.setState({
+            userCourses : this.state.userCourses.concat(this.state.otherSections[otheri])}, () => {
+            this.setClass(this.state.userCourses);
+        })
+        this.setEventColors()
+        */
+       /*
+        this.setState(update(this.state, {
+            userCourses: {
+              [useri]: {
+                $set: this.state.otherSections[otheri]
+              }
+            }
+          }), () => {this.setClass(this.state.userCourses); console.log(this.state.userCourses)})
+        */
+       let update = () => {
+            
+        this.setState({
+            userCourses: this.state.userCourses
+        }, () => {console.log(this.state.searchRoute)});
+        }
+          let temp = []
+        temp = this.state.userCourses
+        temp[useri] = this.state.otherSections[otheri]
+        this.setState({
+            userCourses: temp
+        }, () => {update()})
+        //this.state.userCourses[useri] = this.state.otherSections[otheri]
+        console.log(this.state.userCourses[useri] = this.state.otherSections[otheri])
+        //this.state.userCourses[useri].isothersection = "false";
         this.setEventColors()
         }
         else {
-            console.log("this.switchsections failure")
+            console.log("this.switchsections failure " + useri + " " + otheri)
         }
    }
    getCRNs() {
@@ -244,6 +279,7 @@ export default class FunctionalCalendar extends React.Component {
   handleAddClick() {
       //this is a temporary class template until the api is done
       console.log(this.state.class.name)
+    
  if (this.state.class.name==null) {
      alert("Cannot add null class!")
  }
@@ -289,7 +325,8 @@ export default class FunctionalCalendar extends React.Component {
                 searchRoute : "search/" + this.state.year + "/" + this.state.season,
                 department : search_input.id,
                 searchCourseRoute : "search/" + this.state.year + "/" + this.state.season + "/" + this.state.department,
-                mingpa : this.state.mingpa
+                mingpa : this.state.mingpa,
+                filtercredits: this.state.filtercredits
             }, () => {console.log(this.state.searchRoute)});
         }
         if (e.target.id === "year") {
@@ -312,6 +349,9 @@ export default class FunctionalCalendar extends React.Component {
         }
         if (e.target.id === "endtimeslider") {
             this.setState({filterendtime: e.target.value}, () => {updateRoutes()});
+        }
+        if (e.target.id === "credits") {
+            this.setState({filtercredits: e.target.value}, () => {updateRoutes()})
         }
         if (e.target.id === "opensections") {
             this.setState({ opensections: e.target.checked }, () => { console.log("open sections: " + this.state.opensections)
@@ -382,9 +422,8 @@ handleDeptSelect(newDept) {
     }
 }
 handleClassSelect(newClass) {
-    
+    fetch(this.state.searchRoute)
     this.setState({
-        
         class: {
             title: "temp",
             name: this.state.department + " " + newClass,
@@ -414,11 +453,10 @@ handleClassSelect(newClass) {
 handleSectionSelect(newSection) {
     if (newSection.length > 0) {
         this.setState({
-        searchRoute: "search/" + this.state.year + "/" + this.state.season + "/" + this.state.class + "/" + newSection,
-        section: newSection
-            }, () => {console.log(this.state.searchRoute)})
-
-        
+            searchRoute: "search/" + this.state.year + "/" + this.state.season + "/" + this.state.class + "/" + newSection,
+            class: newSection,
+            section: this.state.class.section
+        }, () => {console.log(this.state.searchRoute)})
     }
 }
  
@@ -485,15 +523,15 @@ handleSectionSelect(newSection) {
                                                         <label class="weekdaysfilter">F</label>
                                                         <br></br>
                                                         <Form.Check inline type={type} id={`inline-${type}-1`}
-                                                                    onChange={(e) => {this.state.filterweekdays[0] = e.target.checked; console.log(this.state.filterweekdays)}}/>
+                                                                    onChange={(e) => {this.state.filterweekdays["Monday"] = e.target.checked; console.log(this.state.filterweekdays)}}/>
                                                         <Form.Check inline type={type} id={`inline-${type}-1`}
-                                                                    onChange={(e) => {this.state.filterweekdays[1] = e.target.checked; console.log(this.state.filterweekdays)}}/>
+                                                                    onChange={(e) => {this.state.filterweekdays["Tuesday"] = e.target.checked; console.log(this.state.filterweekdays)}}/>
                                                         <Form.Check inline type={type} id={`inline-${type}-1`}
-                                                                    onChange={(e) => {this.state.filterweekdays[2] = e.target.checked; console.log(this.state.filterweekdays)}}/>
+                                                                    onChange={(e) => {this.state.filterweekdays["Wednesday"] = e.target.checked; console.log(this.state.filterweekdays)}}/>
                                                         <Form.Check inline type={type} id={`inline-${type}-1`}
-                                                                    onChange={(e) => {this.state.filterweekdays[3] = e.target.checked; console.log(this.state.filterweekdays)}}/>
+                                                                    onChange={(e) => {this.state.filterweekdays["Thursday"] = e.target.checked; console.log(this.state.filterweekdays)}}/>
                                                         <Form.Check inline type={type} id={`inline-${type}-1`}
-                                                                    onChange={(e) => {this.state.filterweekdays[4] = e.target.checked; console.log(this.state.filterweekdays)}}/>
+                                                                    onChange={(e) => {this.state.filterweekdays["Friday"] = e.target.checked; console.log(this.state.filterweekdays)}}/>
 
                                     </div>             
                                     ))}
@@ -553,9 +591,9 @@ handleSectionSelect(newSection) {
                     <tr>
                         <td>
                          <Form size="sm">
-                         <Form.Group controlId="exampleForm.SelectCustom">
+                         <Form.Group controlId="credits">
                            <Form.Label>Credits:</Form.Label>
-                           <Form.Control as="select" custom onChange={(e) => {console.log(e.target.value)}}>
+                           <Form.Control as="select" custom onChange={this.onChange}>
                              <option>0</option>
                              <option>1</option>
                              <option>2</option>
@@ -610,8 +648,6 @@ handleSectionSelect(newSection) {
                                                     route={this.state.searchCourseRoute}
                                                     onClassSelect={this.handleClassSelect}
                                                     type={"classes"}
-                                                    closedSections={this.state.opensections}
-                                                    mingpa={this.state.mingpa}
                                                 />
                                             </td>
                                         </tr>
@@ -634,6 +670,12 @@ handleSectionSelect(newSection) {
                                                     route={this.state.searchSectionRoute}
                                                     onSectionSelect={this.handleSectionSelect}
                                                     type={"sections"}
+                                                    mingpa={this.state.mingpa}
+                                                    opensections={this.state.opensections}
+                                                    filterstarttime={this.state.filterstarttime}
+                                                    filterendtime={this.state.filterendtime}
+                                                    filtercredits={this.state.filtercredits}
+                                                    filterweekdays={this.state.filterweekdays}
                                                     //closedSections={this.state.opensections}
                                                     //mingpa={this.state.mingpa}
                                                 />
