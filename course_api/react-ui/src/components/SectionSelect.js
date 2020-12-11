@@ -7,7 +7,7 @@ import {sleep} from "../App"
 import "../App.css"
 import * as rosterdata from './roster.json'
 
-export default function CourseSelect(props) {
+export default function SectionSelect(props) {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
     const loading = open && options.length === 0;
@@ -37,17 +37,19 @@ export default function CourseSelect(props) {
             const response = await fetch(props.route).then(response => response.json().then(data => {
                 if (type == "sections") {
                     console.log( data)
-                    /*
+                    
                     let filteredCourses = [];
                     filteredCourses = data;
                     for ( const elem of data.entries()) {
                         filteredCourses = filteredCourses.filter(elem => elem.disparity > props.mingpa);
                         if (props.opensections == true) {
-                        filteredCourses = filteredCourses.filter(elem => elem.seatsleft > 0);
+                        //filteredCourses = filteredCourses.filter(elem => elem.seatsleft > 0);
                         }
+                        /*
                         filteredCourses = filteredCourses.filter(elem => elem.startTime > props.filterstarttime);
                         filteredCourses = filteredCourses.filter(elem => (elem.startTime + elem.slotDuration) < props.filterendtime);
                         filteredCourses = filteredCourses.filter(elem => elem.credits > props.filtercredits);
+                        
                         if (props.filterweekdays.Monday == true ) {
                             let dayincluded = false;
                             for (let i=0; i<elem.daysOfWeek.length; i++) {
@@ -93,9 +95,10 @@ export default function CourseSelect(props) {
                             }
                             filteredCourses = filteredCourses.filter(elem => dayincluded == true )
                         }
+                        */
                     }
                    data = filteredCourses
-                   */
+                   
                   console.log(data[0])
                   
                   
@@ -113,7 +116,9 @@ export default function CourseSelect(props) {
                 courses = await response.json();
             }
             if (active) {
+               // if no sections are left after filter it will crash
                 setOptions(Object.keys(courses).map((key) => courses[key].item[0]));
+                
             }
         })();
 
@@ -165,14 +170,20 @@ export default function CourseSelect(props) {
                         let value = e.target.innerHTML
                         let id = value.split(":")
                         //gross way
-                        handleChange(id[0])
+                        //handleChange(id[0])
                         //console.log(e.target.innerHTML)
                         //handleChange(CLASS_GOES_HERE)
-                        console.log(id)
+                        for (let i=0; i<options.length; i++){
+                            if (options[i].section == id[0]) {
+                                handleChange(options[i])
+                                console.log(options[i])
+                            }
+                        }
+                        
                     }
                 }}
-                getOptionSelected={(option, value) => option.name === value.name}
-                getOptionLabel={(option) => option["id"] + ": " + option.name}
+                getOptionSelected={(option, value) => option === value}
+                getOptionLabel={(option) => option["section"] }
                 options={options}
                 loading={loading}
                 onClick={props.onChange}

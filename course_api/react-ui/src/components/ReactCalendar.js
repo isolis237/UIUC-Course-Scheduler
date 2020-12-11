@@ -77,6 +77,7 @@ export default class ReactCalendar extends React.Component {
                     this.props.otherSections[k].start = this.calendarRef.current.getApi().getEvents()[j].startStr
                     if (dropInfo.startStr == this.props.otherSections[k].start) {
                             this.props.switch.switchsections(this.identifyDragged(draggedEvent), k)
+                            
                         return true
                     }
                 }

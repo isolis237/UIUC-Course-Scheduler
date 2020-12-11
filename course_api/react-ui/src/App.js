@@ -19,6 +19,7 @@ import SemesterSelector from "./components/SemesterSelector";
 import 'bootstrap/dist/css/bootstrap.css'; // or include from a CDN
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import CourseSelect from "./components/CourseSelect";
+import SectionSelect from "./components/SectionSelect";
 import { render } from 'react-dom'
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import update from 'react-addons-update';
@@ -280,10 +281,10 @@ export default class FunctionalCalendar extends React.Component {
       //this is a temporary class template until the api is done
       console.log(this.state.class.name)
     
- if (this.state.class.name==null) {
+ if (this.state.class.name==null || this.state.class.name == "none") {
      alert("Cannot add null class!")
  }
- if (containsObject(this.state.class, this.state.userCourses)) {
+ else if (containsObject(this.state.class, this.state.userCourses)) {
      alert("Class already in schedule!");
  } 
  else {
@@ -451,13 +452,14 @@ handleClassSelect(newClass) {
         () => {console.log(this.state.searchRoute); console.log(this.state.class); console.log("searchsection:" + this.state.searchSectionRoute);})
 }
 handleSectionSelect(newSection) {
-    if (newSection.length > 0) {
+    
         this.setState({
             searchRoute: "search/" + this.state.year + "/" + this.state.season + "/" + this.state.class + "/" + newSection,
             class: newSection,
             section: this.state.class.section
         }, () => {console.log(this.state.searchRoute)})
-    }
+    
+    console.log(this.state.class)
 }
  
    render() {
@@ -666,7 +668,7 @@ handleSectionSelect(newSection) {
                                         </td> 
                                         <td>
                                                 <text style={{color:"white"}}>Section: </text>
-                                                <CourseSelect
+                                                <SectionSelect
                                                     route={this.state.searchSectionRoute}
                                                     onSectionSelect={this.handleSectionSelect}
                                                     type={"sections"}

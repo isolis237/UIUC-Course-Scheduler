@@ -132,7 +132,43 @@ class CisappParser:
             sections.append(item)
         return sections
 
+    def getProfessors(self, CRN):
+        req = Request(
+            "https://courses.illinois.edu/cisapp/explorer/schedule/"
+            + self.getYear()
+            + "/"
+            + self.getSeason()
+            + "/"
+            + self.getDepartment()
+            + "/"
+            + self.getCourse()
+            + "/"
+            + str(CRN)
+            + ".xml?mode=detail"
+        )
+        req.add_header("Authorization", "Basic bGVhcm5pbmc6bGVhcm5pbmc==")
 
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+
+        r = urlopen(req, context=ctx)
+        rString = r.read().decode("utf-8")
+
+        r.close()
+
+        xmlparse = xml.dom.minidom.parseString(rString)
+        prettyxml = xmlparse.toprettyxml()
+        root = ET.fromstring(prettyxml)
+
+        for course in root.iter("meetings"):
+            for section in course.findall("meeting"):
+                for meeting in section.findall("instructors"):
+                    for instructor in meeting.findall("instructor"):
+                        if instructor.text is not None:
+                            return instructor.text
+                        
+        return " "
     def getRelevantProfessors(self):
         req = Request('https://courses.illinois.edu/cisapp/explorer/schedule/' + self.Year + '/' + self.Season + '/' + self.Department + '/' +self.Course + '.xml?mode=detail')
         req.add_header('Authorization', 'Basic bGVhcm5pbmc6bGVhcm5pbmc==')
