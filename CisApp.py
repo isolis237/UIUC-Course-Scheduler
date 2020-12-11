@@ -345,6 +345,9 @@ class CisappParser:
             for section in course.findall("detailedSection"):
                 for meeting in section.findall("meetings"):
                     for meetings in meeting.findall("meeting"):
+                        for starttime in meetings.findall("start"):
+                            if starttime.text.strip().find("ARRANGED") != -1:
+                                sections.append("Asynchronus")
                         for daysofweek in meetings.findall("daysOfTheWeek"):
                             v = list()
                             if daysofweek.text.strip().find("T") != -1:
@@ -463,6 +466,9 @@ class CisappParser:
             for section in course.findall("detailedSection"):
                 for meeting in section.findall("meetings"):
                     for meet in meeting.findall("meeting"):
+                        for starttime in meet.findall("start"):
+                            if starttime.text.strip().find("ARRANGED") != -1:
+                                sections.append("Asynchronus")
                         for endtime in meet.findall("end"):
                             if endtime.text is not None:
                                 sections.append(endtime.text)
@@ -509,9 +515,9 @@ class CisappParser:
         sn = self.getSectionNumber()
         cn = self.getCRN()
         lt = self.lessonType()
-        # dow = self.daysOfWeek()
+        dow = self.daysOfWeek()
         st = self.getStarttime()
-        # et = self.endTime()
+        et = self.endTime()
         for i in range(len(cn)):
             section = {}
             section["Title"] = self.getDepartment() + " " + self.getCourse()
@@ -527,9 +533,9 @@ class CisappParser:
             section["CRN"] = cn[i]
             section["Type"] = lt[i]
             section["eventContent"] = self.eventType()
-            # section["daysOfWeek"] = dow[i]
+            section["daysOfWeek"] = dow[i]
             section["starttime"] = st[i]
-            # section["endtime"] = et[i]
+            section["endtime"] = et[i]
             section["groupid"] = "updated by front end"
             section["display"] = "updated by front end"
             data.append(section)
@@ -541,6 +547,8 @@ print(len(p1.getCRN()))
 print(len(p1.daysOfWeek()))
 print(len(p1.getStarttime()))
 print(len(p1.endTime()))
+print(p1.getSections())
+
 # print('https://courses.illinois.edu/cisapp/explorer/schedule/' + p1.getYear() + '/' + p1.getSeason() + '/' + p1.getDepartment() + '/' + p1.getCourse() + '.xml?mode=detail')
 # print(p1.getRelevantProfessors())
 
