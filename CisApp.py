@@ -209,6 +209,44 @@ class CisappParser:
                                 sections.append(instructor.find("instructor").text)
         return sections
 
+    def getProfessors(self, CRN):
+        req = Request(
+            "https://courses.illinois.edu/cisapp/explorer/schedule/"
+            + p1.getYear()
+            + "/"
+            + p1.getSeason()
+            + "/"
+            + p1.getDepartment()
+            + "/"
+            + p1.getCourse()
+            + "/"
+            + str(CRN)
+            + ".xml?mode=detail"
+        )
+        req.add_header("Authorization", "Basic bGVhcm5pbmc6bGVhcm5pbmc==")
+
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+
+        r = urlopen(req, context=ctx)
+        rString = r.read().decode("utf-8")
+
+        r.close()
+
+        xmlparse = xml.dom.minidom.parseString(rString)
+        prettyxml = xmlparse.toprettyxml()
+        root = ET.fromstring(prettyxml)
+
+        for course in root.iter("meetings"):
+            for section in course.findall("meeting"):
+                for meeting in section.findall("instructors"):
+                    for instructor in meeting.findall("instructor"):
+                        if instructor.text is not None:
+                            return instructor.text
+                        else:
+                            return " "
+
     def getSectionNumber(self):
         req = Request(
             "https://courses.illinois.edu/cisapp/explorer/schedule/"
@@ -523,7 +561,8 @@ class CisappParser:
             section["Title"] = self.getDepartment() + " " + self.getCourse()
             section["Name"] = self.getCourse()
             section["Department"] = self.getDepartment()
-            section["Prof"] = self.getRelevantProfessors()
+            section["Professors"] = self.getRelevantProfessors()
+            section["Prof"] = self.getProfessors(cn[i])
             section["disparity"] = disparity["Avg. GPA"][section["Title"]]
             if self.lessonType()[i].find("L") == -1:
                 section["CreditHours"] = 0
@@ -542,12 +581,9 @@ class CisappParser:
         return data
 
 
-p1 = CisappParser("2020", "Fall", "MATH", "241")
-print(len(p1.getCRN()))
-print(len(p1.daysOfWeek()))
-print(len(p1.getStarttime()))
-print(len(p1.endTime()))
+p1 = CisappParser("2021", "Spring", "MATH", "241")
 print(p1.getSections())
+
 
 # print('https://courses.illinois.edu/cisapp/explorer/schedule/' + p1.getYear() + '/' + p1.getSeason() + '/' + p1.getDepartment() + '/' + p1.getCourse() + '.xml?mode=detail')
 # print(p1.getRelevantProfessors())
